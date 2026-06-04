@@ -3,301 +3,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meni Inženjer API – Automatski opisi jela za restorane | Moj Kućni Svet</title>
-    <meta name="description" content="AI API koji za sekundu pretvara obične nazive jela u primamljive opise koji prodaju. Napravio kuvar sa 24 god iskustva. Za restorane, kafiće, hotele.">
+    <title>Meni Inženjer – AI opis jela</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Georgia', serif; line-height: 1.7; color: #3d2c1e; background: #fdfaf3; }
-        header { background: linear-gradient(135deg, #e67e22, #d35400); color: white; text-align: center; padding: 3rem 1rem; }
-        header h1 { font-size: 3rem; margin-bottom: 0.5rem; }
-        header p { font-size: 1.3rem; opacity: 0.95; }
-        nav { background: #3d2c1e; padding: 1rem; text-align: center; position: sticky; top: 0; z-index: 100; }
-        nav a { color: #fdfaf3; text-decoration: none; margin: 0 1rem; font-size: 1rem; font-weight: bold; }
-        nav a:hover { color: #ffd166; }
-        .content { max-width: 900px; margin: 2rem auto; padding: 0 2rem; }
-        .hero-box { background: white; border-radius: 20px; padding: 3rem 2rem; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin-bottom: 2rem; border-left: 8px solid #e67e22; }
-        .hero-box h2 { color: #d35400; font-size: 2.2rem; margin-bottom: 1rem; }
-        .hero-box .big-price { font-size: 3rem; color: #e67e22; font-weight: bold; margin: 1.5rem 0; }
-        .cta-button { display: inline-block; background: #e67e22; color: white; padding: 1.3rem 3rem; font-size: 1.4rem; text-decoration: none; border-radius: 15px; font-weight: bold; margin: 1rem 0; transition: background 0.3s; }
-        .cta-button:hover { background: #d35400; }
-        .article-section { background: white; border-radius: 20px; padding: 2.5rem; margin-bottom: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
-        .article-section h2 { color: #d35400; font-size: 2rem; margin-bottom: 1rem; }
-        .article-section h3 { color: #5b8c5a; margin: 1.5rem 0 0.5rem 0; }
-        .article-section p { margin-bottom: 1rem; }
-        .article-section ul { margin: 1rem 0 1.5rem 2rem; }
-        .article-section ul li { margin-bottom: 0.5rem; }
-        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
-        .feature-card { background: white; border-radius: 15px; padding: 2rem; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
-        .feature-card .icon { font-size: 3rem; margin-bottom: 1rem; }
-        .feature-card h3 { color: #d35400; margin-bottom: 0.5rem; }
-        .feature-card.featured-card { border: 3px solid #e67e22; background: #fff8f0; }
-        .restaurant-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.8rem; margin: 1.5rem 0; }
-        .restaurant-tag { background: #fdf2e9; padding: 0.5rem; border-radius: 8px; text-align: center; font-size: 0.9rem; }
-        .section-title { text-align: center; font-size: 2rem; color: #d35400; margin: 2rem 0 1rem; }
-        .pricing-table { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
-        .pricing-card { background: white; border-radius: 15px; padding: 2rem; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
-        .pricing-card.featured { border: 3px solid #e67e22; transform: scale(1.03); }
-        .pricing-card h3 { color: #d35400; font-size: 1.5rem; }
-        .pricing-card .price { font-size: 2.5rem; color: #e67e22; font-weight: bold; margin: 1rem 0; }
-        .pricing-card .period { color: #888; font-size: 0.9rem; }
-        .faq-item { background: white; border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 3px 10px rgba(0,0,0,0.03); }
-        .faq-item h3 { color: #d35400; margin-bottom: 0.5rem; }
-        .testimonial { background: #fdf2e9; padding: 2rem; border-radius: 15px; margin: 1.5rem 0; font-style: italic; text-align: center; }
-        footer { background: #3d2c1e; color: #fdfaf3; text-align: center; padding: 2rem; margin-top: 4rem; font-size: 0.95rem; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9edf2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 32px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #1a2a3a;
+        }
+
+        .subtitle {
+            color: #5a6874;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2d3e50;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #2d6a4f;
+            box-shadow: 0 0 0 3px rgba(45,106,79,0.1);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        button {
+            background: linear-gradient(135deg, #2d6a4f, #1b4d3e);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: opacity 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .result {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 24px;
+            border-left: 4px solid #2d6a4f;
+        }
+
+        .result h3 {
+            margin-bottom: 0.5rem;
+            color: #2d3e50;
+        }
+
+        .result p {
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .error {
+            color: #d9534f;
+            background: #fdf7f7;
+            border-left-color: #d9534f;
+        }
+
+        .copy-btn {
+            background: #e9ecef;
+            color: #2d3e50;
+            margin-top: 1rem;
+            width: auto;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        .status {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: #6c7a86;
+            text-align: center;
+        }
+
+        hr {
+            margin: 2rem 0;
+            border: none;
+            border-top: 1px solid #eef2f6;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: #2d6a4f;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
+<div class="container">
+    <div class="card">
+        <h1>🍽️ Meni Inženjer</h1>
+        <div class="subtitle">AI generator prodajnih opisa jela – napravio kuvar sa 24 godine iskustva</div>
 
-<header>
-    <h1>🍽️ Meni Inženjer API</h1>
-    <p>Automatski opisi jela koji prodaju — napravio kuvar sa 24 god iskustva</p>
-</header>
-
-<nav>
-    <a href="index.html">🏠 Dom</a>
-    <a href="kuhinja.html">🍳 Kuhinja</a>
-    <a href="ljubimci.html">🐕 Ljubimci</a>
-    <a href="porodica.html">👶 Porodica</a>
-    <a href="majstorisanje.html">🔧 Majstorisanje</a>
-    <a href="basta.html">🌱 Bašta</a>
-    <a href="o-meni.html">👨‍🍳 O meni</a>
-    <a href="proizvodi.html">💰 Proizvodi</a>
-    <a href="meni-inzenjer.html">🍽️ Meni Inženjer</a>
-</nav>
-
-<div class="content">
-
-    <div class="hero-box">
-        <h2>Pretvorite "Pileći file sa povrćem" u opis koji PRODAJE 🍽️</h2>
-        <p>Jedan API poziv. Jedna sekunda. Opis koji tera vodu na usta.</p>
-        <p style="margin-top:1rem;">🚀 19 vrsta restorana • 🎯 3 nivoa kreativnosti • 🇷🇸 Na srpskom jeziku</p>
-        <a href="#pricing" class="cta-button">🚀 Pogledaj planove</a>
-    </div>
-
-    <!-- ČLANAK -->
-    <div class="article-section">
-        <h2>Kako sam napravio AI koji piše menije za restorane ✍️🤖</h2>
-        <p><em>Objavljeno: Maj 2026. | Autor: Vlada</em></p>
-
-        <p>Pre 24 godine ušao sam u kuhinju. Od tada sam prošao sve — od restorana i hotela do sopstvenog street food biznisa. I jedno sam naučio: <strong>dobar meni prodaje jelo pre nego što gost proba prvi zalogaj.</strong></p>
-
-        <p>Ali postoji problem. Većina restorana nema vremena da piše opise. Niti znaju kako. I tu nastaje Meni Inženjer.</p>
-
-        <h3>Od problema do ideje</h3>
-        <p>Koliko puta sam video menije na kojima piše: "Pileći file sa povrćem — 850 RSD". I to je to. Nema mirisa, nema teksture, nema emocije. Gost gleda u tanjir i ne zna šta da očekuje.</p>
-
-        <p>Znao sam da postoji bolji način. Ali nisam imao vremena da za svako jelo pišem poseban opis. A onda sam pomislio: <strong>šta ako AI može da radi ovaj posao?</strong></p>
-
-        <h3>Kako sam napravio Meni Inženjera</h3>
-        <p>Nisam programer. Ja sam kuvar. Ali uz pomoć modernih alata — Pipedream, Gemini AI i RapidAPI — uspeo sam da napravim API koji za <strong>1 sekundu</strong> generiše opis jela.</p>
-
-        <p>I to ne bilo kakav opis. Meni Inženjer zna <strong>19 vrsta restorana</strong> — od tradicionalnog srpskog do japanskog, od kafića do steakhouse-a. Zna <strong>3 nivoa kreativnosti</strong>. Može da primi sastojke i da ih uklopi u opis. I sve to radi <strong>na srpskom jeziku</strong>.</p>
-
-        <h3>Šta Meni Inženjer nije</h3>
-        <ul>
-            <li><strong>Nije ChatGPT.</strong> Ne moraš da pišeš duge promptove. Samo ukucaš naziv jela i dobiješ gotov opis.</li>
-            <li><strong>Nije prevodilac.</strong> Ne prevodi sa engleskog. Piše originalno, na srpskom, sa razumevanjem naše kuhinje.</li>
-            <li><strong>Nije generički AI.</strong> Svaki opis je prošao kroz filter mog 24-godišnjeg iskustva u kuhinji.</li>
-        </ul>
-
-        <h3>Za koga je ovo?</h3>
-        <ul>
-            <li><strong>Restorani i kafići</strong> — koji žele profesionalne menije bez zapošljavanja copywritera</li>
-            <li><strong>Hoteli</strong> — kojima treba konzistentan stil za sve menije</li>
-            <li><strong>Aplikacije za dostavu</strong> — koje žele da automatski generišu opise za hiljade jela</li>
-            <li><strong>Marketing agencije</strong> — koje rade za ugostiteljstvo</li>
-        </ul>
-
-        <h3>Šta je sledeće?</h3>
-        <p>Meni Inženjer je tek prvi modul. U planu je <strong>14 modula</strong> — od kalkulatora cena do kompletnog AI Agenta koji vodi celu upravu restorana.</p>
-
-        <p>Ako ste vlasnik restorana, programer ili jednostavno neko ko voli dobru hranu — <strong>isprobajte Meni Inženjera besplatno</strong>. Prvih 50 opisa je na mene.</p>
-
-        <p style="margin-top: 2rem; font-style: italic; color: #d35400;">— Vlada, kuvar i tvorac Meni Inženjera</p>
-    </div>
-
-    <h2 class="section-title">Šta Meni Inženjer radi?</h2>
-    
-    <div class="feature-grid">
-        <div class="feature-card">
-            <div class="icon">⚡</div>
-            <h3>1 sekunda</h3>
-            <p>Pošalješ naziv jela, dobiješ gotov opis. Brže nego što skuvaš kafu.</p>
+        <div class="form-group">
+            <label>📝 Naziv jela *</label>
+            <input type="text" id="jelo" placeholder="npr. Punjena paprika, Musaka, Karađorđeva šnicla" value="Musaka">
         </div>
-        <div class="feature-card">
-            <div class="icon">🎯</div>
-            <h3>19 vrsta restorana</h3>
-            <p>Od nacionalnog do japanskog. API automatski prilagođava ton i stil.</p>
-        </div>
-        <div class="feature-card">
-            <div class="icon">🎨</div>
-            <h3>3 nivoa kreativnosti</h3>
-            <p>Klasičan, Kreativan ili Signature — biraj koliko da bude jedinstveno.</p>
-        </div>
-        <div class="feature-card">
-            <div class="icon">🥕</div>
-            <h3>Opcioni sastojci</h3>
-            <p>Pošalji sastojke i API će ih uklopiti u opis. Precizno i verodostojno.</p>
-        </div>
-    </div>
 
-    <h2 class="section-title">Vrste restorana</h2>
-    
-    <div class="restaurant-grid">
-        <div class="restaurant-tag">🥘 Tradicionalni</div>
-        <div class="restaurant-tag">🍝 Italijanski</div>
-        <div class="restaurant-tag">🍣 Japanski/Sushi</div>
-        <div class="restaurant-tag">🍔 Street & Fast Food</div>
-        <div class="restaurant-tag">🥗 Moderni fjužn</div>
-        <div class="restaurant-tag">☕ Kafić</div>
-        <div class="restaurant-tag">🍰 Poslastičarnica</div>
-        <div class="restaurant-tag">🍹 Bar/Koktel bar</div>
-        <div class="restaurant-tag">🏨 Hotelski</div>
-        <div class="restaurant-tag">🥩 Steakhouse</div>
-        <div class="restaurant-tag">🥡 Kineski</div>
-        <div class="restaurant-tag">🍛 Indijski</div>
-        <div class="restaurant-tag">🥐 Francuski</div>
-        <div class="restaurant-tag">🥙 Grčki/Mediteranski</div>
-        <div class="restaurant-tag">🥨 Pekara</div>
-        <div class="restaurant-tag">🌮 Meksički</div>
-        <div class="restaurant-tag">🍕 Picerija</div>
-        <div class="restaurant-tag">🌿 Vegan/Vege</div>
-        <div class="restaurant-tag">🍜 Tajlandski/Vijetnamski</div>
-    </div>
-
-    <div class="testimonial">
-        <p style="font-size: 1.3rem;">"U restoranu sam naučio da meni nije spisak jela — meni je prodavac. Svako jelo mora da ima opis koji tera vodu na usta. Ovaj API to radi automatski."</p>
-        <p style="margin-top: 1rem; font-weight: bold;">— Vlada, kuvar sa 24 godine iskustva u restoranima i hotelima</p>
-    </div>
-
-    <h2 class="section-title" id="pricing">Planovi i cene</h2>
-    
-    <div class="pricing-table">
-        <div class="pricing-card">
-            <h3>🆓 BASIC</h3>
-            <div class="price">0€</div>
-            <div class="period">mesečno</div>
-            <p>50 opisa mesečno</p>
-            <p>🥉 Klasičan nivo</p>
-            <p>📧 Email podrška</p>
-            <p style="margin-top: 1rem; color: #888;">Za probu</p>
+        <div class="form-group">
+            <label>🏠 Vrsta restorana *</label>
+            <select id="restoran">
+                <option value="Balkanska kuća">Balkanska kuća</option>
+                <option value="Italijanski restoran">Italijanski restoran</option>
+                <option value="Fast food">Fast food</option>
+                <option value="Hotel / catering">Hotel / catering</option>
+                <option value="Pečenjara / roštilj">Pečenjara / roštilj</option>
+                <option value="Pekara">Pekara</option>
+                <option value="Kafić / bar">Kafić / bar</option>
+                <option value="Poslastičarnica">Poslastičarnica</option>
+                <option value="Sea food restoran">Sea food restoran</option>
+                <option value="Azijski restoran">Azijski restoran</option>
+                <option value="Francuski restoran">Francuski restoran</option>
+                <option value="Veganski restoran">Veganski restoran</option>
+                <option value="Pub / pivnica">Pub / pivnica</option>
+                <option value="Planinski dom">Planinski dom</option>
+                <option value="Švedski sto / bife">Švedski sto / bife</option>
+                <option value="Street food">Street food</option>
+                <option value="Kineski restoran">Kineski restoran</option>
+                <option value="Grčki restoran">Grčki restoran</option>
+                <option value="Meksički restoran">Meksički restoran</option>
+            </select>
         </div>
-        
-        <div class="pricing-card featured">
-            <h3>⭐ PRO</h3>
-            <div class="price">29€</div>
-            <div class="period">mesečno</div>
-            <p>500 opisa mesečno</p>
-            <p>🥉🥈🥇 Sva 3 nivoa</p>
-            <p>📧 Prioritetna podrška</p>
-            <p style="margin-top: 1rem; font-weight: bold; color: #e67e22;">Najpopularniji</p>
-        </div>
-        
-        <div class="pricing-card">
-            <h3>🚀 ULTRA</h3>
-            <div class="price">79€</div>
-            <div class="period">mesečno</div>
-            <p>2.000 opisa mesečno</p>
-            <p>🥉🥈🥇 Sva 3 nivoa</p>
-            <p>📞 Telefonska podrška</p>
-            <p>🎯 Custom stil brenda</p>
-        </div>
-    </div>
 
-    <h2 class="section-title">🔮 Šta sledi?</h2>
-
-    <!-- NOVI MODUL: UGOSTITELJSKI AI AGENT -->
-    <div class="feature-card featured-card" style="margin-bottom: 2rem; max-width: 100%;">
-        <div class="icon">🤖</div>
-        <h3>🏆 Ugostiteljski AI Agent — Cela uprava u jednom chatu</h3>
-        <p style="font-size: 1.1rem; margin-bottom: 1rem;"><strong>Zvezda budućnosti.</strong> Tvoj lični asistent za vođenje restorana.</p>
-        <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
-            <li>📝 <strong>Meniji</strong> — opisi, nazivi, ceo meni iz jedne poruke</li>
-            <li>💰 <strong>Cene i kalkulacije</strong> — marže, PDV, tačka pokrića, profit</li>
-            <li>📦 <strong>Nabavka i zalihe</strong> — šta, koliko i kada da naručiš</li>
-            <li>👨‍🍳 <strong>Kuhinja</strong> — recepti, normativi, vreme pripreme</li>
-            <li>🍷 <strong>Pica</strong> — sparivanje vina, piva i koktela uz svako jelo</li>
-            <li>📅 <strong>Planiranje</strong> — dnevni meni, sezonski meni, specijali</li>
-            <li>🥗 <strong>Alergeni i nutritivne vrednosti</strong> — automatski</li>
-            <li>📊 <strong>Analitika</strong> — šta se prodaje, šta izbaciti, šta dodati</li>
-            <li>🧾 <strong>Administracija</strong> — ugovori, radni sati, troškovi rada</li>
-            <li>📸 <strong>Marketing</strong> — opisi za Wolt/Glovo, mreže, Google profil</li>
-        </ul>
-        <p style="margin-top: 1rem; font-weight: bold; color: #d35400; font-size: 1.2rem;">Jedan Agent. Cela uprava.</p>
-    </div>
-
-    <div class="feature-grid">
-        <div class="feature-card">
-            <div class="icon">💰</div>
-            <h3>Kalkulator cena</h3>
-            <p>Izračunaj prodajnu cenu na osnovu namirnica, troškova i željene marže.</p>
+        <div class="form-group">
+            <label>🥩 Sastojci (opciono)</label>
+            <input type="text" id="sastojci" placeholder="npr. krompir, mleveno meso, začini" value="krompir, mleveno meso, začini">
         </div>
-        <div class="feature-card">
-            <div class="icon">🍷</div>
-            <h3>Sparivanje pića</h3>
-            <p>Automatska preporuka vina, piva ili koktela uz svako jelo.</p>
-        </div>
-        <div class="feature-card">
-            <div class="icon">📅</div>
-            <h3>Dnevni meni</h3>
-            <p>Generiši ceo meni dana za 3 sekunde.</p>
-        </div>
-        <div class="feature-card">
-            <div class="icon">🥗</div>
-            <h3>Alergeni & Nutritivne vrednosti</h3>
-            <p>Automatska lista alergena, kalorija i proteina.</p>
-        </div>
-        <div class="feature-card">
-            <div class="icon">📊</div>
-            <h3>A/B Test menija</h3>
-            <p>Koja verzija opisa bolje prodaje? Saznaj za 24 sata.</p>
-        </div>
-        <div class="feature-card">
-            <div class="icon">📦</div>
-            <h3>Optimizacija zaliha</h3>
-            <p>Tačno znaš koliko namirnica da naručiš.</p>
-        </div>
-    </div>
 
-    <p style="text-align: center; font-size: 1.3rem; margin: 2rem 0; color: #d35400;">
-        <strong>Ukupno 14 modula. Jedan API. Cela kuhinja.</strong>
-    </p>
+        <div class="form-group">
+            <label>🎨 Nivo kreativnosti</label>
+            <div class="radio-group" id="kreativnostGroup">
+                <label><input type="radio" name="kreativnost" value="1"> Klasičan</label>
+                <label><input type="radio" name="kreativnost" value="2" checked> Kreativan</label>
+                <label><input type="radio" name="kreativnost" value="3"> Signature</label>
+            </div>
+        </div>
 
-    <h2 class="section-title">Česta pitanja</h2>
-    
-    <div class="faq-item">
-        <h3>Kako funkcioniše?</h3>
-        <p>Pošalješ naziv jela i vrstu restorana (opciono i sastojke), a API vrati gotov opis za 1 sekundu. Jednostavno kao poruka.</p>
-    </div>
-    <div class="faq-item">
-        <h3>Da li mogu da testiram pre kupovine?</h3>
-        <p>Da! BASIC plan je besplatan i dobijaš 50 opisa mesečno. Dovoljno da vidiš kako radi.</p>
-    </div>
-    <div class="faq-item">
-        <h3>Koje vrste restorana podržavate?</h3>
-        <p>19 vrsta: tradicionalni, italijanski, japanski, fast food, fjužn, kafić, poslastičarnica, bar, hotelski, steakhouse, kineski, indijski, francuski, grčki, pekara, meksički, picerija, vegan, tajlandski.</p>
-    </div>
-    <div class="faq-item">
-        <h3>Mogu li da pošaljem svoje sastojke?</h3>
-        <p>Da! Pošalji sastojke (npr. "pileći file, tikvice, mocarela, bosiljak") i API će ih uklopiti u opis.</p>
-    </div>
-    <div class="faq-item">
-        <h3>Ko stoji iza ovoga?</h3>
-        <p>Vlada je 24 godine kuvao u restoranima i hotelima. Danas vodi svoj street food biznis u Srbiji. Meni Inženjer je nastao iz uverenja da svako jelo zaslužuje opis koji prodaje. Ovaj API je njegov način da podeli znanje sa kolegama.</p>
-    </div>
+        <button id="generateBtn">✨ Generiši opis</button>
 
-    <div class="hero-box" style="margin-top: 3rem;">
-        <h2>Spremni da vaš meni zablista?</h2>
-        <p>Pridružite se restoranima koji su već unapredili svoje menije.</p>
-        <a href="https://rapidapi.com/mojkucnisvet/api/menu-inzenjer" class="cta-button" target="_blank">🚀 Nabavi API pristup</a>
-        <p style="margin-top: 1rem; font-size: 0.9rem; color: #888;">Besplatan BASIC plan dostupan. Nije potrebna kreditna kartica.</p>
-    </div>
+        <div id="resultArea" style="display: none;">
+            <div class="result">
+                <h3>📄 Generisani opis:</h3>
+                <p id="resultText"></p>
+                <button id="copyBtn" class="copy-btn">📋 Kopiraj opis</button>
+            </div>
+        </div>
 
+        <div class="status" id="statusMsg">
+            BASIC plan: 50 besplatnih opisa mesečno
+        </div>
+
+        <hr>
+
+        <a href="/ugostiteljski-asistent/" class="back-link">← Nazad na Ugostiteljskog asistenta</a>
+    </div>
 </div>
 
-<footer>
-    <p>© 2026 Moj Kućni Svet — Meni Inženjer API. Napravio Vlada, kuvar sa 24 godine iskustva.</p>
-</footer>
+<script>
+    const API_URL = "https://eonganoiuki41pp.m.pipedream.net";
 
+    document.getElementById('generateBtn').addEventListener('click', async () => {
+        const jelo = document.getElementById('jelo').value.trim();
+        const restoran = document.getElementById('restoran').value;
+        const sastojci = document.getElementById('sastojci').value.trim();
+        const kreativnost = document.querySelector('input[name="kreativnost"]:checked')?.value || "2";
+
+        if (!jelo) {
+            alert("Molimo unesite naziv jela");
+            return;
+        }
+
+        const btn = document.getElementById('generateBtn');
+        const resultDiv = document.getElementById('resultArea');
+        const resultText = document.getElementById('resultText');
+        const statusMsg = document.getElementById('statusMsg');
+
+        btn.disabled = true;
+        btn.textContent = "⏳ Generišem...";
+        resultDiv.style.display = "none";
+        statusMsg.innerHTML = "🔮 Generišem opis, molim sačekajte nekoliko sekundi...";
+
+        try {
+            const url = `${API_URL}?jelo=${encodeURIComponent(jelo)}&restoran=${encodeURIComponent(restoran)}&sastojci=${encodeURIComponent(sastojci)}&kreativnost=${kreativnost}`;
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if (data.opis) {
+                resultText.textContent = data.opis;
+                resultDiv.style.display = "block";
+                statusMsg.innerHTML = "✅ Opis uspešno generisan! BASIC plan: 50 besplatnih opisa mesečno.";
+            } else if (data.error) {
+                resultText.textContent = "❌ Greška: " + data.error;
+                resultDiv.style.display = "block";
+                resultDiv.querySelector('.result').classList.add('error');
+                statusMsg.innerHTML = "⚠️ " + data.error;
+            } else {
+                throw new Error("Nepoznat odgovor API-ja");
+            }
+        } catch (error) {
+            resultText.textContent = "❌ Došlo je do greške: " + error.message;
+            resultDiv.style.display = "block";
+            resultDiv.querySelector('.result').classList.add('error');
+            statusMsg.innerHTML = "⚠️ Greška pri povezivanju sa API-jem. Pokušajte ponovo.";
+        } finally {
+            btn.disabled = false;
+            btn.textContent = "✨ Generiši opis";
+        }
+    });
+
+    document.getElementById('copyBtn')?.addEventListener('click', () => {
+        const text = document.getElementById('resultText').textContent;
+        navigator.clipboard.writeText(text);
+        alert("Opis kopiran u clipboard!");
+    });
+</script>
 </body>
 </html>
