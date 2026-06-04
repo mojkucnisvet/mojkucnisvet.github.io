@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ugostiteljski asistent | AI za restorane, kafiće, hotele</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9edf2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #2d3e50, #1a2a3a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #5a6874;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .lang-badge {
+            display: inline-block;
+            background: #e8edf2;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #2d3e50;
+            margin-top: 1rem;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 24px;
+            padding: 1.8rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            border: 1px solid #eef2f6;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .module-icon {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .module-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1a2a3a;
+            margin-bottom: 0.5rem;
+        }
+
+        .module-desc {
+            color: #6c7a86;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+        }
+
+        .module-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            background: #eef2ff;
+            color: #2d4a6e;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+        }
+
+        .badge-soon {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .badge-active {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .status-bar {
+            background: white;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            border: 1px solid #eef2f6;
+        }
+
+        .plan-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .plan-badge {
+            background: #1a2a3a;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .upgrade-btn {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .upgrade-btn:hover {
+            opacity: 0.9;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: #8a99a6;
+            font-size: 0.8rem;
+        }
+
+        a {
+            color: #2d6a4f;
+            text-decoration: none;
+        }
+
+        @media (max-width: 700px) {
+            h1 { font-size: 1.8rem; }
+            .logo { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">🍽️🤖</div>
+        <h1>Ugostiteljski asistent</h1>
+        <div class="subtitle">
+            AI alat za restorane, hotele, kafiće i pekare – profesionalni opisi, kalkulacije i još mnogo toga.
+        </div>
+        <div class="lang-badge">
+            🌐 Hospitality Assistant | <span>srpski / English (soon)</span>
+        </div>
+    </div>
+
+    <div class="modules-grid">
+        <!-- MODUL 1: MENI INŽENJER (AKTIVAN) - LINK ISPRAVLJEN -->
+        <div class="module-card" onclick="location.href='/meni-inzenjer.html'">
+            <div class="module-icon">🍽️📝</div>
+            <div class="module-title">Meni inženjer</div>
+            <div class="module-desc">Generiši prodajne opise jela za 1 sekundu. Prilagodi ton restoranu, dodaj sastojke, biraj nivo kreativnosti.</div>
+            <span class="module-badge badge-active">✅ Aktivan</span>
+        </div>
+
+        <div class="module-card" style="opacity:0.8">
+            <div class="module-icon">🧮💰</div>
+            <div class="module-title">Kalkulator cena</div>
+            <div class="module-desc">Izračunaj prodajnu cenu na osnovu namirnica, rada, PDV-a i željene marže. (dolazi uskoro)</div>
+            <span class="module-badge badge-soon">🔜 U pripremi</span>
+        </div>
+
+        <div class="module-card" style="opacity:0.8">
+            <div class="module-icon">🍷🧀</div>
+            <div class="module-title">Sparivač hrane i pića</div>
+            <div class="module-desc">Preporuči idealno piće uz svako jelo – vino, pivo, koktel ili bezalkoholno.</div>
+            <span class="module-badge badge-soon">🔜 U pripremi</span>
+        </div>
+
+        <div class="module-card" style="opacity:0.8">
+            <div class="module-icon">📅⚡</div>
+            <div class="module-title">Dnevni meni generator</div>
+            <div class="module-desc">Za 3 sekunde kreiraj balansiran dnevni meni – predjelo, glavno jelo, desert.</div>
+            <span class="module-badge badge-soon">🔜 U pripremi</span>
+        </div>
+
+        <div class="module-card" style="opacity:0.8">
+            <div class="module-icon">⚠️📊</div>
+            <div class="module-title">Alergeni & nutritivne vrednosti</div>
+            <div class="module-desc">Automatski prepoznaj alergene i izračunaj kalorije, proteine, masti.</div>
+            <span class="module-badge badge-soon">🔜 U pripremi</span>
+        </div>
+
+        <div class="module-card" style="opacity:0.8">
+            <div class="module-icon">📊🆚</div>
+            <div class="module-title">A/B test menija</div>
+            <div class="module-desc">Testiraj dve verzije opisa i saznaj koja bolje prodaje.</div>
+            <span class="module-badge badge-soon">🔜 U pripremi</span>
+        </div>
+
+        <div class="module-card" style="opacity:0.8">
+            <div class="module-icon">🧾📈</div>
+            <div class="module-title">PDV i marža</div>
+            <div class="module-desc">Za knjigovodstvo – automatski obračun poreza i neto dobiti po jelu.</div>
+            <span class="module-badge badge-soon">🔜 U pripremi</span>
+        </div>
+
+        <div class="module-card" style="opacity:0.8">
+            <div class="module-icon">🎯📉</div>
+            <div class="module-title">Cenovna strategija</div>
+            <div class="module-desc">Preporuka optimalne cene na osnovu konkurencije i ciljane marže.</div>
+            <span class="module-badge badge-soon">🔜 U pripremi</span>
+        </div>
+    </div>
+
+    <div class="status-bar">
+        <div class="plan-info">
+            <span class="plan-badge">🎯 BASIC Plan (besplatan)</span>
+            <span>✅ 50 opisa mesečno • 1 nivo kreativnosti</span>
+        </div>
+        <button class="upgrade-btn" onclick="alert('Nadogradnja na PRO/ULTRA plan uskoro preko RapidAPI-ja. Hvala na strpljenju! 🙏')">
+            🚀 Nadogradi na PRO
+        </button>
+    </div>
+
+    <div class="footer">
+        <p>🍽️ Meni inženjer – prvi modul Ugostiteljskog asistenta. Ostali moduli dolaze u narednim nedeljama.</p>
+        <p style="margin-top: 0.5rem;">
+            <a href="https://mojkucnisvet.github.io" target="_blank">🏠 Moj Kućni Svet blog</a> &nbsp;|&nbsp;
+            <a href="#" id="supportLink">📞 Kontakt</a>
+        </p>
+        <p style="margin-top: 0.5rem; font-size:0.7rem;">© 2026 Ugostiteljski asistent – AI za ugostiteljstvo</p>
+    </div>
+</div>
+
+<script>
+    document.getElementById('supportLink')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        alert('📧 Podrška: mojkucnisvet@gmail.com\nOdgovaramo u roku od 24h.');
+    });
+</script>
+</body>
+</html>
