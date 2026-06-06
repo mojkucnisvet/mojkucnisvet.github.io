@@ -3,112 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meni Inženjer - Demo Chat</title>
+    <title>🤖 Ugostiteljski AI Agent - Meni Inženjer</title>
+    <!-- Tailwind CSS za moderan i čist dizajn -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f7f9fa; color: #333; margin: 0; padding: 20px; }
-        .chat-container { max-width: 600px; margin: 30px auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h2 { color: #d9534f; text-align: center; margin-bottom: 5px; }
-        p.subtitle { text-align: center; color: #666; font-size: 14px; margin-top: 0; margin-bottom: 25px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px; }
-        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 15px; }
-        button { width: 100%; padding: 12px; background-color: #d9534f; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
-        button:hover { background-color: #c9302c; }
-        button:disabled { background-color: #ccc; cursor: not-allowed; }
-        .result-box { margin-top: 25px; padding: 15px; border-left: 5px solid #d9534f; background-color: #fdf7f7; border-radius: 4px; display: none; }
-        .result-title { font-weight: bold; margin-bottom: 5px; color: #c9302c; }
-        .loader { text-align: center; display: none; color: #666; font-style: italic; margin-top: 15px; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col items-center justify-center p-4">
 
-<div class="chat-container">
-    <h2>Meni Inženjer 🍳</h2>
-    <p class="subtitle">AI generator profesionalnih opisa jela - Šef Vlada</p>
-    
-    <div class="form-group">
-        <label for="jelo">Naziv jela (obavezno):</label>
-        <input type="text" id="jelo" placeholder="Npr. Karađorđeva šnicla, Teleća čorba...">
-    </div>
-    
-    <div class="form-group">
-        <label for="restoran">Naziv restorana:</label>
-        <input type="text" id="restoran" value="Moj Kućni Svet">
-    </div>
-    
-    <div class="form-group">
-        <label for="sastojci">Glavni sastojci:</label>
-        <input type="text" id="sastojci" placeholder="Npr. svinjski file, kajmak, prezle...">
-    </div>
-    
-    <div class="form-group">
-        <label for="kreativnost">Nivo kreativnosti šefa:</label>
-        <select id="kreativnost">
-            <option value="visoka">Visoka (Kreativni i poetični opisi)</option>
-            <option value="standardna">Standardna (Tradicionalni i jasni opisi)</option>
-        </select>
-    </div>
-    
-    <button id="generisiBtn" onclick="generisiOpis()">Generiši Opis Jela</button>
-    
-    <div id="loader" class="loader">Šef Vlada piše opis, trenutak molim...</div>
-    
-    <div id="resultBox" class="result-box">
-        <div class="result-title">Predlog opisa za vaš meni:</div>
-        <div id="izlazTekst"></div>
-    </div>
-</div>
+    <div class="w-full max-w-2xl bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
+        <!-- Zaglavlje -->
+        <div class="bg-slate-900 p-6 text-white text-center">
+            <h1 class="text-2xl font-bold tracking-tight">🤖 Ugostiteljski AI Agent</h1>
+            <p class="text-slate-400 text-sm mt-1">Modul 1: Meni Inženjer — Profesionalno pisanje jelovnika</p>
+        </div>
 
-<script>
-    async function generisiOpis() {
-        const jelo = document.getElementById('jelo').value.trim();
-        const restoran = document.getElementById('restoran').value.trim();
-        const sastojci = document.getElementById('sastojci').value.trim();
-        const kreativnost = document.getElementById('kreativnost').value;
-        
-        const btn = document.getElementById('generisiBtn');
-        const loader = document.getElementById('loader');
-        const resultBox = document.getElementById('resultBox');
-        const izlazTekst = document.getElementById('izlazTekst');
-        
-        if (!jelo) {
-            alert('Molimo Vas unesite naziv jela.');
-            return;
-        }
-        
-        // Pametna linija: automatski koristi domen na kome se sajt nalazi (bilo Vercel ili lokalno)
-        const apiUrl = window.location.origin + '/api/generisi';
-        
-        btn.disabled = true;
-        loader.style.display = 'block';
-        resultBox.style.display = 'none';
-        
-        try {
-            const response = await fetch(`${apiUrl}?jelo=${encodeURIComponent(jelo)}&restoran=${encodeURIComponent(restoran)}&sastojci=${encodeURIComponent(sastojci)}&kreativnost=${kreativnost}`, {
-                method: 'GET'
+        <!-- Forma / Unos podataka -->
+        <div class="p-6 space-y-4">
+            <!-- Naziv jela -->
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Naziv jela *</label>
+                <input type="text" id="jelo" placeholder="Npr. Sarma, Musaka, Biftek..." 
+                       class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900 transition text-sm">
+            </div>
+
+            <!-- Vrsta restorana (Svih 19 opcija!) -->
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Vrsta restorana *</label>
+                <select id="restoran" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900 transition text-sm bg-white">
+                    <optgroup label="Domaće i tradicionalne">
+                        <option value="Nacionalni/Tradicionalni">🥘 Nacionalni/Tradicionalni — srpska, balkanska</option>
+                    </optgroup>
+                    <optgroup label="Mediteranske i evropske">
+                        <option value="Italijanski">🍝 Italijanski — paste, pizze, mediteranski ukusi</option>
+                        <option value="Francuski">🥐 Francuski — prefinjeno, klasično, sofisticirano</option>
+                        <option value="Grčki/Mediteranski">🥙 Grčki/Mediteranski — giros, suvlaki, moussaka</option>
+                        <option value="Picerija">🍕 Picerija — tanke kore, kamen, mozzarella</option>
+                    </optgroup>
+                    <optgroup label="Azijske">
+                        <option value="Japanski/Sushi">🍣 Japanski/Sushi — minimalistički, elegantno</option>
+                        <option value="Kineski">🥡 Kineski — wok, slatko-kiselo</option>
+                        <option value="Indijski">🍛 Indijski — začinjeno, kari, tandoor</option>
+                        <option value="Tajlandski/Vijetnamski">🍜 Tajlandski/Vijetnamski — limunova trava, kokos</option>
+                    </optgroup>
+                    <optgroup label="Ležerne i brze">
+                        <option value="Street & Fast Food">🍔 Street & Fast Food — brzo, sočno, urbano</option>
+                        <option value="Pekara">🥨 Pekara — burek, kroasani, hleb, peciva</option>
+                    </optgroup>
+                    <optgroup label="Specijalizovane">
+                        <option value="Kafić">☕ Kafić — kafa, čaj, sendviči, palačinke</option>
+                        <option value="Poslastičarnica">🍰 Poslastičarnica — kolači, sladoledi, torte</option>
+                        <option value="Bar/Koktel bar">🍹 Bar/Koktel bar — kokteli, vina, grickalice</option>
+                        <option value="Steakhouse">🥩 Steakhouse — meso, roštilj, bifteci</option>
+                        <option value="Hotelski restoran">🏨 Hotelski restoran — luksuzno, sofisticirano</option>
+                    </optgroup>
+                    <optgroup label="Egzotične i alternativne">
+                        <option value="Meksički">🌮 Meksički — takosi, buritosi, guacamole</option>
+                        <option value="Moderni fjužn">🥗 Moderni fjužn — spoj kultura, kreativno</option>
+                        <option value="Vegan/Vegetarijanski">🌿 Vegan/Vegetarijanski — biljno, zdravo</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <!-- Ključni sastojci -->
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Ključni sastojci (opciono)</label>
+                <input type="text" id="sastojci" placeholder="Npr. juneći bife, puter, ruzmarin, tucana paprika..." 
+                       class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900 transition text-sm">
+            </div>
+
+            <!-- Nivo kreativnosti -->
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Nivo kreativnosti AI-ja</label>
+                <div class="grid grid-cols-3 gap-2">
+                    <button type="button" onclick="setKreativnost('ekonomičan')" id="btn-ekonomicno" class="py-2 rounded-xl text-xs font-medium border border-slate-200 transition text-slate-600 bg-white hover:bg-slate-50">Ekonomska</button>
+                    <button type="button" onclick="setKreativnost('standardan')" id="btn-standardno" class="py-2 rounded-xl text-xs font-medium border border-slate-200 transition text-slate-600 bg-white hover:bg-slate-50">Standardna</button>
+                    <button type="button" onclick="setKreativnost('visoka')" id="btn-visoko" class="py-2 rounded-xl text-xs font-medium border-2 border-slate-950 bg-slate-950 text-white shadow-sm">Visoka (Pro)</button>
+                </div>
+            </div>
+
+            <!-- Dugme za pokretanje -->
+            <button onclick="generisiOpis()" id="glavno-dugme" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 rounded-xl transition shadow-md hover:shadow-lg flex items-center justify-center gap-2 mt-2 text-sm cursor-pointer">
+                ✨ Generiši Opis Jela
+            </button>
+        </div>
+
+        <!-- Rezultat (Chat prozor) -->
+        <div id="rezultat-sekcija" class="hidden border-t border-slate-100 bg-slate-50 p-6">
+            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Predlog opisa za vaš meni:</h3>
+            <div id="rezultat-tekst" class="bg-white p-4 rounded-xl border border-slate-100 text-sm leading-relaxed text-slate-700 shadow-sm whitespace-pre-line">
+                <!-- Ovde AI upisuje odgovor -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let izabranaKreativnost = 'visoka';
+
+        function setKreativnost(nivo) {
+            izabranaKreativnost = nivo;
+            const btnEko = document.getElementById('btn-ekonomicno');
+            const btnStd = document.getElementById('btn-standardno');
+            const btnVis = document.getElementById('btn-visoko');
+
+            // Resetuj sve stilove dugmića
+            [btnEko, btnStd, btnVis].forEach(btn => {
+                btn.className = "py-2 rounded-xl text-xs font-medium border border-slate-200 transition text-slate-600 bg-white hover:bg-slate-50";
             });
-            
-            const data = await response.json();
-            
-            if (data.success) {
-                izlazTekst.innerText = data.opis;
-                resultBox.style.display = 'block';
-                resultBox.style.borderLeftColor = '#d9534f';
-            } else {
-                izlazTekst.innerText = 'Greška: ' + (data.error || 'Nepoznata greška na serveru.');
-                resultBox.style.display = 'block';
-                resultBox.style.borderLeftColor = '#ff0000';
-            }
-        } catch (error) {
-            izlazTekst.innerText = 'Sistem ne može da pristupi API-ju. Proverite da li je projekat uspešno postavljen na Vercel. Detalji: ' + error.message;
-            resultBox.style.display = 'block';
-            resultBox.style.borderLeftColor = '#ff0000';
-        } finally {
-            btn.disabled = false;
-            loader.style.display = 'none';
-        }
-    }
-</script>
 
+            // Aktiviraj kliknuto dugme
+            if(nivo === 'ekonomičan') btnEko.className = "py-2 rounded-xl text-xs font-medium border-2 border-slate-950 bg-slate-950 text-white shadow-sm";
+            if(nivo === 'standardan') btnStd.className = "py-2 rounded-xl text-xs font-medium border-2 border-slate-950 bg-slate-950 text-white shadow-sm";
+            if(nivo === 'visoka') btnVis.className = "py-2 rounded-xl text-xs font-medium border-2 border-slate-950 bg-slate-950 text-white shadow-sm";
+        }
+
+        async function generisiOpis() {
+            const jelo = document.getElementById('jelo').value.trim();
+            const restoran = document.getElementById('restoran').value;
+            const sastojci = document.getElementById('sastojci').value.trim();
+            const dugme = document.getElementById('glavno-dugme');
+            const rezultatSekcija = document.getElementById('rezultat-sekcija');
+            const rezultatTekst = document.getElementById('rezultat-tekst');
+
+            if (!jelo) {
+                alert('Molimo vas unesite naziv jela.');
+                return;
+            }
+
+            // Vizuelno učitavanje
+            dugme.disabled = true;
+            dugme.innerHTML = `<svg class="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Šef Vlada kreira opis...`;
+
+            try {
+                const response = await fetch('/api/generisi', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        jelo: jelo,
+                        restoran: restoran,
+                        sastojci: sastojci || 'standardni sastojci za ovo jelo',
+                        kreativnost: izabranaKreativnost
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    rezultatTekst.innerText = data.opis;
+                    rezultatSekcija.classList.remove('hidden');
+                } else {
+                    alert('Greška sa AI strane: ' + data.error);
+                }
+            } catch (error) {
+                alert('Sistemska greška: ' + error.message);
+            } finally {
+                dugme.disabled = false;
+                dugme.innerHTML = `✨ Generiši Opis Jela`;
+            }
+        }
+    </script>
 </body>
 </html>
