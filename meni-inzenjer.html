@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🤖 Ugostiteljski AI Agent - Meni Inženjer</title>
-    <!-- Tailwind CSS za moderan i čist dizajn -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Stabilna verzija koja radi na svim telefonima bez greške -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=400;500;600;700&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
     </style>
 </head>
@@ -108,12 +108,10 @@
             const btnStd = document.getElementById('btn-standardno');
             const btnVis = document.getElementById('btn-visoko');
 
-            // Resetuj sve stilove dugmića
             [btnEko, btnStd, btnVis].forEach(btn => {
                 btn.className = "py-2 rounded-xl text-xs font-medium border border-slate-200 transition text-slate-600 bg-white hover:bg-slate-50";
             });
 
-            // Aktiviraj kliknuto dugme
             if(nivo === 'ekonomičan') btnEko.className = "py-2 rounded-xl text-xs font-medium border-2 border-slate-950 bg-slate-950 text-white shadow-sm";
             if(nivo === 'standardan') btnStd.className = "py-2 rounded-xl text-xs font-medium border-2 border-slate-950 bg-slate-950 text-white shadow-sm";
             if(nivo === 'visoka') btnVis.className = "py-2 rounded-xl text-xs font-medium border-2 border-slate-950 bg-slate-950 text-white shadow-sm";
@@ -132,9 +130,8 @@
                 return;
             }
 
-            // Vizuelno učitavanje
             dugme.disabled = true;
-            dugme.innerHTML = `<svg class="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Šef Vlada kreira opis...`;
+            dugme.innerHTML = `Šef Vlada kreira opis...`;
 
             try {
                 const response = await fetch('/api/generisi', {
