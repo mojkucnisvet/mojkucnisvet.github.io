@@ -3,293 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meni Inženjer – AI opis jela</title>
+    <title>Meni Inženjer - Demo Chat</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e9edf2 100%);
-            min-height: 100vh;
-            padding: 2rem 1rem;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .card {
-            background: white;
-            border-radius: 32px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            color: #1a2a3a;
-        }
-
-        .subtitle {
-            color: #5a6874;
-            margin-bottom: 2rem;
-            font-size: 0.95rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #2d3e50;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border: 1px solid #ddd;
-            border-radius: 16px;
-            font-size: 1rem;
-            font-family: inherit;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: #2d6a4f;
-            box-shadow: 0 0 0 3px rgba(45,106,79,0.1);
-        }
-
-        .radio-group {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 0.5rem;
-        }
-
-        .radio-group label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: normal;
-            cursor: pointer;
-        }
-
-        button {
-            background: linear-gradient(135deg, #2d6a4f, #1b4d3e);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 40px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: opacity 0.2s;
-        }
-
-        button:hover {
-            opacity: 0.9;
-        }
-
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .result {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background: #f8f9fa;
-            border-radius: 24px;
-            border-left: 4px solid #2d6a4f;
-        }
-
-        .result h3 {
-            margin-bottom: 0.5rem;
-            color: #2d3e50;
-        }
-
-        .result p {
-            line-height: 1.5;
-            color: #333;
-        }
-
-        .error {
-            color: #d9534f;
-            background: #fdf7f7;
-            border-left-color: #d9534f;
-        }
-
-        .copy-btn {
-            background: #e9ecef;
-            color: #2d3e50;
-            margin-top: 1rem;
-            width: auto;
-            padding: 0.5rem 1rem;
-            font-size: 0.85rem;
-        }
-
-        .status {
-            margin-top: 1rem;
-            font-size: 0.8rem;
-            color: #6c7a86;
-            text-align: center;
-        }
-
-        hr {
-            margin: 2rem 0;
-            border: none;
-            border-top: 1px solid #eef2f6;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 1rem;
-            color: #2d6a4f;
-            text-decoration: none;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f7f9fa; color: #333; margin: 0; padding: 20px; }
+        .chat-container { max-width: 600px; margin: 30px auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h2 { color: #d9534f; text-align: center; margin-bottom: 5px; }
+        p.subtitle { text-align: center; color: #666; font-size: 14px; margin-top: 0; margin-bottom: 25px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 15px; }
+        button { width: 100%; padding: 12px; background-color: #d9534f; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+        button:hover { background-color: #c9302c; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+        .result-box { margin-top: 25px; padding: 15px; border-left: 5px solid #d9534f; background-color: #fdf7f7; border-radius: 4px; display: none; }
+        .result-title { font-weight: bold; margin-bottom: 5px; color: #c9302c; }
+        .loader { text-align: center; display: none; color: #666; font-style: italic; margin-top: 15px; }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="card">
-        <h1>🍽️ Meni Inženjer</h1>
-        <div class="subtitle">AI generator prodajnih opisa jela – napravio kuvar sa 24 godine iskustva</div>
 
-        <div class="form-group">
-            <label>📝 Naziv jela *</label>
-            <input type="text" id="jelo" placeholder="npr. Punjena paprika, Musaka, Karađorđeva šnicla" value="Musaka">
-        </div>
-
-        <div class="form-group">
-            <label>🏠 Vrsta restorana *</label>
-            <select id="restoran">
-                <option value="Balkanska kuća">Balkanska kuća</option>
-                <option value="Italijanski restoran">Italijanski restoran</option>
-                <option value="Fast food">Fast food</option>
-                <option value="Hotel / catering">Hotel / catering</option>
-                <option value="Pečenjara / roštilj">Pečenjara / roštilj</option>
-                <option value="Pekara">Pekara</option>
-                <option value="Kafić / bar">Kafić / bar</option>
-                <option value="Poslastičarnica">Poslastičarnica</option>
-                <option value="Sea food restoran">Sea food restoran</option>
-                <option value="Azijski restoran">Azijski restoran</option>
-                <option value="Francuski restoran">Francuski restoran</option>
-                <option value="Veganski restoran">Veganski restoran</option>
-                <option value="Pub / pivnica">Pub / pivnica</option>
-                <option value="Planinski dom">Planinski dom</option>
-                <option value="Švedski sto / bife">Švedski sto / bife</option>
-                <option value="Street food">Street food</option>
-                <option value="Kineski restoran">Kineski restoran</option>
-                <option value="Grčki restoran">Grčki restoran</option>
-                <option value="Meksički restoran">Meksički restoran</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>🥩 Sastojci (opciono)</label>
-            <input type="text" id="sastojci" placeholder="npr. krompir, mleveno meso, začini" value="krompir, mleveno meso, začini">
-        </div>
-
-        <div class="form-group">
-            <label>🎨 Nivo kreativnosti</label>
-            <div class="radio-group" id="kreativnostGroup">
-                <label><input type="radio" name="kreativnost" value="1"> Klasičan</label>
-                <label><input type="radio" name="kreativnost" value="2" checked> Kreativan</label>
-                <label><input type="radio" name="kreativnost" value="3"> Signature</label>
-            </div>
-        </div>
-
-        <button id="generateBtn">✨ Generiši opis</button>
-
-        <div id="resultArea" style="display: none;">
-            <div class="result">
-                <h3>📄 Generisani opis:</h3>
-                <p id="resultText"></p>
-                <button id="copyBtn" class="copy-btn">📋 Kopiraj opis</button>
-            </div>
-        </div>
-
-        <div class="status" id="statusMsg">
-            BASIC plan: 50 besplatnih opisa mesečno
-        </div>
-
-        <hr>
-
-        <a href="/ugostiteljski-asistent/" class="back-link">← Nazad na Ugostiteljskog asistenta</a>
+<div class="chat-container">
+    <h2>Meni Inženjer 🍳</h2>
+    <p class="subtitle">AI generator profesionalnih opisa jela - Šef Vlada</p>
+    
+    <div class="form-group">
+        <label for="jelo">Naziv jela (obavezno):</label>
+        <input type="text" id="jelo" placeholder="Npr. Karađorđeva šnicla, Teleća čorba...">
+    </div>
+    
+    <div class="form-group">
+        <label for="restoran">Naziv restorana:</label>
+        <input type="text" id="restoran" value="Moj Kućni Svet">
+    </div>
+    
+    <div class="form-group">
+        <label for="sastojci">Glavni sastojci:</label>
+        <input type="text" id="sastojci" placeholder="Npr. svinjski file, kajmak, prezle...">
+    </div>
+    
+    <div class="form-group">
+        <label for="kreativnost">Nivo kreativnosti šefa:</label>
+        <select id="kreativnost">
+            <option value="visoka">Visoka (Kreativni i poetični opisi)</option>
+            <option value="standardna">Standardna (Tradicionalni i jasni opisi)</option>
+        </select>
+    </div>
+    
+    <button id="generisiBtn" onclick="generisiOpis()">Generiši Opis Jela</button>
+    
+    <div id="loader" class="loader">Šef Vlada piše opis, trenutak molim...</div>
+    
+    <div id="resultBox" class="result-box">
+        <div class="result-title">Predlog opisa za vaš meni:</div>
+        <div id="izlazTekst"></div>
     </div>
 </div>
 
 <script>
-    const API_URL = "https://eozsw312b5tnw28.m.pipedream.net";
-
-    document.getElementById('generateBtn').addEventListener('click', async () => {
+    async function generisiOpis() {
         const jelo = document.getElementById('jelo').value.trim();
-        const restoran = document.getElementById('restoran').value;
+        const restoran = document.getElementById('restoran').value.trim();
         const sastojci = document.getElementById('sastojci').value.trim();
-        const kreativnost = document.querySelector('input[name="kreativnost"]:checked')?.value || "2";
-
+        const kreativnost = document.getElementById('kreativnost').value;
+        
+        const btn = document.getElementById('generisiBtn');
+        const loader = document.getElementById('loader');
+        const resultBox = document.getElementById('resultBox');
+        const izlazTekst = document.getElementById('izlazTekst');
+        
         if (!jelo) {
-            alert("Molimo unesite naziv jela");
+            alert('Molimo Vas unesite naziv jela.');
             return;
         }
-
-        const btn = document.getElementById('generateBtn');
-        const resultDiv = document.getElementById('resultArea');
-        const resultText = document.getElementById('resultText');
-        const statusMsg = document.getElementById('statusMsg');
-
+        
+        // Pametna linija: automatski koristi domen na kome se sajt nalazi (bilo Vercel ili lokalno)
+        const apiUrl = window.location.origin + '/api/generisi';
+        
         btn.disabled = true;
-        btn.textContent = "⏳ Generišem...";
-        resultDiv.style.display = "none";
-        statusMsg.innerHTML = "🔮 Generišem opis, molim sačekajte nekoliko sekundi...";
-
+        loader.style.display = 'block';
+        resultBox.style.display = 'none';
+        
         try {
-            const response = await fetch(API_URL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ jelo, restoran, sastojci, kreativnost })
+            const response = await fetch(`${apiUrl}?jelo=${encodeURIComponent(jelo)}&restoran=${encodeURIComponent(restoran)}&sastojci=${encodeURIComponent(sastojci)}&kreativnost=${kreativnost}`, {
+                method: 'GET'
             });
+            
             const data = await response.json();
-
-            if (data.opis) {
-                resultText.textContent = data.opis;
-                resultDiv.style.display = "block";
-                statusMsg.innerHTML = "✅ Opis uspešno generisan! BASIC plan: 50 besplatnih opisa mesečno.";
-                resultDiv.querySelector('.result').classList.remove('error');
-            } else if (data.error) {
-                resultText.textContent = "❌ Greška: " + data.error;
-                resultDiv.style.display = "block";
-                resultDiv.querySelector('.result').classList.add('error');
-                statusMsg.innerHTML = "⚠️ " + data.error;
+            
+            if (data.success) {
+                izlazTekst.innerText = data.opis;
+                resultBox.style.display = 'block';
+                resultBox.style.borderLeftColor = '#d9534f';
             } else {
-                throw new Error("Nepoznat odgovor API-ja");
+                izlazTekst.innerText = 'Greška: ' + (data.error || 'Nepoznata greška na serveru.');
+                resultBox.style.display = 'block';
+                resultBox.style.borderLeftColor = '#ff0000';
             }
         } catch (error) {
-            resultText.textContent = "❌ Došlo je do greške: " + error.message;
-            resultDiv.style.display = "block";
-            resultDiv.querySelector('.result').classList.add('error');
-            statusMsg.innerHTML = "⚠️ Greška pri povezivanju sa API-jem. Pokušajte ponovo.";
+            izlazTekst.innerText = 'Sistem ne može da pristupi API-ju. Proverite da li je projekat uspešno postavljen na Vercel. Detalji: ' + error.message;
+            resultBox.style.display = 'block';
+            resultBox.style.borderLeftColor = '#ff0000';
         } finally {
             btn.disabled = false;
-            btn.textContent = "✨ Generiši opis";
+            loader.style.display = 'none';
         }
-    });
-
-    document.getElementById('copyBtn')?.addEventListener('click', () => {
-        const text = document.getElementById('resultText').textContent;
-        navigator.clipboard.writeText(text);
-        alert("Opis kopiran u clipboard!");
-    });
+    }
 </script>
+
 </body>
 </html>
