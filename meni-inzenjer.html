@@ -115,7 +115,8 @@
             dugme.innerText = 'Šef Vlada kreira opis...';
 
             try {
-                const response = await fetch('/api/generisi', {
+                // Fiksirana tačna putanja do tvog Vercel API-ja
+                const response = await fetch('https://mojkucnisvet-github-io.vercel.app/api/generisi', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
