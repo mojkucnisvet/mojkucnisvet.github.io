@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🤖 Ugostiteljski AI Agent - Meni Inženjer</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Meni Inženjer — Profesionalno pisanje jelovnika</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=400;500;600;700&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -12,87 +12,109 @@
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col items-center justify-center p-4">
 
-    <div class="w-full max-w-2xl bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
-        <!-- Zaglavlje -->
-        <div class="bg-slate-900 p-6 text-white text-center">
-            <h1 class="text-2xl font-bold tracking-tight">🤖 Ugostiteljski AI Agent</h1>
-            <p class="text-slate-400 text-sm mt-1">Modul 1: Meni Inženjer — Profesionalno pisanje jelovnika</p>
+    <div class="w-full max-w-xl bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden p-6 md:p-8 space-y-6">
+        
+        <!-- Premijum Brendirani Logotip (Iz slike IMG_1477.jpeg) -->
+        <div class="flex flex-col items-center text-center space-y-3">
+            <div class="w-24 h-24 bg-[#FAF9F6] rounded-2xl p-2 shadow-sm border border-slate-100 flex items-center justify-center overflow-hidden">
+                <!-- Generisan čist SVG logo na osnovu tvog dizajna da ne moraš da podižeš sliku nigde -->
+                <svg viewBox="0 0 100 100" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Kuvarska kapa (Narandžasta) -->
+                    <path d="M30 42 C20 40, 20 20, 35 22 C35 10, 65 10, 65 22 C80 20, 80 40, 70 42" stroke="#E65F19" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M38 42 L38 52 M62 42 L62 52" stroke="#E65F19" stroke-width="3.5" stroke-linecap="round"/>
+                    <!-- Zupčanik / Tehnologija (Tamno siva) -->
+                    <path d="M32 52 C32 68, 68 68, 68 52" stroke="#2D3741" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+                    <path d="M32 52 L28 52 L30 57 L34 56 M68 52 L72 52 L70 57 L66 56" stroke="#2D3741" stroke-width="3.5" stroke-linejoin="round"/>
+                    <circle cx="42" cy="74" r="2.5" fill="#2D3741"/>
+                    <circle cx="50" cy="79" r="2.5" fill="#2D3741"/>
+                    <circle cx="58" cy="74" r="2.5" fill="#2D3741"/>
+                    <path d="M42 63 L42 71.5 M50 64 L50 76.5 M58 63 L58 71.5" stroke="#2D3741" stroke-width="2" stroke-linecap="round"/>
+                    <!-- Tekst 'mi' u sredini -->
+                    <text x="50" y="51" text-anchor="middle" fill="#2D3741" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" font-size="15" letter-spacing="-0.5">mi</text>
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Meni Inženjer</h1>
+                <p class="text-slate-400 text-xs font-medium uppercase tracking-wider mt-0.5">Ugostiteljski AI Asistent</p>
+            </div>
         </div>
 
+        <hr class="border-slate-100">
+
         <!-- Forma -->
-        <div class="p-6 space-y-4">
+        <div class="space-y-4">
             <!-- Naziv jela -->
             <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-1">Naziv jela *</label>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Naziv jela *</label>
                 <input type="text" id="jelo" placeholder="Npr. Sarma, Musaka, Biftek..." 
-                       class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900 transition text-sm">
+                       class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200/80 focus:outline-none focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition text-sm font-medium">
             </div>
 
             <!-- Vrsta restorana -->
             <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-1">Vrsta restorana *</label>
-                <select id="restoran" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900 transition text-sm bg-white">
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Vrsta restorana / Kuhinja *</label>
+                <select id="restoran" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200/80 focus:outline-none focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition text-sm font-medium bg-white">
                     <optgroup label="Domaće i tradicionalne">
-                        <option value="Nacionalni/Tradicionalni">🥘 Nacionalni/Tradicionalni — srpska, balkanska</option>
+                        <option value="Nacionalni/Tradicionalni">🥘 Nacionalni/Tradicionalni</option>
                     </optgroup>
                     <optgroup label="Mediteranske i evropske">
-                        <option value="Italijanski">🍝 Italijanski — paste, pizze, mediteranski ukusi</option>
-                        <option value="Francuski">🥐 Francuski — prefinjeno, klasično, sofisticirano</option>
-                        <option value="Grčki/Mediteranski">🥙 Grčki/Mediteranski — giros, suvlaki, moussaka</option>
-                        <option value="Picerija">🍕 Picerija — tanke kore, kamen, mozzarella</option>
+                        <option value="Italijanski">🍝 Italijanski restoran</option>
+                        <option value="Francuski">🥐 Francuski restoran</option>
+                        <option value="Grčki/Mediteranski">🥙 Grčki / Mediteranski</option>
+                        <option value="Picerija">🍕 Picerija</option>
                     </optgroup>
                     <optgroup label="Azijske">
-                        <option value="Japanski/Sushi">🍣 Japanski/Sushi — minimalistički, elegantno</option>
-                        <option value="Kineski">🥡 Kineski — wok, slatko-kiselo</option>
-                        <option value="Indijski">🍛 Indijski — začinjeno, kari, tandoor</option>
-                        <option value="Tajlandski/Vijetnamski">🍜 Tajlandski/Vijetnamski — limunova trava, kokos</option>
+                        <option value="Japanski/Sushi">🍣 Japanski / Sushi</option>
+                        <option value="Kineski">🥡 Kineski restoran</option>
+                        <option value="Indijski">🍛 Indijski restoran</option>
+                        <option value="Tajlandski/Vijetnamski">🍜 Tajlandski / Vijetnamski</option>
                     </optgroup>
                     <optgroup label="Ležerne i brze">
-                        <option value="Street & Fast Food">🍔 Street & Fast Food — brzo, sočno, urbano</option>
-                        <option value="Pekara">🥨 Pekara — burek, kroasani, hleb, peciva</option>
+                        <option value="Street & Fast Food">🍔 Street & Fast Food</option>
+                        <option value="Pekara">🥨 Pekara i peciva</option>
                     </optgroup>
                     <optgroup label="Specijalizovane">
-                        <option value="Kafić">☕ Kafić — kafa, čaj, sendviči, palačinke</option>
-                        <option value="Poslastičarnica">🍰 Poslastičarnica — kolači, sladoledi, torte</option>
-                        <option value="Bar/Koktel bar">🍹 Bar/Koktel bar — kokteli, vina, grickalice</option>
-                        <option value="Steakhouse">🥩 Steakhouse — meso, roštilj, bifteci</option>
-                        <option value="Hotelski restoran">🏨 Hotelski restoran — luksuzno, sofisticirano</option>
+                        <option value="Kafić">☕ Kafić / Bar za doručak</option>
+                        <option value="Poslastičarnica">🍰 Poslastičarnica</option>
+                        <option value="Bar/Koktel bar">🍹 Bar / Koktel bar</option>
+                        <option value="Steakhouse">🥩 Steakhouse / Roštilj</option>
+                        <option value="Hotelski restoran">🏨 Hotelski restoran</option>
                     </optgroup>
                     <optgroup label="Egzotične i alternativne">
-                        <option value="Meksički">🌮 Meksički — takosi, buritosi, guacamole</option>
-                        <option value="Moderni fjužn">🥗 Moderni fjužn — spoj kultura, kreativno</option>
-                        <option value="Vegan/Vegetarijanski">🌿 Vegan/Vegetarijanski — biljno, zdravo</option>
+                        <option value="Meksički">🌮 Meksički restoran</option>
+                        <option value="Moderni fjužn">🥗 Moderni fjužn</option>
+                        <option value="Vegan/Vegetarijanski">🌿 Vegan / Vegetarijanski</option>
                     </optgroup>
                 </select>
             </div>
 
             <!-- Ključni sastojci -->
             <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-1">Ključni sastojci (opciono)</label>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Ključni sastojci (opciono)</label>
                 <input type="text" id="sastojci" placeholder="Npr. juneći bife, puter, ruzmarin..." 
-                       class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900 transition text-sm">
+                       class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200/80 focus:outline-none focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition text-sm font-medium">
             </div>
 
             <!-- Nivo kreativnosti -->
             <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-1">Nivo kreativnosti AI-ja</label>
-                <select id="kreativnost" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900 transition text-sm bg-white">
-                    <option value="ekonomičan">Ekonomska</option>
-                    <option value="standardan">Standardna</option>
-                    <option value="visoka" selected>Visoka (Pro)</option>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Dužina i stil opisa</label>
+                <select id="kreativnost" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200/80 focus:outline-none focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition text-sm font-medium bg-white">
+                    <option value="ekonomičan">Kratak opis (Idealno za štampani meni)</option>
+                    <option value="standardan">Standardni opis (Umeren i balansiran)</option>
+                    <option value="visoka" selected>Gurmanski / Luksuzan opis (Fine Dining)</option>
                 </select>
             </div>
 
-            <!-- Dugme -->
-            <button onclick="generisiOpis()" id="glavno-dugme" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 rounded-xl transition flex items-center justify-center gap-2 mt-2 text-sm cursor-pointer">
+            <!-- Dugme (Dizajnirano u tonu logotipa) -->
+            <button onclick="generisiOpis()" id="glavno-dugme" class="w-full bg-[#E65F19] hover:bg-[#cf5112] text-white font-semibold py-3.5 rounded-xl transition shadow-md shadow-orange-600/10 hover:shadow-lg flex items-center justify-center gap-2 mt-2 text-sm cursor-pointer">
                 Generiši Opis Jela
             </button>
         </div>
 
-        <!-- Rezultat -->
-        <div id="rezultat-sekcija" class="hidden border-t border-slate-100 bg-slate-50 p-6">
-            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Predlog opisa:</h3>
-            <div id="rezultat-tekst" class="bg-white p-4 rounded-xl border border-slate-100 text-sm leading-relaxed text-slate-700 shadow-sm whitespace-pre-line"></div>
+        <!-- Rezultat (Modernizovan boks) -->
+        <div id="rezultat-sekcija" class="hidden border-t border-slate-100 pt-5 bg-slate-50/50 -mx-6 px-6 pb-2">
+            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">Predlog teksta za meni:</h3>
+            <div id="rezultat-tekst" class="bg-white p-4 rounded-xl border border-slate-100 text-sm leading-relaxed text-slate-700 shadow-sm whitespace-pre-line font-medium italic text-center"></div>
         </div>
     </div>
 
@@ -112,10 +134,10 @@
             }
 
             dugme.disabled = true;
+            dugme.style.backgroundColor = '#2D3741';
             dugme.innerText = 'Šef Vlada kreira opis...';
 
             try {
-                // Slanje direktno na tvoj API bez obzira na poddomen
                 const response = await fetch('/api/generisi', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -130,7 +152,7 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    rezultatTekst.innerText = data.opis;
+                    rezultatTekst.innerText = `„${data.opis}“`;
                     rezultatSekcija.classList.remove('hidden');
                 } else {
                     alert('Greška: ' + data.error);
@@ -139,6 +161,7 @@
                 alert('Sistemska greška: ' + error.message);
             } finally {
                 dugme.disabled = false;
+                dugme.style.backgroundColor = '#E65F19';
                 dugme.innerText = 'Generiši Opis Jela';
             }
         }
