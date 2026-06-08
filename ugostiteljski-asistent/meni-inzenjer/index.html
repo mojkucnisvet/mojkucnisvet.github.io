@@ -165,7 +165,7 @@
         generateBtn.textContent = '⏳ Generišem...';
 
         try {
-            const response = await fetch('/api/generisi', {
+            const response = await fetch('https://mojkucnisvet-github-io.vercel.app/api/generisi', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
