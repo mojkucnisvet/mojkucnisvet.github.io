@@ -12,7 +12,6 @@
         .nav-back { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #707E94; font-size: 0.9rem; font-weight: 600; transition: color 0.3s; }
         .nav-back:hover { color: #E65F19; }
         .brand-area { display: flex; align-items: center; gap: 0.8rem; }
-        .brand-logo { width: 35px; height: 35px; object-fit: contain; }
         .brand-text { font-size: 1.1rem; font-weight: 800; color: #FFFFFF; letter-spacing: -0.5px; }
         .brand-text span { color: #E65F19; }
 
@@ -64,59 +63,50 @@
 <body>
 
 <header>
-    <a href="../index.html" class="nav-back">← Nazad na Blog</a>
+    <a href="../index.html" class="nav-back">← Kontrolna Tabla</a>
     <div class="brand-area">
-        <svg class="brand-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <path d="M50 15C40 15 35 22 35 28C30 28 25 32 25 38C25 45 32 48 37 48C38 55 42 62 50 62C58 62 62 55 63 48C68 48 75 45 75 38C75 32 70 28 65 28C65 22 60 15 50 15Z" fill="none" stroke="#E65F19" stroke-width="4" stroke-linecap="round"/>
-            <path d="M35 62C32 65 35 72 40 70C42 75 48 78 50 78C52 78 58 75 60 70C65 72 68 65 65 62" fill="none" stroke="#222C38" stroke-width="4" stroke-linecap="round"/>
-            <circle cx="40" cy="82" r="3" fill="#222C38"/>
-            <circle cx="50" cy="86" r="3" fill="#222C38"/>
-            <circle cx="60" cy="82" r="3" fill="#222C38"/>
-        </svg>
         <div class="brand-text">Meni<span>Inženjer</span></div>
     </div>
 </header>
 
 <div class="container">
     <div class="intro-section">
-        <h1>Kreirajte Opis Jelovnika</h1>
-        <p>Unesite naziv jela ili ključne sastojke. AI će sam prepoznati jelo i generisati profesionalan opis.</p>
+        <h1>Meni <span>Inženjer</span></h1>
+        <p>Unesite naziv jela ili samo sastojke – AI će generisati profesionalni opis.</p>
     </div>
 
     <div class="card">
         <div class="form-group">
-            <label>NAZIV JELA</label>
-            <input type="text" id="nazivJela" placeholder="Npr. Sarma, Biftek...">
+            <label>🍽️ Naziv jela (opciono)</label>
+            <input type="text" id="nazivJela" placeholder="Npr. Musaka, Punjena paprika...">
         </div>
 
         <div class="form-group">
-            <label>KLJUČNI SASTOJCI (AI PREPOZNAJE JELO AKO JE NAZIV PRAZAN)</label>
-            <textarea id="sastojci" placeholder="Npr. juneći biftek, senf, biber..."></textarea>
+            <label>🥕 Sastojci (obavezno ako nema naziva)</label>
+            <textarea id="sastojci" placeholder="Npr. krompir, mleveno meso, luk, začini..."></textarea>
         </div>
 
         <div class="row">
             <div class="form-group">
-                <label>KATEGORIJA</label>
+                <label>🏪 Vrsta restorana</label>
                 <select id="restoran">
-                    <option value="Nacionalni">🥘 Nacionalni</option>
-                    <option value="Italijanski">🍝 Italijanski</option>
-                    <option value="Fast Food">🍔 Fast Food</option>
-                    <option value="Moderni">🥗 Moderni / Fjužn</option>
+                    <option value="Tradicionalni / Nacionalni restoran">🥘 Tradicionalni / Nacionalni</option>
+                    <option value="Italijanski restoran">🍝 Italijanski</option>
+                    <option value="Fast Food / Street Food">🍔 Fast Food</option>
+                    <option value="Moderni fjužn restoran">🥗 Moderni fjužn</option>
                     <option value="Poslastičarnica">🍰 Poslastičarnica</option>
                     <option value="Steakhouse">🥩 Steakhouse</option>
-                    <option value="Mediteranski">🥙 Mediteranski</option>
-                    <option value="Pekara">🥨 Pekara</option>
                     <option value="Picerija">🍕 Picerija</option>
-                    <option value="Vegan">🌿 Vegan / Vegetarijanski</option>
+                    <option value="Vegan / Vegetarijanski restoran">🌿 Vegan / Vegetarijanski</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label>FORMAT</label>
+                <label>🎨 Nivo kreativnosti</label>
                 <select id="kreativnost">
-                    <option value="Standardno" selected>Standardno</option>
-                    <option value="Kreativno">Kreativno</option>
-                    <option value="Premium">Premium</option>
+                    <option value="1">🥉 Klasičan – jednostavan i direktan</option>
+                    <option value="2" selected>🥈 Kreativan – živopisan i primamljiv</option>
+                    <option value="3">🥇 Signature – jedinstven i autorski</option>
                 </select>
             </div>
         </div>
@@ -125,7 +115,7 @@
 
         <div class="loading-spinner" id="loadingSpinner">
             <div class="spinner"></div>
-            <p style="margin-top: 0.5rem; color: #707E94;">Razmišljam...</p>
+            <p style="margin-top: 0.5rem; color: #707E94;">AI kreira opis...</p>
         </div>
 
         <div class="error-box" id="errorBox"></div>
@@ -142,7 +132,7 @@
 </div>
 
 <footer>
-    <p>© 2026 Meni Inženjer — Razvijeno u saradnji sa Moj Kućni Svet.</p>
+    <p>© 2026 Meni Inženjer | Ugostiteljski AI Agent</p>
 </footer>
 
 <script>
@@ -163,6 +153,7 @@
         resultBox.classList.remove('show');
         detectedJelo.textContent = '';
 
+        // Tvoja provera sa servera preslikana ovde:
         if (!nazivJela && !sastojci) {
             errorBox.textContent = '⚠️ Unesite naziv jela ili bar nekoliko sastojaka.';
             errorBox.classList.add('show');
@@ -171,10 +162,10 @@
 
         loadingSpinner.classList.add('show');
         generateBtn.disabled = true;
-        generateBtn.textContent = '⏳ Razmišljam...';
+        generateBtn.textContent = '⏳ Generišem...';
 
         try {
-            // POŠTO JE SVE NA VERCELU, KORISTIMO RELATIVNU RUTU DIREKTNO NA SERVER
+            // Slanje na relativnu rutu unutar istog Vercel projekta
             const response = await fetch('/api/generisi', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -186,32 +177,24 @@
                 })
             });
 
-            // Ako odgovor nije JSON ili server baci grešku, hvatamo tekstualni opis ovde
-            const textData = await response.text();
-            let data = {};
-            try {
-                data = JSON.parse(textData);
-            } catch(e) {
-                // Ako server šalje čist tekst umesto JSON-a
-                data = { opis: textData };
-            }
+            const data = await response.json();
 
             if (!response.ok || data.error) {
-                throw new Error(data.error || `Greška na serveru (Status ${response.status})`);
+                throw new Error(data.error || `Greška status: ${response.status}`);
             }
 
-            if (data.detected_jelo && !nazivJela) {
+            // Ako je AI sam prepoznao jelo preko sastojaka (tvoj kôd iz try/catch za JSON)
+            if (data.detected_jelo && data.detected_jelo !== 'Nepoznato jelo' && data.detected_jelo !== 'AI nije uspeo da prepozna tačno jelo') {
                 detectedJelo.textContent = '🧠 AI je prepoznao: ' + data.detected_jelo;
             }
 
-            // Prikazujemo dobijeni odgovor sa DeepSeek-a
-            resultText.textContent = data.opis || data.description || textData || 'Opis uspešno kreiran!';
+            // Ispis čistog opisa nazad na ekran telefona
+            resultText.textContent = data.opis || 'Opis je uspešno kreiran!';
             resultBox.classList.add('show');
             resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
         } catch (error) {
-            errorBox.textContent = '❌ Greška u komunikaciji sa serverom.';
-            console.error(error);
+            errorBox.textContent = '❌ Greška: ' + error.message;
             errorBox.classList.add('show');
         } finally {
             loadingSpinner.classList.remove('show');
