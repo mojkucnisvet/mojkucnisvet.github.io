@@ -12,6 +12,7 @@
         .nav-back { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #707E94; font-size: 0.9rem; font-weight: 600; transition: color 0.3s; }
         .nav-back:hover { color: #E65F19; }
         .brand-area { display: flex; align-items: center; gap: 0.8rem; }
+        .brand-logo { width: 40px; height: 40px; object-fit: contain; }
         .brand-text { font-size: 1.1rem; font-weight: 800; color: #FFFFFF; letter-spacing: -0.5px; }
         .brand-text span { color: #E65F19; }
 
@@ -65,6 +66,7 @@
 <header>
     <a href="../index.html" class="nav-back">← Kontrolna Tabla</a>
     <div class="brand-area">
+        <img src="../logo-vlada.png" alt="Meni Inženjer Logo" class="brand-logo" onerror="this.src='logo-vlada.png'; this.onerror=function(){this.style.display='none';};">
         <div class="brand-text">Meni<span>Inženjer</span></div>
     </div>
 </header>
@@ -174,10 +176,9 @@
 
         loadingSpinner.classList.add('show');
         generateBtn.disabled = true;
-        generateBtn.textContent = '⏳ Generišem...';
+        generateBtn.textContent = '⏳ Razmišljam...';
 
         try {
-            // POVEZIVANJE SA DEEPSEEK SERVEROM KROZ VAŠU PODRAZUMEVANU RUTU
             const response = await fetch('/api/generisi', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -185,29 +186,26 @@
                     jelo: nazivJela,
                     restoran: restoran,
                     sastojci: sastojci,
-                    kreativnost: parseInt(kreativnost)
+                    kreativnost: parseInt(kreativnost) || 2
                 })
             });
 
             const data = await response.json();
 
-            // Ako server vrati bilo kakvu grešku, hvatamo je ovde
             if (!response.ok || data.error) {
-                throw new Error(data.error || `Server je odgovorio sa statusom ${response.status}`);
+                throw new Error(data.error || `Greška na serveru: Status ${response.status}`);
             }
 
-            // Prikaz detektovanog jela ako ga DeepSeek prepozna iz sastojaka
             if (data.detected_jelo && !nazivJela) {
                 detectedJelo.textContent = '🧠 AI je prepoznao: ' + data.detected_jelo;
             }
 
-            // Ispis gotovog opisa sa DeepSeek-a (pokriva oba formata ključeva)
-            resultText.textContent = data.opis || data.description || 'Opis je uspešno kreiran!';
+            resultText.textContent = data.opis || data.description || 'Opis uspešno kreiran!';
             resultBox.classList.add('show');
             resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
         } catch (error) {
-            errorBox.textContent = '❌ Greška: ' + error.message;
+            errorBox.textContent = '❌ Greška u komunikaciji: ' + error.message;
             errorBox.classList.add('show');
         } finally {
             loadingSpinner.classList.remove('show');
