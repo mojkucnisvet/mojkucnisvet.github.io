@@ -3,174 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meni Inženjer - Ugostiteljski AI Agent</title>
+    <title>Meni Inženjer | AI Opisi Jela</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
-        body { background-color: #12181F; color: #E2E8F0; min-height: 100vh; display: flex; flex-direction: column; }
-        header { background-color: #1A2229; border-bottom: 1px solid #2D3741; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
-        .nav-back { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #94A3B8; font-size: 0.9rem; font-weight: 500; transition: color 0.3s; }
+        body { background-color: #0F1319; color: #E2E8F0; min-height: 100vh; display: flex; flex-direction: column; }
+        
+        header { background-color: #161C24; border-bottom: 1px solid #222C38; padding: 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+        .nav-back { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #707E94; font-size: 0.9rem; font-weight: 600; transition: color 0.3s; }
         .nav-back:hover { color: #E65F19; }
-        .logo-area { display: flex; align-items: center; gap: 1rem; }
-        .logo-svg { width: 45px; height: 45px; }
-        .logo-text h1 { font-size: 1.4rem; font-weight: 800; color: #FFFFFF; letter-spacing: -0.5px; }
-        .logo-text h1 span { color: #E65F19; }
-        .logo-text p { font-size: 0.8rem; color: #94A3B8; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
-        .container { max-width: 800px; width: 100%; margin: 2rem auto; padding: 0 1.5rem; flex: 1; }
-        .app-card { background-color: #1A2229; border: 1px solid #2D3741; border-radius: 20px; padding: 2rem; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
-        .intro { margin-bottom: 2rem; border-bottom: 1px solid #2D3741; padding-bottom: 1.5rem; }
-        .intro h2 { font-size: 1.8rem; color: #FFFFFF; margin-bottom: 0.5rem; }
-        .intro p { color: #94A3B8; font-size: 1rem; line-height: 1.5; }
-        .form-group { margin-bottom: 1.5rem; }
-        label { display: block; font-size: 0.9rem; font-weight: 600; color: #94A3B8; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
-        input[type="text"], textarea, select { width: 100%; background-color: #12181F; border: 1px solid #2D3741; border-radius: 12px; padding: 1rem; color: #FFFFFF; font-size: 1rem; transition: all 0.3s; }
-        input[type="text"]:focus, textarea:focus, select:focus { border-color: #E65F19; outline: none; box-shadow: 0 0 0 3px rgba(230,95,25,0.15); }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-        .btn-submit { width: 100%; background: linear-gradient(135deg, #E65F19, #CF5112); color: white; border: none; border-radius: 12px; padding: 1.2rem; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 10px 20px rgba(230,95,25,0.2); margin-top: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
-        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 15px 25px rgba(230,95,25,0.4); }
-        .btn-submit:disabled { background: #2D3741; color: #64748B; cursor: not-allowed; transform: none; box-shadow: none; }
-        .spinner { width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite; display: none; }
+        .brand-area { display: flex; align-items: center; gap: 0.8rem; }
+        .brand-text { font-size: 1.1rem; font-weight: 800; color: #FFFFFF; letter-spacing: -0.5px; }
+        .brand-text span { color: #E65F19; }
+
+        .container { max-width: 900px; width: 100%; margin: 2rem auto; padding: 0 1.5rem; flex: 1; }
+        
+        .intro-section { text-align: center; margin-bottom: 2.5rem; }
+        .intro-section h1 { font-size: 2.2rem; font-weight: 800; color: #FFFFFF; margin-bottom: 0.5rem; }
+        .intro-section h1 span { color: #E65F19; }
+        .intro-section p { color: #707E94; font-size: 1rem; }
+
+        .card { background-color: #161C24; border: 1px solid #222C38; border-radius: 20px; padding: 2rem; margin-bottom: 1.5rem; }
+
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 700; color: #94A3B8; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.8rem 1rem; background-color: #0F1319; border: 1px solid #222C38; border-radius: 10px; color: #E2E8F0; font-size: 0.95rem; transition: border-color 0.3s; outline: none; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #E65F19; }
+        .form-group textarea { resize: vertical; min-height: 60px; }
+        .form-group select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23707E94' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; }
+
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        @media (max-width: 600px) { .row { grid-template-columns: 1fr; } }
+
+        .btn { width: 100%; padding: 0.9rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s; border: none; text-align: center; }
+        .btn-primary { background: linear-gradient(135deg, #E65F19, #CF5112); color: #FFFFFF; }
+        .btn-primary:hover { box-shadow: 0 6px 20px rgba(230,95,25,0.3); transform: translateY(-1px); }
+        .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        .result-box { margin-top: 1.5rem; padding: 1.5rem; background-color: #0F1319; border: 1px solid #222C38; border-radius: 14px; min-height: 60px; display: none; }
+        .result-box.show { display: block; }
+        .result-box .result-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.8rem; padding-bottom: 0.8rem; border-bottom: 1px solid #222C38; }
+        .result-box .result-badge { background-color: rgba(46, 204, 113, 0.15); color: #2ecc71; font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px; }
+        .result-box .result-title { font-weight: 700; color: #FFFFFF; font-size: 1rem; }
+        .result-box .result-text { color: #CBD5E1; line-height: 1.6; font-size: 0.95rem; white-space: pre-wrap; }
+        .result-box .result-detected { color: #E65F19; font-weight: 700; margin-bottom: 0.5rem; font-size: 0.9rem; }
+
+        .error-box { margin-top: 1rem; padding: 1rem; background-color: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 10px; color: #ef4444; font-size: 0.9rem; display: none; }
+        .error-box.show { display: block; }
+
+        .loading-spinner { display: none; text-align: center; padding: 1rem; }
+        .loading-spinner.show { display: block; }
+        .spinner { width: 30px; height: 30px; border: 3px solid #222C38; border-top: 3px solid #E65F19; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .result-box { margin-top: 2rem; background-color: #12181F; border-left: 4px solid #E65F19; border-radius: 0 12px 12px 0; padding: 1.5rem; display: none; }
-        .result-box h3 { font-size: 0.9rem; color: #E65F19; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
-        .result-text { font-size: 1.1rem; color: #F1F5F9; line-height: 1.6; white-space: pre-wrap; }
-        footer { text-align: center; padding: 2rem; color: #64748B; font-size: 0.9rem; border-top: 1px solid #1A2229; margin-top: auto; }
-        @media (max-width: 600px) {
-            header { padding: 1rem; flex-direction: column; gap: 1rem; text-align: center; }
-            .grid-2 { grid-template-columns: 1fr; gap: 0; }
-            .container { margin: 1rem auto; }
-        }
+
+        .hint-text { color: #4A5568; font-size: 0.8rem; margin-top: 0.3rem; }
+
+        footer { text-align: center; padding: 2rem; color: #4A5568; font-size: 0.85rem; border-top: 1px solid #161C24; margin-top: auto; }
     </style>
 </head>
 <body>
 
 <header>
-    <a href="../index.html" class="nav-back">
-        <span>← Nazad na Tablu</span>
-    </a>
-    <div class="logo-area">
-        <svg class="logo-svg" viewBox="0 0 120 120">
-            <path d="M60,20 C45,20 35,30 35,45 C35,55 42,62 50,65" fill="none" stroke="#E65F19" stroke-width="4"/>
-            <path d="M60,20 C75,20 85,30 85,45 C85,55 78,62 70,65" fill="none" stroke="#E65F19" stroke-width="4"/>
-            <path d="M50,65 C40,68 35,75 35,85" fill="none" stroke="#E65F19" stroke-width="4"/>
-            <path d="M70,65 C80,68 85,75 85,85" fill="none" stroke="#E65F19" stroke-width="4"/>
-            <path d="M35,85 L85,85" fill="none" stroke="#E65F19" stroke-width="4"/>
-            <rect x="50" y="50" width="20" height="20" fill="#FFFFFF"/>
-            <text x="60" y="65" font-family="Arial" font-size="14" font-weight="bold" fill="#1A2229" text-anchor="middle">mi</text>
-            <circle cx="60" cy="95" r="3" fill="#E65F19"/>
-            <path d="M60,98 L60,110" fill="none" stroke="#E65F19" stroke-width="2"/>
-            <circle cx="50" cy="95" r="3" fill="#E65F19"/>
-            <path d="M50,98 L50,110" fill="none" stroke="#E65F19" stroke-width="2"/>
-            <circle cx="70" cy="95" r="3" fill="#E65F19"/>
-            <path d="M70,98 L70,110" fill="none" stroke="#E65F19" stroke-width="2"/>
-        </svg>
-        <div class="logo-text">
-            <h1>Meni<span>Inženjer</span></h1>
-            <p>Ugostiteljski AI Agent</p>
-        </div>
+    <a href="../index.html" class="nav-back">← Kontrolna Tabla</a>
+    <div class="brand-area">
+        <div class="brand-text">Meni<span>Inženjer</span></div>
     </div>
 </header>
 
 <div class="container">
-    <div class="app-card">
-        <div class="intro">
-            <h2>Kreirajte Opis Jelovnika</h2>
-            <p>Unesite naziv jela ili samo ključne sastojke sa stanja. Naš kulinarski AI algoritam će sam prepoznati jelo i generisati privlačan i komercijalan opis spreman za štampu.</p>
+    <div class="intro-section">
+        <h1>Meni <span>Inženjer</span></h1>
+        <p>Unesite naziv jela ili samo sastojke – AI će prepoznati jelo i generisati profesionalni opis za 19 vrsta restorana.</p>
+    </div>
+
+    <div class="card">
+        <div class="form-group">
+            <label>🍽️ Naziv jela (opciono)</label>
+            <input type="text" id="nazivJela" placeholder="Npr. Musaka, Punjena paprika... Ostavite prazno za magično prepoznavanje">
+            <div class="hint-text">Ako ne znate naziv, unesite samo sastojke i AI će pogoditi jelo.</div>
         </div>
 
         <div class="form-group">
-            <label for="jelo">Naziv Jela (Opciono)</label>
-            <input type="text" id="jelo" placeholder="Npr. Sarma, Karađorđeva šnicla, Cezar salata...">
+            <label>🥕 Sastojci (obavezno ako nema naziva)</label>
+            <textarea id="sastojci" placeholder="Npr. krompir, mleveno meso, luk, začini..."></textarea>
+            <div class="hint-text">Navedite ključne sastojke odvojene zarezom.</div>
         </div>
 
-        <div class="form-group">
-            <label for="sastojci">Ključni sastojci / Namirnice</label>
-            <textarea id="sastojci" rows="3" placeholder="Npr. juneći biftek, lisnato testo, vrganji... (AI će prepoznati jelo ako ostavite naziv prazan)"></textarea>
-        </div>
-
-        <div class="grid-2">
+        <div class="row">
             <div class="form-group">
-                <label for="restoran">Kategorija / Vrsta Kuhinje</label>
+                <label>🏪 Vrsta restorana</label>
                 <select id="restoran">
-                    <option value="Nacionalni/Tradicionalni">Nacionalni / Tradicionalni</option>
-                    <option value="Italijanski">Italijanski restoran</option>
-                    <option value="Picerija">Picerija</option>
-                    <option value="Street & Fast Food">Street & Fast Food</option>
+                    <option value="tradicionalni restoran">🥘 Tradicionalni / Nacionalni</option>
+                    <option value="italijanski restoran">🍝 Italijanski</option>
+                    <option value="japanski restoran">🍣 Japanski / Sushi</option>
+                    <option value="fast food">🍔 Street & Fast Food</option>
+                    <option value="moderni fjužn">🥗 Moderni fjužn</option>
+                    <option value="kafić">☕ Kafić</option>
+                    <option value="poslastičarnica">🍰 Poslastičarnica</option>
+                    <option value="bar">🍹 Bar / Koktel bar</option>
+                    <option value="hotelski restoran">🏨 Hotelski restoran</option>
+                    <option value="steakhouse">🥩 Steakhouse</option>
+                    <option value="kineski restoran">🥡 Kineski</option>
+                    <option value="indijski restoran">🍛 Indijski</option>
+                    <option value="francuski restoran">🥐 Francuski</option>
+                    <option value="grčki restoran">🥙 Grčki / Mediteranski</option>
+                    <option value="pekara">🥨 Pekara</option>
+                    <option value="meksički restoran">🌮 Meksički</option>
+                    <option value="picerija">🍕 Picerija</option>
+                    <option value="vegan restoran">🌿 Vegan / Vegetarijanski</option>
+                    <option value="tajlandski restoran">🍜 Tajlandski / Vijetnamski</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="kreativnost">Format / Dužina opisa</label>
+                <label>🎨 Nivo kreativnosti</label>
                 <select id="kreativnost">
-                    <option value="ekonomičan">Kratko (15-25 reči)</option>
-                    <option value="standardan" selected>Standardno (30-40 reči)</option>
-                    <option value="visoka">Gurmanski (Do 50 reči)</option>
+                    <option value="1">🥉 Klasičan – jednostavan i direktan</option>
+                    <option value="2" selected>🥈 Kreativan – živopisan i primamljiv</option>
+                    <option value="3">🥇 Signature – jedinstven i autorski</option>
                 </select>
             </div>
         </div>
 
-        <button class="btn-submit" id="submitBtn" onclick="generisiOpis()">
-            <div class="spinner" id="btnSpinner"></div>
-            <span id="btnText">Generiši Opis Jela</span>
-        </button>
+        <button class="btn btn-primary" id="generateBtn" onclick="generateOpis()">⚡ Generiši opis jela</button>
+
+        <div class="loading-spinner" id="loadingSpinner">
+            <div class="spinner"></div>
+            <p style="margin-top: 0.5rem; color: #707E94;">AI smišlja savršen opis...</p>
+        </div>
+
+        <div class="error-box" id="errorBox"></div>
 
         <div class="result-box" id="resultBox">
-            <h3>Predlog za vaš meni:</h3>
+            <div class="result-header">
+                <span class="result-badge">✅ Generisano</span>
+                <span class="result-title">Opis jela</span>
+            </div>
+            <div class="result-detected" id="detectedJelo"></div>
             <div class="result-text" id="resultText"></div>
         </div>
     </div>
 </div>
 
 <footer>
-    <p>© 2026 Moj Kućni Svet. Razvijeno u saradnji sa Meni Inženjer.</p>
+    <p>© 2026 Meni Inženjer | Deo Ugostiteljskog AI Agent ekosistema</p>
 </footer>
 
 <script>
-    async function generisiOpis() {
-        const jelo = document.getElementById('jelo').value.trim();
+    async function generateOpis() {
+        const nazivJela = document.getElementById('nazivJela').value.trim();
         const sastojci = document.getElementById('sastojci').value.trim();
         const restoran = document.getElementById('restoran').value;
         const kreativnost = document.getElementById('kreativnost').value;
 
-        if (!jelo && !sastojci) {
-            alert('Molimo vas unesite naziv jela ili upišite ključne sastojke.');
+        const errorBox = document.getElementById('errorBox');
+        const resultBox = document.getElementById('resultBox');
+        const resultText = document.getElementById('resultText');
+        const detectedJelo = document.getElementById('detectedJelo');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const generateBtn = document.getElementById('generateBtn');
+
+        // Reset
+        errorBox.classList.remove('show');
+        resultBox.classList.remove('show');
+        detectedJelo.textContent = '';
+
+        // Validacija
+        if (!nazivJela && !sastojci) {
+            errorBox.textContent = '⚠️ Unesite naziv jela ili bar nekoliko sastojaka.';
+            errorBox.classList.add('show');
             return;
         }
 
-        const submitBtn = document.getElementById('submitBtn');
-        const btnSpinner = document.getElementById('btnSpinner');
-        const btnText = document.getElementById('btnText');
-        const resultBox = document.getElementById('resultBox');
-        const resultText = document.getElementById('resultText');
-
-        submitBtn.disabled = true;
-        btnSpinner.style.display = 'block';
-        btnText.innerText = 'Razmišljam...';
-        resultBox.style.display = 'none';
+        // Loading
+        loadingSpinner.classList.add('show');
+        generateBtn.disabled = true;
+        generateBtn.textContent = '⏳ Generišem...';
 
         try {
-            const response = await fetch('/api/generisi', {
+            const response = await fetch('/api/meni-inzenjer', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ jelo, sastojci, restoran, kreativnost })
+                body: JSON.stringify({
+                    jelo: nazivJela,
+                    restoran: restoran,
+                    sastojci: sastojci,
+                    kreativnost: parseInt(kreativnost)
+                })
             });
 
             const data = await response.json();
 
-            if (data.success) {
-                resultText.innerText = data.opis;
-                resultBox.style.display = 'block';
-                resultBox.scrollIntoView({ behavior: 'smooth' });
-            } else {
-                alert('Greška: ' + (data.error || 'Nije moguće generisati opis.'));
+            if (data.error) {
+                throw new Error(data.error);
             }
+
+            // Prikaži detektovano jelo ako je AI prepoznao
+            if (data.detected_jelo && !nazivJela) {
+                detectedJelo.textContent = '🧠 AI je prepoznao: ' + data.detected_jelo;
+            }
+
+            resultText.textContent = data.opis || data.description || 'Opis nije generisan.';
+            resultBox.classList.add('show');
+            resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
         } catch (error) {
-            alert('Došlo je do greške u komunikaciji sa serverom.');
+            errorBox.textContent = '❌ Greška: ' + error.message;
+            errorBox.classList.add('show');
         } finally {
-            submitBtn.disabled = false;
-            btnSpinner.style.display = 'none';
-            btnText.innerText = 'Generiši Opis Jela';
+            loadingSpinner.classList.remove('show');
+            generateBtn.disabled = false;
+            generateBtn.textContent = '⚡ Generiši opis jela';
         }
     }
+
+    // Dozvoli Enter za slanje
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && e.ctrlKey) {
+            generateOpis();
+        }
+    });
 </script>
 
 </body>
