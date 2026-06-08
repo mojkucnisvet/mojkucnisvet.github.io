@@ -12,7 +12,6 @@
         .nav-back { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #707E94; font-size: 0.9rem; font-weight: 600; transition: color 0.3s; }
         .nav-back:hover { color: #E65F19; }
         .brand-area { display: flex; align-items: center; gap: 0.8rem; }
-        .brand-logo { width: 35px; height: 35px; object-fit: contain; border-radius: 6px; }
         .brand-text { font-size: 1.1rem; font-weight: 800; color: #FFFFFF; letter-spacing: -0.5px; }
         .brand-text span { color: #E65F19; }
 
@@ -42,12 +41,9 @@
 
         .result-box { margin-top: 1.5rem; padding: 1.5rem; background-color: #0F1319; border: 1px solid #222C38; border-radius: 14px; min-height: 60px; display: none; }
         .result-box.show { display: block; }
-        .result-box .result-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.8rem; padding-bottom: 0.8rem; border-bottom: 1px solid #222C38; }
-        .result-box .result-meta { display: flex; align-items: center; gap: 0.5rem; }
+        .result-box .result-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.8rem; padding-bottom: 0.8rem; border-bottom: 1px solid #222C38; }
         .result-box .result-badge { background-color: rgba(46, 204, 113, 0.15); color: #2ecc71; font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px; }
         .result-box .result-title { font-weight: 700; color: #FFFFFF; font-size: 1rem; }
-        .copy-btn { background: none; border: none; color: #707E94; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: color 0.2s; }
-        .copy-btn:hover { color: #FFFFFF; }
         .result-box .result-text { color: #CBD5E1; line-height: 1.6; font-size: 0.95rem; white-space: pre-wrap; }
         .result-box .result-detected { color: #E65F19; font-weight: 700; margin-bottom: 0.5rem; font-size: 0.9rem; }
 
@@ -69,7 +65,6 @@
 <header>
     <a href="../index.html" class="nav-back">← Kontrolna Tabla</a>
     <div class="brand-area">
-        <img src="../logo-vlada.png" alt="MI" class="brand-logo" id="brandLogo" onerror="this.src='logo-vlada.png'; this.onerror=function(){this.style.display='none';};">
         <div class="brand-text">Meni<span>Inženjer</span></div>
     </div>
 </header>
@@ -140,11 +135,8 @@
 
         <div class="result-box" id="resultBox">
             <div class="result-header">
-                <div class="result-meta">
-                    <span class="result-badge">✅ Generisano</span>
-                    <span class="result-title">Opis jela</span>
-                </div>
-                <button class="copy-btn" id="copyBtn">📋 Kopiraj tekst</button>
+                <span class="result-badge">✅ Generisano</span>
+                <span class="result-title">Opis jela</span>
             </div>
             <div class="result-detected" id="detectedJelo"></div>
             <div class="result-text" id="resultText"></div>
@@ -185,7 +177,7 @@
         generateBtn.textContent = '⏳ Generišem...';
 
         try {
-            // Pouzdani fetch poziv koji se mapira direktno na Vercel /api/generisi rutu
+            // POVEZIVANJE SA DEEPSEEK SERVEROM KROZ VAŠU PODRAZUMEVANU RUTU
             const response = await fetch('/api/generisi', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -199,21 +191,23 @@
 
             const data = await response.json();
 
+            // Ako server vrati bilo kakvu grešku, hvatamo je ovde
             if (!response.ok || data.error) {
-                throw new Error(data.error || `Server je vratio status ${response.status}`);
+                throw new Error(data.error || `Server je odgovorio sa statusom ${response.status}`);
             }
 
+            // Prikaz detektovanog jela ako ga DeepSeek prepozna iz sastojaka
             if (data.detected_jelo && !nazivJela) {
                 detectedJelo.textContent = '🧠 AI je prepoznao: ' + data.detected_jelo;
             }
 
-            // Podržava oba formata vraćanja podataka sa servera radi maksimalne kompatibilnosti
-            resultText.textContent = data.opis || data.description || 'Opis uspešno kreiran, ali tekst nedostaje.';
+            // Ispis gotovog opisa sa DeepSeek-a (pokriva oba formata ključeva)
+            resultText.textContent = data.opis || data.description || 'Opis je uspešno kreiran!';
             resultBox.classList.add('show');
             resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
         } catch (error) {
-            errorBox.textContent = '❌ Greška u komunikaciji: ' + error.message;
+            errorBox.textContent = '❌ Greška: ' + error.message;
             errorBox.classList.add('show');
         } finally {
             loadingSpinner.classList.remove('show');
@@ -221,17 +215,6 @@
             generateBtn.textContent = '⚡ Generiši opis jela';
         }
     }
-
-    // Dodatni bonus: Brzo kopiranje na dugme
-    document.getElementById('copyBtn').addEventListener('click', function() {
-        const text = document.getElementById('resultText').textContent;
-        if(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                this.innerText = "✅ Kopirano!";
-                setTimeout(() => { this.innerText = "📋 Kopiraj tekst"; }, 2000);
-            });
-        }
-    });
 
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' && e.ctrlKey) {
