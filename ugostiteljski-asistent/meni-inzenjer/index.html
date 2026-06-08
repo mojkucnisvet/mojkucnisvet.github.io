@@ -162,25 +162,23 @@
         const loadingSpinner = document.getElementById('loadingSpinner');
         const generateBtn = document.getElementById('generateBtn');
 
-        // Reset
         errorBox.classList.remove('show');
         resultBox.classList.remove('show');
         detectedJelo.textContent = '';
 
-        // Validacija
         if (!nazivJela && !sastojci) {
             errorBox.textContent = '⚠️ Unesite naziv jela ili bar nekoliko sastojaka.';
             errorBox.classList.add('show');
             return;
         }
 
-        // Loading
         loadingSpinner.classList.add('show');
         generateBtn.disabled = true;
         generateBtn.textContent = '⏳ Generišem...';
 
         try {
-            const response = await fetch('/api/meni-inzenjer', {
+            // ISPRAVLJENA PUTANJA: /api/generisi
+            const response = await fetch('/api/generisi', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -197,7 +195,6 @@
                 throw new Error(data.error);
             }
 
-            // Prikaži detektovano jelo ako je AI prepoznao
             if (data.detected_jelo && !nazivJela) {
                 detectedJelo.textContent = '🧠 AI je prepoznao: ' + data.detected_jelo;
             }
@@ -216,7 +213,6 @@
         }
     }
 
-    // Dozvoli Enter za slanje
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' && e.ctrlKey) {
             generateOpis();
