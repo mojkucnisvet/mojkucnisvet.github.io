@@ -12,11 +12,27 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Unesite naziv jela ili sastojke.' });
     }
 
+    const nivo = parseInt(kreativnost) || 2;
+
+    let pravila = '';
+    let temperatura = 0.7;
+
+    if (nivo === 1) {
+      pravila = 'Opis mora biti KRATAK i JEDNOSTAVAN. Maksimalno 10 reči (1 rečenica). Samo suština.';
+      temperatura = 0.3;
+    } else if (nivo === 2) {
+      pravila = 'Opis treba da bude PRIMAMLJIV. Maksimalno 20 reči (1-2 rečenice). Koristi senzualne reči.';
+      temperatura = 0.7;
+    } else if (nivo === 3) {
+      pravila = 'Opis mora biti EKSPRESIVAN i ATMOSFERIČAN. Maksimalno 25 reči (2 rečenice). Koristi senzualne reči, atmosferu i neočekivan detalj.';
+      temperatura = 0.9;
+    }
+
     let prompt;
     if (!jelo && sastojci) {
-      prompt = `Na osnovu ovih sastojaka: "${sastojci}", odredi koje je jelo u pitanju i vrati JSON: {"detected_jelo":"IME JELA","opis":"OPIS JELA"}. Vrsta restorana: ${restoran || 'tradicionalni restoran'}.`;
+      prompt = `Na osnovu ovih sastojaka: "${sastojci}", odredi koje je jelo u pitanju i vrati JSON: {"detected_jelo":"IME JELA","opis":"OPIS JELA"}. ${pravila} Vrsta restorana: ${restoran || 'tradicionalni restoran'}.`;
     } else {
-      prompt = `Napiši kratak, primamljiv opis za jelo "${jelo || 'nepoznato jelo'}". Sastojci: ${sastojci || 'standardni'}. Prilagodi ton vrsti restorana: ${restoran || 'tradicionalni restoran'}. Vrati SAMO opis (2-3 rečenice, maks 40 reči).`;
+      prompt = `Napiši opis za jelo "${jelo || 'nepoznato jelo'}". Sastojci: ${sastojci || 'standardni'}. ${pravila} Vrsta restorana: ${restoran || 'tradicionalni restoran'}. Vrati SAMO opis, bez uvoda.`;
     }
 
     const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
@@ -28,7 +44,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         model: 'deepseek-chat',
         messages: [{ role: 'user', content: prompt }],
-        temperature: 0.7,
+        temperature: temperatura,
         max_tokens: 200
       })
     });
