@@ -7,7 +7,7 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Samo POST zahtevi.' });
 
   try {
-    const { namirnice, radnici, troskovi, nepredvidjeni, pdv, ambalaza, dostava, porcije } = req.body || {};
+    const { namirnice, radnici, troskovi, nepredvidjeni, pdv, ambalaza, dostavaProcenat, dostavaFiksno, porcije, valuta } = req.body || {};
 
     if (!porcije || porcije <= 0) {
       return res.status(400).json({ error: 'Unesite broj porcija mesečno.' });
@@ -58,10 +58,12 @@ export default async function handler(req, res) {
     const marza250 = cenaKostanja * 3.5;
 
     // Dostava
-    const dostavaProcenat = parseFloat(dostava) || 0;
-    const saDostavom150 = marza150 * (1 + dostavaProcenat / 100);
-    const saDostavom200 = marza200 * (1 + dostavaProcenat / 100);
-    const saDostavom250 = marza250 * (1 + dostavaProcenat / 100);
+    const dostavaProc = parseFloat(dostavaProcenat) || 0;
+    const dostavaFiks = parseFloat(dostavaFiksno) || 0;
+
+    const saDostavom150 = marza150 * (1 + dostavaProc / 100) + dostavaFiks;
+    const saDostavom200 = marza200 * (1 + dostavaProc / 100) + dostavaFiks;
+    const saDostavom250 = marza250 * (1 + dostavaProc / 100) + dostavaFiks;
 
     // PDV
     const pdvProcenat = parseFloat(pdv) || 0;
@@ -79,16 +81,21 @@ export default async function handler(req, res) {
       ? Math.ceil(ukupniMesecniTrosak / zarada200)
       : 0;
 
+    // Konverzija u RSD ako treba
+    const kurs = valuta === 'RSD' ? 117 : 1;
+    const simbol = valuta === 'RSD' ? ' RSD' : ' €';
+
     return res.status(200).json({
-      cenaKostanja: cenaKostanja.toFixed(2),
-      cena150: cena150.toFixed(2),
-      cena200: cena200.toFixed(2),
-      cena250: cena250.toFixed(2),
-      zarada150: zarada150.toFixed(2),
-      zarada200: zarada200.toFixed(2),
-      zarada250: zarada250.toFixed(2),
+      cenaKostanja: (cenaKostanja * kurs).toFixed(2),
+      cena150: (cena150 * kurs).toFixed(2),
+      cena200: (cena200 * kurs).toFixed(2),
+      cena250: (cena250 * kurs).toFixed(2),
+      zarada150: (zarada150 * kurs).toFixed(2),
+      zarada200: (zarada200 * kurs).toFixed(2),
+      zarada250: (zarada250 * kurs).toFixed(2),
       tackaPokrica,
-      ukupniMesecniTrosak: ukupniMesecniTrosak.toFixed(2)
+      ukupniMesecniTrosak: (ukupniMesecniTrosak * kurs).toFixed(2),
+      simbol
     });
 
   } catch (error) {
