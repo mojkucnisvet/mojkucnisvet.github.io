@@ -4,7 +4,6 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Samo POST zahtevi su dozvoljeni.' });
 
   try {
     const { jelo, restoran, sastojci, kreativnost } = req.body || {};
@@ -37,7 +36,7 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     if (!data.choices || data.choices.length === 0) {
-      return res.status(500).json({ error: 'AI nije vratio odgovor. Pokušajte ponovo.' });
+      return res.status(500).json({ error: 'AI nije vratio odgovor.' });
     }
 
     const raw = data.choices[0].message.content.trim();
