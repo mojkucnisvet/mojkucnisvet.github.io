@@ -150,25 +150,21 @@
         const loadingSpinner = document.getElementById('loadingSpinner');
         const generateBtn = document.getElementById('generateBtn');
 
-        // Reset
         errorBox.classList.remove('show');
         resultBox.classList.remove('show');
         detectedJelo.textContent = '';
 
-        // Validacija
         if (!nazivJela && !sastojci) {
             errorBox.textContent = '⚠️ Unesite naziv jela ili bar nekoliko sastojaka.';
             errorBox.classList.add('show');
             return;
         }
 
-        // Loading
         loadingSpinner.classList.add('show');
         generateBtn.disabled = true;
         generateBtn.textContent = '⏳ Generišem...';
 
         try {
-            // POZIV KA API-JU - RELATIVNA PUTANJA
             const response = await fetch('/api/generisi', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -180,7 +176,6 @@
                 })
             });
 
-            // Proveri da li je odgovor ispravan
             if (!response.ok) {
                 const errData = await response.json().catch(() => ({}));
                 throw new Error(errData.error || 'Server je vratio grešku: ' + response.status);
@@ -188,12 +183,10 @@
 
             const data = await response.json();
 
-            // Prikaz detektovanog jela
             if (data.detected_jelo) {
                 detectedJelo.textContent = '🧠 AI je prepoznao: ' + data.detected_jelo;
             }
 
-            // Prikaz opisa
             resultText.textContent = data.opis || '(Nema opisa)';
             resultBox.classList.add('show');
             resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -208,7 +201,6 @@
         }
     }
 
-    // CTRL+Enter za slanje
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' && e.ctrlKey) {
             generateOpis();
