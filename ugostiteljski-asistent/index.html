@@ -83,7 +83,7 @@
     <section class="faza-section">
         <div class="faza-header">
             <div class="faza-title">Faza 1: Osnovni moduli</div>
-            <div class="faza-badge">1 aktivan + 7 u pripremi</div>
+            <div class="faza-badge">2 aktivna + 6 u pripremi</div>
         </div>
         <div class="module-grid">
             
@@ -100,9 +100,9 @@
                 <div class="mod-action-btn btn-active">Pokreni modul</div>
             </a>
 
-            <!-- 2. Kalkulator cena -->
-            <div class="mod-card mod-card-disabled">
-                <span class="status-badge badge-prep">U pripremi</span>
+            <!-- 2. Kalkulator cena (AKTIVAN) -->
+            <a href="kalkulator-cena/index.html" class="mod-card mod-card-active">
+                <span class="status-badge badge-active">● Aktivan</span>
                 <div class="icon-box">
                     <svg class="mod-icon" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                 </div>
@@ -110,8 +110,8 @@
                     <h3>Kalkulator cena</h3>
                     <p>Precizan proračun normativa, nabavnih cena, kalo-gubitaka i formiranje idealne marže.</p>
                 </div>
-                <div class="mod-action-btn btn-disabled">Zaključano</div>
-            </div>
+                <div class="mod-action-btn btn-active">Pokreni modul</div>
+            </a>
 
             <!-- 3. Sparivač hrane i pića -->
             <div class="mod-card mod-card-disabled">
@@ -376,6 +376,45 @@
 <footer>
     <p>© 2026 Moj Kućni Svet & Ugostiteljski AI Agent. Svih 20 modula. Jedan ekosistem. Cela uprava.</p>
 </footer>
+
+<script>
+    // Sistem za automatsku aktivaciju modula
+    // Kad napraviš novi modul, samo dodaš njegov ID u ovaj niz
+    const aktivniModuli = [
+        'meni-inzenjer',
+        'kalkulator-cena'
+    ];
+
+    // Automatski aktiviraj sve module iz niza
+    aktivniModuli.forEach(modulId => {
+        const kartica = document.getElementById(modulId);
+        if (kartica) {
+            // Promeni klasu
+            kartica.classList.remove('mod-card-disabled');
+            kartica.classList.add('mod-card-active');
+            
+            // Promeni badge
+            const badge = kartica.querySelector('.status-badge');
+            if (badge) {
+                badge.classList.remove('badge-prep');
+                badge.classList.add('badge-active');
+                badge.textContent = '● Aktivan';
+            }
+            
+            // Promeni dugme
+            const btn = kartica.querySelector('.mod-action-btn');
+            if (btn) {
+                btn.classList.remove('btn-disabled');
+                btn.classList.add('btn-active');
+                btn.textContent = 'Pokreni modul';
+            }
+            
+            // Dodaj link
+            kartica.setAttribute('href', modulId + '/index.html');
+            kartica.style.cursor = 'pointer';
+        }
+    });
+</script>
 
 </body>
 </html>
