@@ -15,6 +15,7 @@ export default async function handler(req, res) {
 
     const nivo = parseInt(kreativnost) || 2;
 
+    // Definiši pravila za svaki nivo
     let pravilaDuzine = '';
     let temperatura = 0.7;
 
@@ -29,6 +30,7 @@ export default async function handler(req, res) {
       temperatura = 0.9;
     }
 
+    // Prompt
     let prompt;
     if (!jelo && sastojci) {
       prompt = `Na osnovu ovih sastojaka: "${sastojci}", odredi koje je jelo u pitanju i vrati JSON: {"detected_jelo":"IME JELA","opis":"OPIS JELA"}. ${pravilaDuzine} Vrsta restorana: ${restoran || 'tradicionalni restoran'}.`;
@@ -36,6 +38,7 @@ export default async function handler(req, res) {
       prompt = `Napiši opis za jelo "${jelo || 'nepoznato jelo'}". Sastojci: ${sastojci || 'standardni'}. ${pravilaDuzine} Vrsta restorana: ${restoran || 'tradicionalni restoran'}. Vrati SAMO opis, bez uvoda.`;
     }
 
+    // DeepSeek API poziv
     const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -53,7 +56,7 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     if (!data.choices || data.choices.length === 0) {
-      return res.status(500).json({ error: 'AI nije vratio odgovor.' });
+      return res.status(500).json({ error: 'AI nije vratio odgovor. Pokušajte ponovo.' });
     }
 
     const raw = data.choices[0].message.content.trim();
