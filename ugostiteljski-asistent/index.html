@@ -3,281 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ugostiteljski asistent | AI za restorane, kafiće, hotele</title>
+    <title>Meni Inženjer - Ugostiteljski AI Agent</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+        body { background-color: #12181F; color: #E2E8F0; min-height: 100vh; display: flex; flex-direction: column; }
+        
+        /* Premium Header */
+        header { background-color: #1A2229; border-bottom: 1px solid #2D3741; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+        
+        .nav-back { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #94A3B8; font-size: 0.9rem; font-weight: 500; transition: color 0.3s; }
+        .nav-back:hover { color: #E65F19; }
 
-        body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e9edf2 100%);
-            min-height: 100vh;
-            padding: 2rem 1rem;
-        }
+        .logo-area { display: flex; align-items: center; gap: 1rem; }
+        .logo-svg { width: 40px; height: 40px; fill: #E65F19; }
+        .logo-text h1 { font-size: 1.2rem; font-weight: 800; color: #FFFFFF; letter-spacing: -0.5px; }
+        .logo-text h1 span { color: #E65F19; }
+        .logo-text p { font-size: 0.7rem; color: #94A3B8; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .container { max-width: 800px; width: 100%; margin: 2rem auto; padding: 0 1.5rem; flex: 1; }
+        .app-card { background-color: #1A2229; border: 1px solid #2D3741; border-radius: 20px; padding: 2rem; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .intro { margin-bottom: 2rem; border-bottom: 1px solid #2D3741; padding-bottom: 1.5rem; }
+        .intro h2 { font-size: 1.8rem; color: #FFFFFF; margin-bottom: 0.5rem; }
+        .intro p { color: #94A3B8; font-size: 1rem; line-height: 1.5; }
+        
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; font-size: 0.9rem; font-weight: 600; color: #94A3B8; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        input[type="text"], textarea, select { width: 100%; background-color: #12181F; border: 1px solid #2D3741; border-radius: 12px; padding: 1rem; color: #FFFFFF; font-size: 1rem; transition: all 0.3s; }
+        input[type="text"]:focus, textarea:focus, select:focus { border-color: #E65F19; outline: none; box-shadow: 0 0 0 3px rgba(230,95,25,0.15); }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        
+        .btn-submit { width: 100%; background: linear-gradient(135deg, #E65F19, #CF5112); color: white; border: none; border-radius: 12px; padding: 1.2rem; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 10px 20px rgba(230,95,25,0.2); margin-top: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 15px 25px rgba(230,95,25,0.4); }
+        .btn-submit:disabled { background: #2D3741; color: #64748B; cursor: not-allowed; transform: none; box-shadow: none; }
+        
+        .spinner { width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite; display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+        .result-box { margin-top: 2rem; background-color: #12181F; border-left: 4px solid #E65F19; border-radius: 0 12px 12px 0; padding: 1.5rem; display: none; }
+        .result-box h3 { font-size: 0.9rem; color: #E65F19; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
+        .result-text { font-size: 1.1rem; color: #F1F5F9; line-height: 1.6; white-space: pre-wrap; }
 
-        .header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .logo {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            background: linear-gradient(135deg, #2d3e50, #1a2a3a);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 0.5rem;
-        }
-
-        .subtitle {
-            color: #5a6874;
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .lang-badge {
-            display: inline-block;
-            background: #e8edf2;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            color: #2d3e50;
-            margin-top: 1rem;
-        }
-
-        .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .module-card {
-            background: white;
-            border-radius: 24px;
-            padding: 1.8rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
-            border: 1px solid #eef2f6;
-        }
-
-        .module-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-        }
-
-        .module-icon {
-            font-size: 2.8rem;
-            margin-bottom: 1rem;
-        }
-
-        .module-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #1a2a3a;
-            margin-bottom: 0.5rem;
-        }
-
-        .module-desc {
-            color: #6c7a86;
-            font-size: 0.9rem;
-            line-height: 1.4;
-            margin-bottom: 1rem;
-        }
-
-        .module-badge {
-            display: inline-block;
-            font-size: 0.7rem;
-            background: #eef2ff;
-            color: #2d4a6e;
-            padding: 0.2rem 0.6rem;
-            border-radius: 12px;
-        }
-
-        .badge-soon {
-            background: #fef3c7;
-            color: #b45309;
-        }
-
-        .badge-active {
-            background: #dcfce7;
-            color: #15803d;
-        }
-
-        .status-bar {
-            background: white;
-            border-radius: 16px;
-            padding: 1rem 1.5rem;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
-            margin-top: 2rem;
-            border: 1px solid #eef2f6;
-        }
-
-        .plan-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .plan-badge {
-            background: #1a2a3a;
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        .upgrade-btn {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: white;
-            border: none;
-            padding: 0.5rem 1.2rem;
-            border-radius: 40px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .upgrade-btn:hover {
-            opacity: 0.9;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 3rem;
-            color: #8a99a6;
-            font-size: 0.8rem;
-        }
-
-        a {
-            color: #2d6a4f;
-            text-decoration: none;
-        }
-
-        @media (max-width: 700px) {
-            h1 { font-size: 1.8rem; }
-            .logo { font-size: 3rem; }
+        footer { text-align: center; padding: 2rem; color: #64748B; font-size: 0.9rem; border-top: 1px solid #1A2229; margin-top: auto; }
+        
+        @media (max-width: 600px) {
+            header { padding: 1rem; flex-direction: column; gap: 1rem; text-align: center; }
+            .grid-2 { grid-template-columns: 1fr; gap: 0; }
+            .container { margin: 1rem auto; }
         }
     </style>
 </head>
 <body>
+
+<header>
+    <a href="../../index.html" class="nav-back">
+        <span>← Povratak na Blog</span>
+    </a>
+
+    <div class="logo-area">
+        <svg class="logo-svg" viewBox="0 0 100 100">
+            <path d="M20,50 C20,35 35,20 50,20 C65,20 80,35 80,50 C80,65 65,80 50,80 C35,80 20,65 20,50 Z" fill="none" stroke="#E65F19" stroke-width="4"/>
+            <path d="M35,45 C35,45 42,35 50,35 C58,35 65,45 65,45 C65,45 65,55 50,55 C35,55 35,45 35,45 Z" fill="#E65F19"/>
+            <path d="M40,55 L40,70 L45,72 L50,70 L55,72 L60,70 L60,55" fill="none" stroke="#E65F19" stroke-width="3"/>
+            <circle cx="43" cy="45" r="2" fill="#1A2229"/>
+            <circle cx="57" cy="45" r="2" fill="#1A2229"/>
+            <path d="M30,32 C35,25 42,28 50,28 C58,28 65,25 70,32 C72,35 68,38 65,37 C58,35 42,35 35,37 C32,38 28,35 30,32 Z" fill="#FFFFFF"/>
+        </svg>
+        <div class="logo-text">
+            <h1>Meni<span>Inženjer</span></h1>
+            <p>Ugostiteljski AI Agent</p>
+        </div>
+    </div>
+</header>
+
 <div class="container">
-    <div class="header">
-        <div class="logo">🍽️🤖</div>
-        <h1>Ugostiteljski asistent</h1>
-        <div class="subtitle">
-            AI alat za restorane, hotele, kafiće i pekare – profesionalni opisi, kalkulacije i još mnogo toga.
-        </div>
-        <div class="lang-badge">
-            🌐 Hospitality Assistant | <span>srpski / English (soon)</span>
-        </div>
-    </div>
-
-    <div class="modules-grid">
-        <!-- MODUL 1: MENI INŽENJER (AKTIVAN) - LINK ISPRAVLJEN -->
-        <div class="module-card" onclick="location.href='/meni-inzenjer.html'">
-            <div class="module-icon">🍽️📝</div>
-            <div class="module-title">Meni inženjer</div>
-            <div class="module-desc">Generiši prodajne opise jela za 1 sekundu. Prilagodi ton restoranu, dodaj sastojke, biraj nivo kreativnosti.</div>
-            <span class="module-badge badge-active">✅ Aktivan</span>
+    <div class="app-card">
+        <div class="intro">
+            <h2>Kreirajte Opis Jelovnika</h2>
+            <p>Unesite naziv jela ili ključne sastojke. AI će sam prepoznati jelo i generisati profesionalan opis.</p>
         </div>
 
-        <div class="module-card" style="opacity:0.8">
-            <div class="module-icon">🧮💰</div>
-            <div class="module-title">Kalkulator cena</div>
-            <div class="module-desc">Izračunaj prodajnu cenu na osnovu namirnica, rada, PDV-a i željene marže. (dolazi uskoro)</div>
-            <span class="module-badge badge-soon">🔜 U pripremi</span>
+        <div class="form-group">
+            <label for="jelo">Naziv Jela</label>
+            <input type="text" id="jelo" placeholder="Npr. Sarma, Biftek...">
         </div>
 
-        <div class="module-card" style="opacity:0.8">
-            <div class="module-icon">🍷🧀</div>
-            <div class="module-title">Sparivač hrane i pića</div>
-            <div class="module-desc">Preporuči idealno piće uz svako jelo – vino, pivo, koktel ili bezalkoholno.</div>
-            <span class="module-badge badge-soon">🔜 U pripremi</span>
+        <div class="form-group">
+            <label for="sastojci">Ključni sastojci (AI prepoznaje jelo ako je naziv prazan)</label>
+            <textarea id="sastojci" rows="3" placeholder="Npr. juneći biftek, senf, biber..."></textarea>
         </div>
 
-        <div class="module-card" style="opacity:0.8">
-            <div class="module-icon">📅⚡</div>
-            <div class="module-title">Dnevni meni generator</div>
-            <div class="module-desc">Za 3 sekunde kreiraj balansiran dnevni meni – predjelo, glavno jelo, desert.</div>
-            <span class="module-badge badge-soon">🔜 U pripremi</span>
+        <div class="grid-2">
+            <div class="form-group">
+                <label for="restoran">Kategorija</label>
+                <select id="restoran">
+                    <option value="Nacionalni/Tradicionalni">Nacionalni</option>
+                    <option value="Italijanski">Italijanski</option>
+                    <option value="Picerija">Picerija</option>
+                    <option value="Street & Fast Food">Street & Fast Food</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="kreativnost">Format</label>
+                <select id="kreativnost">
+                    <option value="ekonomičan">Kratko</option>
+                    <option value="standardan" selected>Standardno</option>
+                    <option value="visoka">Gurmanski</option>
+                </select>
+            </div>
         </div>
 
-        <div class="module-card" style="opacity:0.8">
-            <div class="module-icon">⚠️📊</div>
-            <div class="module-title">Alergeni & nutritivne vrednosti</div>
-            <div class="module-desc">Automatski prepoznaj alergene i izračunaj kalorije, proteine, masti.</div>
-            <span class="module-badge badge-soon">🔜 U pripremi</span>
-        </div>
-
-        <div class="module-card" style="opacity:0.8">
-            <div class="module-icon">📊🆚</div>
-            <div class="module-title">A/B test menija</div>
-            <div class="module-desc">Testiraj dve verzije opisa i saznaj koja bolje prodaje.</div>
-            <span class="module-badge badge-soon">🔜 U pripremi</span>
-        </div>
-
-        <div class="module-card" style="opacity:0.8">
-            <div class="module-icon">🧾📈</div>
-            <div class="module-title">PDV i marža</div>
-            <div class="module-desc">Za knjigovodstvo – automatski obračun poreza i neto dobiti po jelu.</div>
-            <span class="module-badge badge-soon">🔜 U pripremi</span>
-        </div>
-
-        <div class="module-card" style="opacity:0.8">
-            <div class="module-icon">🎯📉</div>
-            <div class="module-title">Cenovna strategija</div>
-            <div class="module-desc">Preporuka optimalne cene na osnovu konkurencije i ciljane marže.</div>
-            <span class="module-badge badge-soon">🔜 U pripremi</span>
-        </div>
-    </div>
-
-    <div class="status-bar">
-        <div class="plan-info">
-            <span class="plan-badge">🎯 BASIC Plan (besplatan)</span>
-            <span>✅ 50 opisa mesečno • 1 nivo kreativnosti</span>
-        </div>
-        <button class="upgrade-btn" onclick="alert('Nadogradnja na PRO/ULTRA plan uskoro preko RapidAPI-ja. Hvala na strpljenju! 🙏')">
-            🚀 Nadogradi na PRO
+        <button class="btn-submit" id="submitBtn" onclick="generisiOpis()">
+            <div class="spinner" id="btnSpinner"></div>
+            <span id="btnText">Generiši Opis Jela</span>
         </button>
-    </div>
 
-    <div class="footer">
-        <p>🍽️ Meni inženjer – prvi modul Ugostiteljskog asistenta. Ostali moduli dolaze u narednim nedeljama.</p>
-        <p style="margin-top: 0.5rem;">
-            <a href="https://mojkucnisvet.github.io" target="_blank">🏠 Moj Kućni Svet blog</a> &nbsp;|&nbsp;
-            <a href="#" id="supportLink">📞 Kontakt</a>
-        </p>
-        <p style="margin-top: 0.5rem; font-size:0.7rem;">© 2026 Ugostiteljski asistent – AI za ugostiteljstvo</p>
+        <div class="result-box" id="resultBox">
+            <h3>Predlog za meni:</h3>
+            <div class="result-text" id="resultText"></div>
+        </div>
     </div>
 </div>
 
+<footer>
+    <p>© 2026 Meni Inženjer — Razvijeno u saradnji sa Moj Kućni Svet.</p>
+</footer>
+
 <script>
-    document.getElementById('supportLink')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        alert('📧 Podrška: mojkucnisvet@gmail.com\nOdgovaramo u roku od 24h.');
-    });
+    async function generisiOpis() {
+        const jelo = document.getElementById('jelo').value.trim();
+        const sastojci = document.getElementById('sastojci').value.trim();
+        const restoran = document.getElementById('restoran').value;
+        const kreativnost = document.getElementById('kreativnost').value;
+
+        if (!jelo && !sastojci) {
+            alert('Molimo unesite naziv jela ili sastojke.');
+            return;
+        }
+
+        const submitBtn = document.getElementById('submitBtn');
+        const btnSpinner = document.getElementById('btnSpinner');
+        const btnText = document.getElementById('btnText');
+        const resultBox = document.getElementById('resultBox');
+        const resultText = document.getElementById('resultText');
+
+        submitBtn.disabled = true;
+        btnSpinner.style.display = 'block';
+        btnText.innerText = 'Razmišljam...';
+        resultBox.style.display = 'none';
+
+        try {
+            const response = await fetch('/api/generisi', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ jelo, sastojci, restoran, kreativnost })
+            });
+            const data = await response.json();
+            if (data.success) {
+                resultText.innerText = data.opis;
+                resultBox.style.display = 'block';
+                resultBox.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert('Greška: ' + data.error);
+            }
+        } catch (error) {
+            alert('Greška u komunikaciji sa serverom.');
+        } finally {
+            submitBtn.disabled = false;
+            btnSpinner.style.display = 'none';
+            btnText.innerText = 'Generiši Opis Jela';
+        }
+    }
 </script>
+
 </body>
 </html>
