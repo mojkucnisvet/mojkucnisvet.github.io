@@ -1,78 +1,220 @@
-export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meni Inženjer | AI Opisi Jela</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+        body { background-color: #0F1319; color: #E2E8F0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background-color: #161C24; border-bottom: 1px solid #222C38; padding: 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+        .nav-back { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #707E94; font-size: 0.9rem; font-weight: 600; transition: color 0.3s; }
+        .nav-back:hover { color: #E65F19; }
+        .brand-area { display: flex; align-items: center; gap: 0.8rem; }
+        .brand-text { font-size: 1.1rem; font-weight: 800; color: #FFFFFF; letter-spacing: -0.5px; }
+        .brand-text span { color: #E65F19; }
+        .container { max-width: 900px; width: 100%; margin: 2rem auto; padding: 0 1.5rem; flex: 1; }
+        .intro-section { text-align: center; margin-bottom: 2.5rem; }
+        .intro-section h1 { font-size: 2.2rem; font-weight: 800; color: #FFFFFF; margin-bottom: 0.5rem; }
+        .intro-section h1 span { color: #E65F19; }
+        .intro-section p { color: #707E94; font-size: 1rem; }
+        .card { background-color: #161C24; border: 1px solid #222C38; border-radius: 20px; padding: 2rem; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 700; color: #94A3B8; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.8rem 1rem; background-color: #0F1319; border: 1px solid #222C38; border-radius: 10px; color: #E2E8F0; font-size: 0.95rem; transition: border-color 0.3s; outline: none; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #E65F19; }
+        .form-group textarea { resize: vertical; min-height: 60px; }
+        .form-group select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23707E94' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        @media (max-width: 600px) { .row { grid-template-columns: 1fr; } }
+        .btn { width: 100%; padding: 0.9rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s; border: none; text-align: center; }
+        .btn-primary { background: linear-gradient(135deg, #E65F19, #CF5112); color: #FFFFFF; }
+        .btn-primary:hover { box-shadow: 0 6px 20px rgba(230,95,25,0.3); transform: translateY(-1px); }
+        .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+        .result-box { margin-top: 1.5rem; padding: 1.5rem; background-color: #0F1319; border: 1px solid #222C38; border-radius: 14px; min-height: 60px; display: none; }
+        .result-box.show { display: block; }
+        .result-box .result-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.8rem; padding-bottom: 0.8rem; border-bottom: 1px solid #222C38; }
+        .result-box .result-badge { background-color: rgba(46, 204, 113, 0.15); color: #2ecc71; font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px; }
+        .result-box .result-title { font-weight: 700; color: #FFFFFF; font-size: 1rem; }
+        .result-box .result-text { color: #CBD5E1; line-height: 1.6; font-size: 0.95rem; white-space: pre-wrap; }
+        .result-box .result-detected { color: #E65F19; font-weight: 700; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .error-box { margin-top: 1rem; padding: 1rem; background-color: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 10px; color: #ef4444; font-size: 0.9rem; display: none; }
+        .error-box.show { display: block; }
+        .loading-spinner { display: none; text-align: center; padding: 1rem; }
+        .loading-spinner.show { display: block; }
+        .spinner { width: 30px; height: 30px; border: 3px solid #222C38; border-top: 3px solid #E65F19; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .hint-text { color: #4A5568; font-size: 0.8rem; margin-top: 0.3rem; }
+        footer { text-align: center; padding: 2rem; color: #4A5568; font-size: 0.85rem; border-top: 1px solid #161C24; margin-top: auto; }
+    </style>
+</head>
+<body>
 
-  if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Samo POST zahtevi su dozvoljeni.' });
+<header>
+    <a href="../index.html" class="nav-back">← Kontrolna Tabla</a>
+    <div class="brand-area">
+        <div class="brand-text">Meni<span>Inženjer</span></div>
+    </div>
+</header>
 
-  try {
-    const { jelo, restoran, sastojci, kreativnost } = req.body || {};
+<div class="container">
+    <div class="intro-section">
+        <h1>Meni <span>Inženjer</span></h1>
+        <p>Unesite naziv jela ili samo sastojke – AI će prepoznati jelo i generisati profesionalni opis za 19 vrsta restorana.</p>
+    </div>
 
-    if (!jelo && !sastojci) {
-      return res.status(400).json({ error: 'Unesite naziv jela ili sastojke.' });
+    <div class="card">
+        <div class="form-group">
+            <label>🍽️ Naziv jela (opciono)</label>
+            <input type="text" id="nazivJela" placeholder="Npr. Musaka, Punjena paprika... Ostavite prazno za magično prepoznavanje">
+            <div class="hint-text">Ako ne znate naziv, unesite samo sastojke i AI će pogoditi jelo.</div>
+        </div>
+
+        <div class="form-group">
+            <label>🥕 Sastojci (obavezno ako nema naziva)</label>
+            <textarea id="sastojci" placeholder="Npr. krompir, mleveno meso, luk, začini..."></textarea>
+            <div class="hint-text">Navedite ključne sastojke odvojene zarezom.</div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label>🏪 Vrsta restorana</label>
+                <select id="restoran">
+                    <option value="tradicionalni restoran">🥘 Tradicionalni / Nacionalni</option>
+                    <option value="italijanski restoran">🍝 Italijanski</option>
+                    <option value="japanski restoran">🍣 Japanski / Sushi</option>
+                    <option value="fast food">🍔 Street & Fast Food</option>
+                    <option value="moderni fjužn">🥗 Moderni fjužn</option>
+                    <option value="kafić">☕ Kafić</option>
+                    <option value="poslastičarnica">🍰 Poslastičarnica</option>
+                    <option value="bar">🍹 Bar / Koktel bar</option>
+                    <option value="hotelski restoran">🏨 Hotelski restoran</option>
+                    <option value="steakhouse">🥩 Steakhouse</option>
+                    <option value="kineski restoran">🥡 Kineski</option>
+                    <option value="indijski restoran">🍛 Indijski</option>
+                    <option value="francuski restoran">🥐 Francuski</option>
+                    <option value="grčki restoran">🥙 Grčki / Mediteranski</option>
+                    <option value="pekara">🥨 Pekara</option>
+                    <option value="meksički restoran">🌮 Meksički</option>
+                    <option value="picerija">🍕 Picerija</option>
+                    <option value="vegan restoran">🌿 Vegan / Vegetarijanski</option>
+                    <option value="tajlandski restoran">🍜 Tajlandski / Vijetnamski</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>🎨 Nivo kreativnosti</label>
+                <select id="kreativnost">
+                    <option value="1">🥉 Klasičan – kratak, jednostavan, samo suština (do 10 reči)</option>
+                    <option value="2" selected>🥈 Kreativan – primamljiv, senzualan (do 20 reči)</option>
+                    <option value="3">🥇 Signature – ekspresivan, atmosferičan, neočekivan detalj (do 25 reči)</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" id="generateBtn" onclick="generateOpis()">⚡ Generiši opis jela</button>
+
+        <div class="loading-spinner" id="loadingSpinner">
+            <div class="spinner"></div>
+            <p style="margin-top: 0.5rem; color: #707E94;">AI smišlja savršen opis...</p>
+        </div>
+
+        <div class="error-box" id="errorBox"></div>
+
+        <div class="result-box" id="resultBox">
+            <div class="result-header">
+                <span class="result-badge">✅ Generisano</span>
+                <span class="result-title">Opis jela</span>
+            </div>
+            <div class="result-detected" id="detectedJelo"></div>
+            <div class="result-text" id="resultText"></div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 Meni Inženjer | Deo Ugostiteljskog AI Agent ekosistema</p>
+</footer>
+
+<script>
+    async function generateOpis() {
+        const nazivJela = document.getElementById('nazivJela').value.trim();
+        const sastojci = document.getElementById('sastojci').value.trim();
+        const restoran = document.getElementById('restoran').value;
+        const kreativnost = document.getElementById('kreativnost').value;
+
+        const errorBox = document.getElementById('errorBox');
+        const resultBox = document.getElementById('resultBox');
+        const resultText = document.getElementById('resultText');
+        const detectedJelo = document.getElementById('detectedJelo');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const generateBtn = document.getElementById('generateBtn');
+
+        // Reset
+        errorBox.classList.remove('show');
+        resultBox.classList.remove('show');
+        detectedJelo.textContent = '';
+
+        // Validacija
+        if (!nazivJela && !sastojci) {
+            errorBox.textContent = '⚠️ Unesite naziv jela ili bar nekoliko sastojaka.';
+            errorBox.classList.add('show');
+            return;
+        }
+
+        // Loading
+        loadingSpinner.classList.add('show');
+        generateBtn.disabled = true;
+        generateBtn.textContent = '⏳ Generišem...';
+
+        try {
+            // POZIV KA API-JU - RELATIVNA PUTANJA
+            const response = await fetch('/api/generisi', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    jelo: nazivJela,
+                    restoran: restoran,
+                    sastojci: sastojci,
+                    kreativnost: parseInt(kreativnost)
+                })
+            });
+
+            // Proveri da li je odgovor ispravan
+            if (!response.ok) {
+                const errData = await response.json().catch(() => ({}));
+                throw new Error(errData.error || 'Server je vratio grešku: ' + response.status);
+            }
+
+            const data = await response.json();
+
+            // Prikaz detektovanog jela
+            if (data.detected_jelo) {
+                detectedJelo.textContent = '🧠 AI je prepoznao: ' + data.detected_jelo;
+            }
+
+            // Prikaz opisa
+            resultText.textContent = data.opis || '(Nema opisa)';
+            resultBox.classList.add('show');
+            resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+        } catch (error) {
+            errorBox.textContent = '❌ Greška: ' + error.message;
+            errorBox.classList.add('show');
+        } finally {
+            loadingSpinner.classList.remove('show');
+            generateBtn.disabled = false;
+            generateBtn.textContent = '⚡ Generiši opis jela';
+        }
     }
 
-    const nivo = parseInt(kreativnost) || 2;
-
-    // Definiši pravila za svaki nivo
-    let pravilaDuzine = '';
-    let temperatura = 0.7;
-
-    if (nivo === 1) {
-      pravilaDuzine = 'Opis mora biti KRATAK i JEDNOSTAVAN. Maksimalno 10 reči (1 rečenica). Samo suština.';
-      temperatura = 0.3;
-    } else if (nivo === 2) {
-      pravilaDuzine = 'Opis treba da bude PRIMAMLJIV. Maksimalno 20 reči (1-2 rečenice). Koristi senzualne reči.';
-      temperatura = 0.7;
-    } else if (nivo === 3) {
-      pravilaDuzine = 'Opis mora biti EKSPRESIVAN i ATMOSFERIČAN. Maksimalno 25 reči (2 rečenice). Koristi senzualne reči, atmosferu i neočekivan detalj.';
-      temperatura = 0.9;
-    }
-
-    // Prompt
-    let prompt;
-    if (!jelo && sastojci) {
-      prompt = `Na osnovu ovih sastojaka: "${sastojci}", odredi koje je jelo u pitanju i vrati JSON: {"detected_jelo":"IME JELA","opis":"OPIS JELA"}. ${pravilaDuzine} Vrsta restorana: ${restoran || 'tradicionalni restoran'}.`;
-    } else {
-      prompt = `Napiši opis za jelo "${jelo || 'nepoznato jelo'}". Sastojci: ${sastojci || 'standardni'}. ${pravilaDuzine} Vrsta restorana: ${restoran || 'tradicionalni restoran'}. Vrati SAMO opis, bez uvoda.`;
-    }
-
-    // DeepSeek API poziv
-    const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer sk-7f035e02050b4bd38cd319a5a4703917'
-      },
-      body: JSON.stringify({
-        model: 'deepseek-chat',
-        messages: [{ role: 'user', content: prompt }],
-        temperature: temperatura,
-        max_tokens: nivo === 1 ? 80 : nivo === 3 ? 180 : 140
-      })
+    // CTRL+Enter za slanje
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && e.ctrlKey) {
+            generateOpis();
+        }
     });
+</script>
 
-    const data = await response.json();
-
-    if (!data.choices || data.choices.length === 0) {
-      return res.status(500).json({ error: 'AI nije vratio odgovor. Pokušajte ponovo.' });
-    }
-
-    const raw = data.choices[0].message.content.trim();
-
-    if (!jelo && sastojci) {
-      try {
-        const parsed = JSON.parse(raw);
-        return res.status(200).json(parsed);
-      } catch (e) {
-        return res.status(200).json({ detected_jelo: 'Nepoznato jelo', opis: raw });
-      }
-    }
-
-    return res.status(200).json({ opis: raw });
-
-  } catch (error) {
-    return res.status(500).json({ error: 'Greška na serveru: ' + error.message });
-  }
-}
+</body>
+</html>
