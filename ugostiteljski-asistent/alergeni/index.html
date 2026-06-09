@@ -28,7 +28,7 @@
         .btn:disabled { opacity: 0.4; cursor: not-allowed; }
         .results { margin-top: 1.5rem; }
         .section-title { color: #E65F19; font-weight: 700; font-size: 1.1rem; margin-bottom: 0.75rem; margin-top: 1.5rem; }
-        .alergen-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.5rem; margin-bottom: 1.5rem; }
+        .alergen-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.5rem; margin-bottom: 1.5rem; }
         .alergen-tag { padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; text-align: center; }
         .alergen-da { background-color: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); }
         .alergen-ne { background-color: rgba(46,204,113,0.1); color: #2ecc71; border: 1px solid rgba(46,204,113,0.15); }
@@ -36,9 +36,8 @@
         .nutrition-card { background-color: #0F1319; border: 1px solid #222C38; border-radius: 10px; padding: 1rem; text-align: center; }
         .nutrition-card .value { font-size: 1.3rem; font-weight: 700; color: #2ecc71; }
         .nutrition-card .label { color: #707E94; font-size: 0.75rem; margin-top: 0.3rem; text-transform: uppercase; }
-        .oznaka-box { background-color: #0F1319; border: 1px solid #222C38; border-radius: 10px; padding: 1rem; color: #CBD5E1; font-size: 0.95rem; }
+        .oznaka-box { background-color: #0F1319; border: 1px solid #222C38; border-radius: 10px; padding: 1rem; color: #CBD5E1; font-size: 0.95rem; line-height: 1.6; }
         .oznaka-box strong { color: #E65F19; }
-        .napomena { color: #707E94; font-size: 0.8rem; margin-top: 1rem; font-style: italic; }
         .error-box { margin-top: 1rem; padding: 1rem; background-color: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); border-radius: 10px; color: #ef4444; display: none; }
         .error-box.show { display: block; }
         .loading-spinner { display: none; text-align: center; padding: 1rem; }
@@ -110,22 +109,43 @@
 
             const data = await response.json();
 
-            // Alergeni
+            // Fallback
+            if (data.oznaka && (!data.alergeni || data.alergeni.length === 0) && (!data.nutritivneVrednosti || Object.keys(data.nutritivneVrednosti).length === 0)) {
+                const box = document.createElement('div');
+                box.className = 'oznaka-box';
+                box.textContent = data.oznaka;
+                results.appendChild(box);
+                results.style.display = 'block';
+                results.scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+
+            // Alergeni — samo prisutni
             if (data.alergeni && data.alergeni.length > 0) {
+                const prisutni = data.alergeni.filter(a => a.prisutan === true || a.alergen === 'da');
+                
                 const secTitle = document.createElement('div');
                 secTitle.className = 'section-title';
                 secTitle.textContent = 'Alergeni';
                 results.appendChild(secTitle);
 
-                const grid = document.createElement('div');
-                grid.className = 'alergen-grid';
-                data.alergeni.forEach(a => {
-                    const tag = document.createElement('div');
-                    tag.className = 'alergen-tag ' + (a.alergen === 'da' ? 'alergen-da' : 'alergen-ne');
-                    tag.innerHTML = `${a.alergen === 'da' ? '⚠️' : '✅'} ${a.naziv}${a.sastojak ? `<br><small>${a.sastojak}</small>` : ''}`;
-                    grid.appendChild(tag);
-                });
-                results.appendChild(grid);
+                if (prisutni.length > 0) {
+                    const grid = document.createElement('div');
+                    grid.className = 'alergen-grid';
+                    prisutni.forEach(a => {
+                        const tag = document.createElement('div');
+                        tag.className = 'alergen-tag alergen-da';
+                        tag.innerHTML = `${a.naziv}${a.sastojak ? '<br><small>(' + a.sastojak + ')</small>' : ''}`;
+                        grid.appendChild(tag);
+                    });
+                    results.appendChild(grid);
+                } else {
+                    const box = document.createElement('div');
+                    box.className = 'oznaka-box';
+                    box.style.cssText = 'color:#2ecc71;';
+                    box.textContent = 'U ovom jelu nisu pronađeni alergeni iz zakonske liste.';
+                    results.appendChild(box);
+                }
             }
 
             // Nutritivne vrednosti
@@ -138,35 +158,27 @@
                 const grid = document.createElement('div');
                 grid.className = 'nutrition-grid';
                 const nv = data.nutritivneVrednosti;
+                const labelMap = { kalorije: 'Kalorije', proteini: 'Proteini', masti: 'Masti', ugljeniHidrati: 'Ugljeni hidrati' };
                 for (const [key, val] of Object.entries(nv)) {
                     const card = document.createElement('div');
                     card.className = 'nutrition-card';
-                    const labelMap = { kalorije: 'Kalorije', proteini: 'Proteini', masti: 'Masti', ugljeniHidrati: 'Ugljeni hidrati' };
                     card.innerHTML = `<div class="value">${val}</div><div class="label">${labelMap[key] || key}</div>`;
                     grid.appendChild(card);
                 }
                 results.appendChild(grid);
             }
 
-            // Oznaka za meni
+            // Oznaka
             if (data.oznaka) {
                 const secTitle = document.createElement('div');
                 secTitle.className = 'section-title';
-                secTitle.textContent = 'Oznaka za meni';
+                secTitle.textContent = 'Oznaka';
                 results.appendChild(secTitle);
 
                 const box = document.createElement('div');
                 box.className = 'oznaka-box';
-                box.innerHTML = `<strong>Oznaka:</strong> ${data.oznaka}`;
+                box.textContent = data.oznaka;
                 results.appendChild(box);
-            }
-
-            // Napomena
-            if (data.napomena) {
-                const nap = document.createElement('div');
-                nap.className = 'napomena';
-                nap.textContent = data.napomena;
-                results.appendChild(nap);
             }
 
             results.style.display = 'block';
