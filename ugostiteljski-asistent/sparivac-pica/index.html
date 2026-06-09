@@ -109,7 +109,6 @@
 <script>
     const STORAGE_KEY = 'sparivac-pica-lista';
 
-    // Učitaj sačuvanu listu pri pokretanju
     function loadList() {
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
@@ -117,11 +116,9 @@
                 const lista = JSON.parse(saved);
                 lista.forEach(pice => addPice(pice));
             } catch (e) {
-                // Ako je stari format (običan tekst)
                 saved.split(',').forEach(p => addPice(p.trim()));
             }
         }
-        // Ako nema ništa sačuvano, dodaj 3 prazna polja
         if (document.getElementById('pica-container').children.length === 0) {
             addPice();
             addPice();
@@ -201,13 +198,20 @@
                 data.preporuke.forEach(p => {
                     const card = document.createElement('div');
                     card.className = 'result-card';
-                    card.innerHTML = `
-                        <div class="pice-name">${p.pice}</div>
-                        ${p.zasto ? `<div class="detail"><span class="detail-label">Zašto se slaže:</span> <span class="detail-value">${p.zasto}</span></div>` : ''}
-                        ${p.temperatura ? `<div class="detail"><span class="detail-label">Temperatura:</span> <span class="detail-value">${p.temperatura}</span></div>` : ''}
-                        ${p.opisZaKonobara ? `<div class="detail"><span class="detail-label">Za konobara:</span> <span class="detail-value">${p.opisZaKonobara}</span></div>` : ''}
-                        ${p.cena ? `<div class="cena">Predlog cene: ${p.cena}</div>` : ''}
-                    `;
+                    
+                    if (p.pice && (p.zasto || p.temperatura || p.opisZaKonobara || p.cena)) {
+                        card.innerHTML = `
+                            <div class="pice-name">${p.pice}</div>
+                            ${p.zasto ? `<div class="detail"><span class="detail-label">Zašto se slaže:</span> <span class="detail-value">${p.zasto}</span></div>` : ''}
+                            ${p.temperatura ? `<div class="detail"><span class="detail-label">Temperatura:</span> <span class="detail-value">${p.temperatura}</span></div>` : ''}
+                            ${p.opisZaKonobara ? `<div class="detail"><span class="detail-label">Za konobara:</span> <span class="detail-value">${p.opisZaKonobara}</span></div>` : ''}
+                            ${p.cena ? `<div class="cena">Predlog cene: ${p.cena}</div>` : ''}
+                        `;
+                    } else {
+                        const ceoOpis = p.pice || '';
+                        card.innerHTML = `<div style="font-size:1rem;color:#CBD5E1;line-height:1.6;">${ceoOpis}</div>`;
+                    }
+                    
                     results.appendChild(card);
                 });
                 results.style.display = 'block';
@@ -226,7 +230,6 @@
         }
     }
 
-    // Učitaj listu pri pokretanju
     loadList();
 </script>
 
