@@ -8,20 +8,18 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
         body { background-color: #0F1319; color: #E2E8F0; min-height: 100vh; display: flex; flex-direction: column; }
         header { background-color: #161C24; border-bottom: 1px solid #222C38; padding: 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
-        .nav-back { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #707E94; font-size: 0.9rem; font-weight: 600; transition: color 0.3s; }
+        .nav-back { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #707E94; font-size: 0.9rem; font-weight: 600; }
         .nav-back:hover { color: #E65F19; }
         .brand-area { display: flex; align-items: center; gap: 0.8rem; }
         .brand-text { font-size: 1.1rem; font-weight: 800; color: #FFFFFF; letter-spacing: -0.5px; }
         .brand-text span { color: #E65F19; }
         .container { max-width: 1300px; width: 100%; margin: 0 auto; padding: 0 1.5rem; flex: 1; }
 
-        /* Hero */
         .hero { text-align: center; padding: 4rem 0 3rem; }
         .hero h1 { font-size: 2.8rem; font-weight: 800; color: #FFFFFF; margin-bottom: 1rem; letter-spacing: -0.5px; }
         .hero h1 span { color: #E65F19; }
         .hero p { color: #707E94; font-size: 1.15rem; max-width: 600px; margin: 0 auto; line-height: 1.6; }
 
-        /* Paketi */
         .section-title { font-size: 1.5rem; font-weight: 700; color: #FFFFFF; margin-bottom: 1.5rem; text-align: center; }
         .packages-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-bottom: 4rem; }
         .package-card { background-color: #161C24; border: 1px solid #222C38; border-radius: 20px; padding: 2rem; text-align: center; display: flex; flex-direction: column; transition: all 0.3s; position: relative; }
@@ -46,13 +44,7 @@
         .btn-mega { background: linear-gradient(135deg, #9b59b6, #7d3c98); color: #FFFFFF; }
         .btn-mega:hover { box-shadow: 0 6px 20px rgba(155,89,182,0.3); }
 
-        /* Kategorije */
-        .category-section { margin-bottom: 3rem; }
-        .category-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; border-bottom: 1px solid #222C38; padding-bottom: 0.75rem; }
-        .category-title { font-size: 1.2rem; font-weight: 700; color: #FFFFFF; }
-        .category-badge { background-color: #222C38; color: #94A3B8; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px; }
-        .module-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
-
+        .module-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 4rem; }
         .mod-card { background-color: #161C24; border: 1px solid #222C38; border-radius: 16px; padding: 1.8rem; display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative; transition: all 0.3s; }
         .mod-card-active { cursor: pointer; }
         .mod-card-disabled { cursor: not-allowed; opacity: 0.85; }
@@ -73,11 +65,7 @@
         .btn-disabled { background-color: #0F1319; color: #4A5568; border-color: #222C38; }
 
         footer { text-align: center; padding: 3rem 1.5rem; color: #4A5568; font-size: 0.85rem; border-top: 1px solid #161C24; margin-top: 2rem; }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .package-price { font-size: 2rem; }
-        }
+        @media (max-width: 768px) { .hero h1 { font-size: 2rem; } .package-price { font-size: 2rem; } }
     </style>
 </head>
 <body>
@@ -89,180 +77,110 @@
 
 <div class="container">
 
-    <!-- HERO -->
     <div class="hero">
         <h1>Ugostiteljski <span>AI Agent</span></h1>
-        <p>Kompletan set profesionalnih alata za vođenje ugostiteljskog objekta. Od menija do knjigovodstva — sve na jednom mestu, napravljeno od strane kuvara sa 24 godine iskustva.</p>
+        <p>Kompletan set profesionalnih alata za vođenje ugostiteljskog objekta. Od menija do knjigovodstva — sve na jednom mestu.</p>
     </div>
 
-    <!-- PAKETI -->
     <h2 class="section-title">Izaberite paket</h2>
     <div class="packages-grid">
         <div class="package-card">
-            <div class="package-name">BASIC</div>
-            <div class="package-price">0€</div>
-            <div class="package-period">mesečno</div>
-            <div class="package-desc">Meni Inženjer sa <strong>50 opisa mesečno</strong> i klasičnim nivoom kreativnosti. Idealno za testiranje i manje lokale.</div>
+            <div class="package-name">BASIC</div><div class="package-price">0€</div><div class="package-period">mesečno</div>
+            <div class="package-desc">Meni Inženjer sa <strong>50 opisa mesečno</strong>. Idealno za testiranje.</div>
             <a href="https://rapidapi.com/mojkucnisvet/api/menu-inzenjer" class="package-btn btn-basic" target="_blank">Probaj besplatno</a>
         </div>
-
         <div class="package-card featured">
             <span class="package-badge">Najpopularniji</span>
-            <div class="package-name">PRO</div>
-            <div class="package-price">29€</div>
-            <div class="package-period">mesečno</div>
-            <div class="package-desc"><strong>8 modula:</strong> Meni Inženjer (puni), Kalkulator cena, Sparivač pića, Dnevni meni, Alergeni, A/B test, PDV i marža, Cenovna strategija.</div>
+            <div class="package-name">PRO</div><div class="package-price">29€</div><div class="package-period">mesečno</div>
+            <div class="package-desc"><strong>8 modula:</strong> Meni Inženjer, Kalkulator, Sparivač, Dnevni meni, Alergeni, A/B test, PDV, Cenovna strategija.</div>
             <a href="https://rapidapi.com/mojkucnisvet/api/menu-inzenjer" class="package-btn btn-pro" target="_blank">Kupi PRO</a>
         </div>
-
         <div class="package-card">
-            <div class="package-name">ULTRA</div>
-            <div class="package-price">79€</div>
-            <div class="package-period">mesečno</div>
-            <div class="package-desc"><strong>14 modula:</strong> Svi PRO moduli + Optimizacija zaliha, Wolt/Glovo opisi, Generator naziva, Opisi za konobare, Meni Vizual, AI Agent Uprava.</div>
+            <div class="package-name">ULTRA</div><div class="package-price">79€</div><div class="package-period">mesečno</div>
+            <div class="package-desc"><strong>14 modula:</strong> Svi PRO + Optimizacija, Wolt/Glovo, Generator naziva, Opisi za konobare, Meni Vizual, AI Agent.</div>
             <a href="https://rapidapi.com/mojkucnisvet/api/menu-inzenjer" class="package-btn btn-ultra" target="_blank">Kupi ULTRA</a>
         </div>
-
         <div class="package-card mega">
             <span class="package-badge mega">Premium</span>
-            <div class="package-name">MEGA</div>
-            <div class="package-price mega">149€</div>
-            <div class="package-period">mesečno</div>
-            <div class="package-desc"><strong>Svih 30 modula.</strong> Cela uprava: knjigovodstvo, HACCP, marketing, analitika, više jezika, glasovni asistent, workflow. Prioritetna podrška.</div>
+            <div class="package-name">MEGA</div><div class="package-price mega">149€</div><div class="package-period">mesečno</div>
+            <div class="package-desc"><strong>Svih 30 modula.</strong> Cela uprava: knjigovodstvo, HACCP, marketing, analitika, workflow. Prioritetna podrška.</div>
             <a href="https://rapidapi.com/mojkucnisvet/api/menu-inzenjer" class="package-btn btn-mega" target="_blank">Kupi MEGA</a>
         </div>
     </div>
 
-    <!-- AKTIVNI MODULI -->
-    <h2 class="section-title">Dostupno sada</h2>
-    <div class="module-grid" style="margin-bottom: 4rem;">
+    <h2 class="section-title">Svi moduli</h2>
+    <div class="module-grid">
+        
         <a href="meni-inzenjer/index.html" class="mod-card mod-card-active">
-            <span class="status-badge badge-active">Aktivan</span>
-            <div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-            <div class="mod-info"><h3>Meni Inženjer</h3><p>Profesionalni opisi jela za 19 kategorija restorana. Tri nivoa kreativnosti i magično prepoznavanje jela iz sastojaka.</p></div>
-            <div class="mod-action-btn btn-active">Pokreni modul</div>
-        </a>
+            <span class="status-badge badge-active">Aktivan</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            <div class="mod-info"><h3>Meni Inženjer</h3><p>Profesionalni opisi jela za 19 kategorija restorana.</p></div><div class="mod-action-btn btn-active">Pokreni modul</div></a>
+
         <a href="kalkulator-cena/index.html" class="mod-card mod-card-active">
-            <span class="status-badge badge-active">Aktivan</span>
-            <div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-            <div class="mod-info"><h3>Kalkulator cena</h3><p>Proračun normativa, nabavnih cena, troškova i formiranje idealne marže. Podrška za RSD i EUR.</p></div>
-            <div class="mod-action-btn btn-active">Pokreni modul</div>
-        </a>
+            <span class="status-badge badge-active">Aktivan</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            <div class="mod-info"><h3>Kalkulator cena</h3><p>Proračun normativa, troškova i formiranje marže.</p></div><div class="mod-action-btn btn-active">Pokreni modul</div></a>
+
         <a href="sparivac-pica/index.html" class="mod-card mod-card-active">
-            <span class="status-badge badge-active">Aktivan</span>
-            <div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/></svg></div>
-            <div class="mod-info"><h3>Sparivač pića</h3><p>Inteligentne preporuke vina, piva i koktela uz svako jelo. Sa cenom i opisom za konobara.</p></div>
-            <div class="mod-action-btn btn-active">Pokreni modul</div>
-        </a>
+            <span class="status-badge badge-active">Aktivan</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/></svg></div>
+            <div class="mod-info"><h3>Sparivač pića</h3><p>Preporuke vina, piva i koktela uz svako jelo.</p></div><div class="mod-action-btn btn-active">Pokreni modul</div></a>
+
+        <a href="dnevni-meni/index.html" class="mod-card mod-card-active">
+            <span class="status-badge badge-active">Aktivan</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+            <div class="mod-info"><h3>Dnevni meni generator</h3><p>Kompletan dnevni meni sa opisima i cenama.</p></div><div class="mod-action-btn btn-active">Pokreni modul</div></a>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-prep">U pripremi</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div><div class="mod-info"><h3>Alergeni i nutritivne vrednosti</h3><p>Ekstrakcija alergena i proračun kalorija.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-prep">U pripremi</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/></svg></div><div class="mod-info"><h3>A/B test menija</h3><p>Poređenje verzija menija i profitabilnosti.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-prep">U pripremi</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div><div class="mod-info"><h3>PDV i marža</h3><p>Poreske stope i neto profit.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-prep">U pripremi</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg></div><div class="mod-info"><h3>Cenovna strategija</h3><p>Psihološke cene za meni.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-prep">U pripremi</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><div class="mod-info"><h3>Optimizacija zaliha</h3><p>Pametna nabavka na osnovu prometa.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-prep">U pripremi</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/></svg></div><div class="mod-info"><h3>Opisi za Wolt/Glovo</h3><p>Komercijalni opisi za dostavu.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-prep">U pripremi</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M12 2v2M12 20v2"/></svg></div><div class="mod-info"><h3>Generator naziva jela</h3><p>Kreativna imena za autorska jela.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-prep">U pripremi</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M12 1c-4.97 0-9 4.03-9 9"/></svg></div><div class="mod-info"><h3>Opisi za konobare</h3><p>Kratke prodajne fraze za osoblje.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-prep">U pripremi</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><div class="mod-info"><h3>Meni Inženjer Vizual</h3><p>Fotografisanje menija i digitalizacija.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="mod-info"><h3>Planer osoblja</h3><p>Raspored smena i obračun zarada.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/></svg></div><div class="mod-info"><h3>HACCP asistent</h3><p>Digitalni obrasci i sanitarni nadzor.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8"/></svg></div><div class="mod-info"><h3>Marketing menadžer</h3><p>Objave za mreže i odgovori na recenzije.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m18.7 8-5.1 5.2"/></svg></div><div class="mod-info"><h3>Analitika restorana</h3><p>Najprodavanija jela i predikcije.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg></div><div class="mod-info"><h3>Meni na više jezika</h3><p>Automatski prevod jelovnika.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/></svg></div><div class="mod-info"><h3>Glasovni asistent</h3><p>Glasovni unos jela u realnom vremenu.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div><div class="mod-info"><h3>Kalkulator poreza i doprinosa</h3><p>Automatski obračun obaveza.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/></svg></div><div class="mod-info"><h3>Generator faktura</h3><p>Predračuni, fakture, otpremnice.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div class="mod-info"><h3>Dnevni pazar</h3><p>Praćenje keša, kartica i dostave.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/></svg></div><div class="mod-info"><h3>Zakonski rokovnik</h3><p>Podsetnici za PDV i inspekcije.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/></svg></div><div class="mod-info"><h3>Bilans stanja i uspeha</h3><p>Automatski mesečni izveštaji.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div><div class="mod-info"><h3>Izvoz za knjigovođu</h3><p>Podaci spremni za Excel/PDF.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/></svg></div><div class="mod-info"><h3>Workflow menadžer</h3><p>Automatizacija nabavke i naplate.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/></svg></div><div class="mod-info"><h3>Checklista</h3><p>Otvaranje i zatvaranje lokala.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg></div><div class="mod-info"><h3>Alarmi i notifikacije</h3><p>Obaveštenja za zalihe i rokove.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div><div class="mod-info"><h3>Dnevni izveštaj</h3><p>Automatski pregled prometa i troškova.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
+        <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 12h8M12 8v8"/></svg></div><div class="mod-info"><h3>AI Agent — Cela uprava</h3><p>Chat asistent koji objedinjuje svih 30 modula.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
+
     </div>
-
-    <!-- KATEGORIJE -->
-    <h2 class="section-title">Svi moduli po kategorijama</h2>
-
-    <!-- Meni i opisivanje -->
-    <section class="category-section">
-        <div class="category-header"><div class="category-title">Meni i opisivanje</div><div class="category-badge">6 modula</div></div>
-        <div class="module-grid">
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-active">Aktivan</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div class="mod-info"><h3>Meni Inženjer</h3><p>Opisi jela za 19 kategorija restorana.</p></div><div class="mod-action-btn btn-active">Aktivan</div></div>
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-prep">U pripremi</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M12 2v2M12 20v2"/></svg></div><div class="mod-info"><h3>Generator naziva jela</h3><p>Kreativna imena za nova autorska jela.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-prep">U pripremi</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/></svg></div><div class="mod-info"><h3>Opisi za Wolt/Glovo</h3><p>Komercijalni opisi za aplikacije za dostavu.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-prep">U pripremi</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M12 1c-4.97 0-9 4.03-9 9"/></svg></div><div class="mod-info"><h3>Opisi za konobare</h3><p>Kratke prodajne fraze za osoblje.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-prep">U pripremi</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><div class="mod-info"><h3>Meni Inženjer Vizual</h3><p>Fotografisanje menija i digitalizacija.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg></div><div class="mod-info"><h3>Meni na više jezika</h3><p>Automatski prevod jelovnika.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-        </div>
-    </section>
-
-    <!-- Cene i finansije -->
-    <section class="category-section">
-        <div class="category-header"><div class="category-title">Cene i finansije</div><div class="category-badge">5 modula</div></div>
-        <div class="module-grid">
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-active">Aktivan</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/></svg></div><div class="mod-info"><h3>Kalkulator cena</h3><p>Normativi, troškovi i marže.</p></div><div class="mod-action-btn btn-active">Aktivan</div></div>
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-prep">U pripremi</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div><div class="mod-info"><h3>PDV i marža</h3><p>Poreske stope i neto profit.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-prep">U pripremi</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg></div><div class="mod-info"><h3>Cenovna strategija</h3><p>Psihološke cene za meni.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div><div class="mod-info"><h3>Kalkulator poreza i doprinosa</h3><p>Automatski obračun obaveza.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/></svg></div><div class="mod-info"><h3>Generator faktura</h3><p>Predračuni, fakture, otpremnice.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-        </div>
-    </section>
-
-    <!-- Piće i sparivanje -->
-    <section class="category-section">
-        <div class="category-header"><div class="category-title">Piće i sparivanje</div><div class="category-badge">1 modul</div></div>
-        <div class="module-grid">
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-active">Aktivan</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/></svg></div><div class="mod-info"><h3>Sparivač pića</h3><p>Preporuke vina, piva i koktela uz jelo.</p></div><div class="mod-action-btn btn-active">Aktivan</div></div>
-        </div>
-    </section>
-
-    <!-- Planiranje -->
-    <section class="category-section">
-        <div class="category-header"><div class="category-title">Planiranje</div><div class="category-badge">2 modula</div></div>
-        <div class="module-grid">
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-prep">U pripremi</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/></svg></div><div class="mod-info"><h3>Dnevni meni generator</h3><p>Dnevne ponude na osnovu zaliha i sezone.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-prep">U pripremi</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><div class="mod-info"><h3>Optimizacija zaliha</h3><p>Pametna nabavka na osnovu prometa.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-        </div>
-    </section>
-
-    <!-- Zdravlje i bezbednost -->
-    <section class="category-section">
-        <div class="category-header"><div class="category-title">Zdravlje i bezbednost</div><div class="category-badge">2 modula</div></div>
-        <div class="module-grid">
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-prep">U pripremi</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div><div class="mod-info"><h3>Alergeni i nutritivne vrednosti</h3><p>Ekstrakcija alergena i kalorija.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/></svg></div><div class="mod-info"><h3>HACCP asistent</h3><p>Digitalni obrasci i sanitarni nadzor.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-        </div>
-    </section>
-
-    <!-- Osoblje -->
-    <section class="category-section">
-        <div class="category-header"><div class="category-title">Osoblje</div><div class="category-badge">1 modul</div></div>
-        <div class="module-grid">
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="mod-info"><h3>Planer osoblja</h3><p>Raspored smena i obračun zarada.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-        </div>
-    </section>
-
-    <!-- Marketing i prodaja -->
-    <section class="category-section">
-        <div class="category-header"><div class="category-title">Marketing i prodaja</div><div class="category-badge">3 modula</div></div>
-        <div class="module-grid">
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-prep">U pripremi</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/></svg></div><div class="mod-info"><h3>A/B test menija</h3><p>Poređenje verzija menija i profitabilnosti.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8"/></svg></div><div class="mod-info"><h3>Marketing menadžer</h3><p>Objave za mreže i odgovori na recenzije.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m18.7 8-5.1 5.2"/></svg></div><div class="mod-info"><h3>Analitika restorana</h3><p>Najprodavanija jela i predikcije.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-        </div>
-    </section>
-
-    <!-- Administracija -->
-    <section class="category-section">
-        <div class="category-header"><div class="category-title">Administracija</div><div class="category-badge">4 modula</div></div>
-        <div class="module-grid">
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div class="mod-info"><h3>Dnevni pazar</h3><p>Praćenje keša, kartica i dostave.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/></svg></div><div class="mod-info"><h3>Zakonski rokovnik</h3><p>Podsetnici za PDV i inspekcije.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/></svg></div><div class="mod-info"><h3>Bilans stanja i uspeha</h3><p>Automatski mesečni izveštaji.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div><div class="mod-info"><h3>Izvoz za knjigovođu</h3><p>Podaci spremni za Excel/PDF.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-        </div>
-    </section>
-
-    <!-- Automatizacija -->
-    <section class="category-section">
-        <div class="category-header"><div class="category-title">Automatizacija</div><div class="category-badge">4 modula</div></div>
-        <div class="module-grid">
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/></svg></div><div class="mod-info"><h3>Workflow menadžer</h3><p>Automatizacija nabavke i naplate.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/></svg></div><div class="mod-info"><h3>Checklista</h3><p>Otvaranje i zatvaranje lokala.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg></div><div class="mod-info"><h3>Alarmi i notifikacije</h3><p>Obaveštenja za zalihe i rokove.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div><div class="mod-info"><h3>Dnevni izveštaj</h3><p>Automatski pregled prometa i troškova.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-        </div>
-    </section>
-
-    <!-- Krovni modul -->
-    <section class="category-section">
-        <div class="category-header"><div class="category-title">Krovni modul</div><div class="category-badge">1 modul</div></div>
-        <div class="module-grid">
-            <div class="mod-card mod-card-disabled"><span class="status-badge badge-premium">Premium</span><div class="icon-box"><svg class="mod-icon" viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 12h8M12 8v8"/></svg></div><div class="mod-info"><h3>AI Agent — Cela uprava</h3><p>Chat asistent koji objedinjuje svih 30 modula u jedan interfejs i služi kao digitalni menadžer restorana.</p></div><div class="mod-action-btn btn-disabled">Zaključano</div></div>
-        </div>
-    </section>
-
 </div>
 
 <footer>
-    <p>© 2026 Ugostiteljski AI Agent. 30 modula. Jedan ekosistem. Cela uprava.</p>
-</footer>
-
-</body>
-</html>
+    <p>© 2026 Ug
