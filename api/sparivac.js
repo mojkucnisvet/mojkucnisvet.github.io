@@ -18,40 +18,25 @@ export default async function handler(req, res) {
 
     let instrukcijaListe = '';
     if (lista.length > 0) {
-      instrukcijaListe = `Restoran ima OVU listu pića: ${lista.join(', ')}.`;
+      instrukcijaListe = `Restoran ima OVU listu pića: ${lista.join(', ')}. Izaberi SAMO 1 ili 2 pića iz ove liste koja se NAJBOLJE slažu uz jelo.`;
     }
 
-    const prompt = `Ti si profesionalni somelijer i ekspert za sparivanje hrane i pića. 
-Gost je naručio: "${jelo}". Sastojci: ${sastojci || 'standardni'}. 
-Želi preporuku za: ${tip}.
-${instrukcijaListe}
+    const prompt = `Ti si profesionalni somelijer. Gost je naručio: "${jelo}". Sastojci: ${sastojci || 'standardni'}. Želi preporuku za: ${tip}. ${instrukcijaListe}
 
-Vrati JSON u formatu:
+Vrati JSON:
 {
-  "najbolje": [
+  "preporuke": [
     {
       "pice": "Naziv pića",
-      "zasto": "Kratko objašnjenje zašto se NAJBOLJE slaže (1 rečenica)",
-      "temperatura": "Temperatura serviranja",
-      "opisZaKonobara": "Kratka rečenica koju konobar može da kaže gostu (1 rečenica)",
-      "cena": "Predlog prodajne cene u RSD po čaši/flaši"
-    }
-  ],
-  "ostale": [
-    {
-      "pice": "Naziv pića",
-      "zasto": "Objašnjenje zašto se slaže",
+      "zasto": "Kratko objašnjenje (1 rečenica)",
       "temperatura": "Temperatura serviranja",
       "opisZaKonobara": "Kratka rečenica za konobara",
-      "cena": "Predlog cene u RSD"
+      "cena": "Cena u RSD po čaši/flaši"
     }
   ]
 }
 
-U "najbolje" stavi SAMO 1 ili 2 pića koja se APSOLUTNO NAJBOLJE slažu uz jelo.
-U "ostale" stavi ostala pića koja se takođe dobro slažu (može i 5, 8, 10 - koliko ima smisla).
-Ako je lista pića data, biraj SAMO iz te liste. Ako nema liste, predloži šta god je najbolje.
-Cene neka budu realne za Srbiju (300-800 RSD za čašu vina, 200-400 RSD za pivo, 400-700 RSD za koktel).`;
+Daj 1 ili 2 preporuke. Prva neka bude NAJBOLJA. Ako nema liste pića, slobodno predloži šta god je najbolje. Cene realne za Srbiju (300-800 RSD vino, 200-400 RSD pivo, 400-700 RSD koktel).`;
 
     const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
       method: 'POST',
@@ -63,7 +48,7 @@ Cene neka budu realne za Srbiju (300-800 RSD za čašu vina, 200-400 RSD za pivo
         model: 'deepseek-chat',
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.7,
-        max_tokens: 800
+        max_tokens: 400
       })
     });
 
@@ -80,8 +65,7 @@ Cene neka budu realne za Srbiju (300-800 RSD za čašu vina, 200-400 RSD za pivo
       return res.status(200).json(parsed);
     } catch (e) {
       return res.status(200).json({ 
-        najbolje: [],
-        ostale: [{
+        preporuke: [{
           pice: raw,
           zasto: '',
           temperatura: '',
