@@ -19,12 +19,17 @@ export default async function handler(req, res) {
                        broj === 5 ? 'predjelo, supa, glavno jelo, desert, piće' :
                        'predjelo, supa, glavno jelo, salata, desert, piće';
 
-    const prompt = `Ti si profesionalni kuvar sa 24 godine iskustva. KREIRAJ DNEVNI MENI za restoran.
+    const budzetInstrukcija = budzet 
+      ? `UKUPNA CENA SVIH JELA MORA BITI DO ${budzet} RSD. Zbir cena svih jela NE SME preći ${budzet} RSD. Pojedinačne cene prilagodi tako da ukupan zbir bude ispod ${budzet} RSD. Ovo je NAJVAŽNIJE pravilo.`
+      : 'Cene neka budu realne za ovu vrstu restorana u Srbiji.';
+
+    const prompt = `Ti si profesionalni kuvar. KREIRAJ DNEVNI MENI.
 
 Vrsta restorana: ${restoran}
 Broj jela: ${broj} (kategorije: ${kategorije})
-Budžet: ${budzet || 'nije ograničen'}
 Posebni zahtevi: ${zahtevi || 'nema'}
+
+PRAVILO BUDŽETA: ${budzetInstrukcija}
 
 Vrati JSON:
 {
@@ -33,13 +38,14 @@ Vrati JSON:
       "kategorija": "Predjelo/Supa/Glavno jelo/Desert/Salata/Piće",
       "jelo": "Naziv jela",
       "opis": "Kratak opis (1 rečenica, do 15 reči)",
-      "cena": "Predlog cene u RSD"
+      "cena": "Cena u RSD (broj, bez tekst)"
     }
   ],
-  "napomena": "Kratka napomena o meniju (opciono, 1 rečenica)"
+  "ukupno": "Ukupna cena svih jela u RSD (samo broj)",
+  "napomena": "Kratka napomena (1 rečenica)"
 }
 
-Jela neka budu realna za ovu vrstu restorana. Cene realne za Srbiju (500-2500 RSD po jelu). Opisi kratki i primamljivi.`;
+VAŽNO: Ako je zadat budžet, cene MORAŠ da prilagodiš tako da ukupan zbir svih jela NE PREĐE zadati budžet. Smanji cene pojedinačnih jela ako treba. Ovo je najvažniji zahtev.`;
 
     const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
       method: 'POST',
@@ -50,7 +56,7 @@ Jela neka budu realna za ovu vrstu restorana. Cene realne za Srbiju (500-2500 RS
       body: JSON.stringify({
         model: 'deepseek-chat',
         messages: [{ role: 'user', content: prompt }],
-        temperature: 0.8,
+        temperature: 0.6,
         max_tokens: 600
       })
     });
@@ -69,6 +75,7 @@ Jela neka budu realna za ovu vrstu restorana. Cene realne za Srbiju (500-2500 RS
     } catch (e) {
       return res.status(200).json({ 
         meni: [{ kategorija: 'Meni', jelo: raw, opis: '', cena: '' }],
+        ukupno: '',
         napomena: ''
       });
     }
