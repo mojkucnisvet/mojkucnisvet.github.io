@@ -18,7 +18,7 @@ export default async function handler(req, res) {
 
     let instrukcijaListe = '';
     if (lista.length > 0) {
-      instrukcijaListe = `Preporuči SAMO iz ove liste pića koje restoran ima: ${lista.join(', ')}.`;
+      instrukcijaListe = `Restoran ima OVU listu pića: ${lista.join(', ')}.`;
     }
 
     const prompt = `Ti si profesionalni somelijer i ekspert za sparivanje hrane i pića. 
@@ -28,19 +28,29 @@ ${instrukcijaListe}
 
 Vrati JSON u formatu:
 {
-  "preporuke": [
+  "najbolje": [
     {
       "pice": "Naziv pića",
-      "zasto": "Kratko objašnjenje zašto se slaže (1 rečenica)",
+      "zasto": "Kratko objašnjenje zašto se NAJBOLJE slaže (1 rečenica)",
       "temperatura": "Temperatura serviranja",
       "opisZaKonobara": "Kratka rečenica koju konobar može da kaže gostu (1 rečenica)",
       "cena": "Predlog prodajne cene u RSD po čaši/flaši"
     }
+  ],
+  "ostale": [
+    {
+      "pice": "Naziv pića",
+      "zasto": "Objašnjenje zašto se slaže",
+      "temperatura": "Temperatura serviranja",
+      "opisZaKonobara": "Kratka rečenica za konobara",
+      "cena": "Predlog cene u RSD"
+    }
   ]
 }
 
-Daj 3 preporuke. Ako je lista pića data, biraj SAMO iz te liste. 
-Ako je "Sve", daj jednu za vino, jednu za pivo, jednu za koktel/bezalkoholno.
+U "najbolje" stavi SAMO 1 ili 2 pića koja se APSOLUTNO NAJBOLJE slažu uz jelo.
+U "ostale" stavi ostala pića koja se takođe dobro slažu (može i 5, 8, 10 - koliko ima smisla).
+Ako je lista pića data, biraj SAMO iz te liste. Ako nema liste, predloži šta god je najbolje.
 Cene neka budu realne za Srbiju (300-800 RSD za čašu vina, 200-400 RSD za pivo, 400-700 RSD za koktel).`;
 
     const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
@@ -53,7 +63,7 @@ Cene neka budu realne za Srbiju (300-800 RSD za čašu vina, 200-400 RSD za pivo
         model: 'deepseek-chat',
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.7,
-        max_tokens: 500
+        max_tokens: 800
       })
     });
 
@@ -70,7 +80,8 @@ Cene neka budu realne za Srbiju (300-800 RSD za čašu vina, 200-400 RSD za pivo
       return res.status(200).json(parsed);
     } catch (e) {
       return res.status(200).json({ 
-        preporuke: [{
+        najbolje: [],
+        ostale: [{
           pice: raw,
           zasto: '',
           temperatura: '',
