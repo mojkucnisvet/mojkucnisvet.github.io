@@ -7,17 +7,24 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Samo POST zahtevi.' });
 
   try {
-    const { jelo, sastojci, tipPica } = req.body || {};
+    const { jelo, sastojci, tipPica, listaPica } = req.body || {};
 
     if (!jelo) {
       return res.status(400).json({ error: 'Unesite naziv jela.' });
     }
 
     const tip = tipPica || 'Sve';
+    const lista = listaPica || [];
+
+    let instrukcijaListe = '';
+    if (lista.length > 0) {
+      instrukcijaListe = `Preporuči SAMO iz ove liste pića koje restoran ima: ${lista.join(', ')}.`;
+    }
 
     const prompt = `Ti si profesionalni somelijer i ekspert za sparivanje hrane i pića. 
 Gost je naručio: "${jelo}". Sastojci: ${sastojci || 'standardni'}. 
 Želi preporuku za: ${tip}.
+${instrukcijaListe}
 
 Vrati JSON u formatu:
 {
@@ -32,7 +39,8 @@ Vrati JSON u formatu:
   ]
 }
 
-Daj 3 preporuke. Prilagodi preporuke vrsti pića. Ako je "Sve", daj jednu za vino, jednu za pivo, jednu za koktel/bezalkoholno.
+Daj 3 preporuke. Ako je lista pića data, biraj SAMO iz te liste. 
+Ako je "Sve", daj jednu za vino, jednu za pivo, jednu za koktel/bezalkoholno.
 Cene neka budu realne za Srbiju (300-800 RSD za čašu vina, 200-400 RSD za pivo, 400-700 RSD za koktel).`;
 
     const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
