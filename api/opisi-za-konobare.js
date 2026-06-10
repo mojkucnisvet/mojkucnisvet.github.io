@@ -7,25 +7,31 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Samo POST zahtevi.' });
 
   try {
-    const { jelo, opis, kontekst } = req.body || {};
+    const { jelo, opis, tip, kontekst } = req.body || {};
 
     if (!jelo) return res.status(400).json({ error: 'Unesite naziv jela.' });
 
-    const prompt = `Ti si trener prodaje za ugostiteljsko osoblje. Tvoj zadatak je da smisliš kratke, ubedljive rečenice koje konobar može da kaže gostu da bi prodao jelo.
+    const prompt = `Ti si trener prodaje za ugostiteljsko osoblje. Tvoj zadatak je da smisliš kratke, ubedljive rečenice koje ${tip || 'Konobar'} može da kaže gostu da bi prodao jelo/piće.
 
-Jelo: ${jelo}
-Opis jela: ${opis || 'Nema opisa'}
+Jelo/Piće: ${jelo}
+Opis: ${opis || 'Nema opisa'}
+Tip osoblja: ${tip || 'Konobar'}
 Kontekst: ${kontekst || 'Standardna preporuka'}
 
-Smisli TRI različite rečenice za konobara. Svaka neka bude za drugačiju situaciju. Vrati SAMO čist JSON, bez markdown-a, bez \`\`\`:
+Pravila za tip osoblja:
+- Ako je Konobar - fokusiraj se na hranu, ukus, način pripreme
+- Ako je Somelijer - fokusiraj se na vino, sparivanje sa hranom, aromu, godinu berbe
+- Ako je Barmen - fokusiraj se na koktele, sastojke, način pripreme, vizuelni izgled
+
+Smisli TRI različite rečenice. Svaka neka bude za drugačiju situaciju. Vrati SAMO čist JSON, bez markdown-a, bez \`\`\`:
 
 {
   "recenice": [
     {"situacija": "Kada gost pita za preporuku", "recenica": "Kratka, prodajna rečenica (max 15 reči)"},
     {"situacija": "Kada gost okleva", "recenica": "Kratka, prodajna rečenica"},
-    {"situacija": "Kada konobar nudi kao specijalitet", "recenica": "Kratka, prodajna rečenica"}
+    {"situacija": "Kada nudiš kao specijalitet", "recenica": "Kratka, prodajna rečenica"}
   ],
-  "savet": "Kratak savet konobaru kako da izgovori ove rečenice (ton, kontakt očima, osmeh) - 1 rečenica"
+  "savet": "Kratak savet kako da izgovori ove rečenice (ton, kontakt očima, osmeh) - 1 rečenica"
 }`;
 
     const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
