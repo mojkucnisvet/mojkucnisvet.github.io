@@ -7,27 +7,40 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Samo POST zahtevi.' });
 
   try {
-    const { naziv, cena, kategorija, dodatno } = req.body || {};
+    const { naziv, cena, kategorija, zvezdice, dodatno } = req.body || {};
 
     if (!cena) return res.status(400).json({ error: 'Unesite prodajnu cenu.' });
+
+    const zvezdiceMap = {
+      '1': 'Brza hrana, kiosk, pekara',
+      '2': 'Kafana, bistro, picerija',
+      '3': 'Restoran srednje klase',
+      '4': 'Premium restoran, hotel',
+      '5': 'Lux, fine dining, Mišelin nivo'
+    };
+
+    const nivoObjekta = zvezdiceMap[zvezdice] || 'Nije navedeno';
 
     const prompt = `Ti si ekspert za psihologiju cena u ugostiteljstvu.
 
 Jelo: ${naziv || 'Nepoznato jelo'}
 Trenutna cena: ${cena}
-Kategorija: ${kategorija || 'Nije navedeno'}
+Kategorija jela: ${kategorija || 'Nije navedeno'}
+Nivo objekta: ${nivoObjekta} (${zvezdice || '?'} zvezdica)
 Dodatne informacije: ${dodatno || 'Nema'}
+
+VAŽNO: Uzmi u obzir NAZIV jela, KATEGORIJU jela (predjelo, glavno, desert, piće) i NIVO OBJEKTA (zvezdice). Ista corba u kafani (2 zvezdice) kosta 300 RSD, u premium restoranu (4 zvezdice) 800 RSD. Predlozi moraju biti realni za taj nivo objekta. Varijacije neka budu ±20% od trenutne cene.
 
 Daj TRI predloga psiholoških cena sa kratkim objašnjenjem za svaki. Vrati SAMO čist JSON, bez markdown-a, bez \`\`\`:
 
 {
   "predlozi": [
-    {"cena": "1150", "strategija": "Zaokružena cena", "zasto": "Deluje uredno i profesionalno. Gosti ne razmišljaju o ceni."},
-    {"cena": "1149", "strategija": "Psihološka cena", "zasto": "Deluje jeftinije iako je razlika samo 1 RSD. Odlično za brze odluke."},
-    {"cena": "1190", "strategija": "Premijum cena", "zasto": "Deluje kvalitetnije. Gost misli da dobija više za svoj novac."}
+    {"cena": "290", "strategija": "Zaokružena cena", "zasto": "Deluje uredno i profesionalno."},
+    {"cena": "285", "strategija": "Psihološka cena", "zasto": "Deluje jeftinije iako je razlika mala."},
+    {"cena": "350", "strategija": "Premijum cena", "zasto": "Deluje kvalitetnije."}
   ],
   "savet": "Koju cenu izabrati i zašto (1-2 rečenice)",
-  "objasnjenje": "Kratko objašnjenje psihologije cena za ovu kategoriju (1-2 rečenice)"
+  "objasnjenje": "Kratko objašnjenje psihologije cena za ovu vrstu jela i nivo objekta (1-2 rečenice)"
 }`;
 
     const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
