@@ -27,8 +27,6 @@
         .btn:disabled { opacity: 0.4; cursor: not-allowed; }
         .btn-secondary { background: #0F1319; border: 1px solid #222C38; color: #94A3B8; margin-top: 0.5rem; }
         .btn-secondary:hover { border-color: #E65F19; color: #E65F19; }
-        .btn-outline { background: transparent; border: 1px solid #4A5568; color: #94A3B8; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.85rem; transition: all 0.3s; }
-        .btn-outline:hover { border-color: #E65F19; color: #E65F19; }
         .upload-area { border: 2px dashed #4A5568; border-radius: 16px; padding: 2rem; text-align: center; transition: all 0.3s; cursor: pointer; position: relative; margin-bottom: 1rem; }
         .upload-area:hover { border-color: #E65F19; }
         .upload-area.has-image { border-style: solid; border-color: #2ecc71; padding: 0; }
@@ -68,8 +66,8 @@
     <p class="subtitle">Fotografišite svoj papirni meni ili unesite tekst ručno. AI ga digitalizuje i unapređuje opise i cene.</p>
 
     <div class="card">
-        <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
-            <div id="uploadPlaceholder">
+        <div class="upload-area" id="uploadArea">
+            <div id="uploadPlaceholder" style="cursor:pointer;" onclick="document.getElementById('fileInput').click()">
                 <div class="upload-icon">📸</div>
                 <div class="upload-text">Dodirnite da fotografišete meni</div>
                 <div class="upload-hint">ili izaberite sliku iz galerije</div>
@@ -79,6 +77,11 @@
                 <button class="remove-image-btn" onclick="removeImage(event)" title="Ukloni sliku">✕</button>
             </div>
             <input type="file" accept="image/*" id="fileInput" onchange="handleImage(event)">
+        </div>
+
+        <div style="display:flex;gap:0.5rem;margin-bottom:1rem;">
+            <button class="btn-outline" onclick="document.getElementById('fileInput').click()" style="flex:1;">📷 Kamera</button>
+            <button class="btn-outline" onclick="pickFromGallery()" style="flex:1;">🖼️ Galerija</button>
         </div>
 
         <div class="form-group">
@@ -97,6 +100,12 @@
 
 <script>
     let imageBase64 = '';
+
+    function pickFromGallery() {
+        const input = document.getElementById('fileInput');
+        input.removeAttribute('capture');
+        input.click();
+    }
 
     function handleImage(event) {
         const file = event.target.files[0];
@@ -153,7 +162,7 @@
                 data.meni.forEach(j => {
                     const item = document.createElement('div');
                     item.className = 'meni-item';
-                    item.innerHTML = `<div class="jelo-naziv">${j.jelo}</div><div class="jelo-opis">${j.opis}</div><div class="jelo-cena">${j.cena} RSD</div>`;
+                    item.innerHTML = `<div class="jelo-naziv">${j.jelo || ''}</div><div class="jelo-opis">${j.opis || ''}</div><div class="jelo-cena">${j.cena ? j.cena + ' RSD' : ''}</div>`;
                     results.appendChild(item);
                 });
 
