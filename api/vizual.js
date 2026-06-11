@@ -7,14 +7,37 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Samo POST zahtevi.' });
 
   try {
-    const { tekst } = req.body || {};
+    const { tekst, imageBase64 } = req.body || {};
 
-    if (!tekst) return res.status(400).json({ error: 'Unesite tekst menija ili otpremite sliku.' });
+    let meniTekst = tekst;
+
+    // Ako je poslata slika, prvo uradi OCR
+    if (imageBase64 && !tekst) {
+      const ocrResponse = await fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyD8AjfFweKkZsj1eKqdJ1UQBHT__klS5AE', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          requests: [{
+            image: { content: imageBase64 },
+            features: [{ type: 'TEXT_DETECTION' }]
+          }]
+        })
+      });
+
+      const ocrData = await ocrResponse.json();
+      if (ocrData.responses && ocrData.responses[0].fullTextAnnotation) {
+        meniTekst = ocrData.responses[0].fullTextAnnotation.text;
+      } else {
+        return res.status(400).json({ error: 'Nije uspelo čitanje teksta sa slike. Pokušajte ponovo ili unesite tekst ručno.' });
+      }
+    }
+
+    if (!meniTekst) return res.status(400).json({ error: 'Unesite tekst menija ili otpremite sliku.' });
 
     const prompt = `Ti si profesionalni Meni Inženjer. Dobio si tekst starog menija koji treba da unaprediš.
 
 Stari meni:
-${tekst}
+${meniTekst}
 
 Za SVAKO jelo uradi sledeće:
 1. Zadrži originalni naziv jela (nemoj ga menjati)
@@ -43,9 +66,9 @@ Vrati SAMO čist JSON, bez markdown-a, bez \`\`\`:
 
     try {
       const parsed = JSON.parse(raw);
-      return res.status(200).json(parsed);
+      return res.status(200).json({ ...parsed, originalniTekst: meniTekst });
     } catch (e) {
-      return res.status(200).json({ napomena: raw, meni: [] });
+      return res.status(200).json({ napomena: raw, meni: [], originalniTekst: meniTekst });
     }
 
   } catch (error) {
