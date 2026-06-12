@@ -100,16 +100,15 @@
         btn.textContent = 'Analiziram...';
 
         try {
-            const response = await fetch('https://mojkucnisvet-github-io.vercel.app/api/alergeni', {
+            const response = await fetch('https://mojkucnisvet-github-io.vercel.app/api/index', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ jelo, sastojci })
+                body: JSON.stringify({ modul: 'alergeni', jelo, sastojci })
             });
 
             if (!response.ok) { const err = await response.json().catch(() => ({})); throw new Error(err.error || 'Greška.'); }
 
             const data = await response.json();
 
-            // Fallback
             if (data.oznaka && (!data.alergeni || data.alergeni.length === 0) && (!data.nutritivneVrednosti || Object.keys(data.nutritivneVrednosti).length === 0)) {
                 const box = document.createElement('div');
                 box.className = 'oznaka-box';
@@ -120,7 +119,6 @@
                 return;
             }
 
-            // Alergeni — samo prisutni
             if (data.alergeni && data.alergeni.length > 0) {
                 const prisutni = data.alergeni.filter(a => a.prisutan === true || a.alergen === 'da');
                 
@@ -148,7 +146,6 @@
                 }
             }
 
-            // Nutritivne vrednosti
             if (data.nutritivneVrednosti && Object.keys(data.nutritivneVrednosti).length > 0) {
                 const secTitle = document.createElement('div');
                 secTitle.className = 'section-title';
@@ -168,7 +165,6 @@
                 results.appendChild(grid);
             }
 
-            // Oznaka
             if (data.oznaka) {
                 const secTitle = document.createElement('div');
                 secTitle.className = 'section-title';
