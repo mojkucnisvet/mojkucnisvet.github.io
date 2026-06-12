@@ -99,9 +99,9 @@
         btn.textContent = 'Analiziram...';
 
         try {
-            const response = await fetch('https://mojkucnisvet-github-io.vercel.app/api/cenovna-strategija', {
+            const response = await fetch('https://mojkucnisvet-github-io.vercel.app/api/index', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ naziv, cena, kategorija, zvezdice, dodatno })
+                body: JSON.stringify({ modul: 'cenovna-strategija', naziv, cena, kategorija, zvezdice, dodatno })
             });
 
             if (!response.ok) { const err = await response.json().catch(() => ({})); throw new Error(err.error || 'Greška.'); }
