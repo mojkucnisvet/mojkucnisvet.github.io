@@ -52,9 +52,7 @@
 
 <header>
     <a href="../index.html" class="nav-back">← Kontrolna Tabla</a>
-    <div class="brand-area">
-        <div class="brand-text">Meni<span>Inženjer</span></div>
-    </div>
+    <div class="brand-area"><div class="brand-text">Meni<span>Inženjer</span></div></div>
 </header>
 
 <div class="container">
@@ -64,149 +62,38 @@
     </div>
 
     <div class="card">
-        <div class="form-group">
-            <label>🍽️ Naziv jela (opciono)</label>
-            <input type="text" id="nazivJela" placeholder="Npr. Musaka, Punjena paprika... Ostavite prazno za magično prepoznavanje">
-            <div class="hint-text">Ako ne znate naziv, unesite samo sastojke i AI će pogoditi jelo.</div>
-        </div>
-
-        <div class="form-group">
-            <label>🥕 Sastojci (obavezno ako nema naziva)</label>
-            <textarea id="sastojci" placeholder="Npr. krompir, mleveno meso, luk, začini..."></textarea>
-            <div class="hint-text">Navedite ključne sastojke odvojene zarezom.</div>
-        </div>
-
+        <div class="form-group"><label>🍽️ Naziv jela (opciono)</label><input type="text" id="nazivJela" placeholder="Npr. Musaka, Punjena paprika... Ostavite prazno za magično prepoznavanje"><div class="hint-text">Ako ne znate naziv, unesite samo sastojke i AI će pogoditi jelo.</div></div>
+        <div class="form-group"><label>🥕 Sastojci (obavezno ako nema naziva)</label><textarea id="sastojci" placeholder="Npr. krompir, mleveno meso, luk, začini..."></textarea><div class="hint-text">Navedite ključne sastojke odvojene zarezom.</div></div>
         <div class="row">
-            <div class="form-group">
-                <label>🏪 Vrsta restorana</label>
-                <select id="restoran">
-                    <option value="tradicionalni restoran">🥘 Tradicionalni / Nacionalni</option>
-                    <option value="italijanski restoran">🍝 Italijanski</option>
-                    <option value="japanski restoran">🍣 Japanski / Sushi</option>
-                    <option value="fast food">🍔 Street & Fast Food</option>
-                    <option value="moderni fjužn">🥗 Moderni fjužn</option>
-                    <option value="kafić">☕ Kafić</option>
-                    <option value="poslastičarnica">🍰 Poslastičarnica</option>
-                    <option value="bar">🍹 Bar / Koktel bar</option>
-                    <option value="hotelski restoran">🏨 Hotelski restoran</option>
-                    <option value="steakhouse">🥩 Steakhouse</option>
-                    <option value="kineski restoran">🥡 Kineski</option>
-                    <option value="indijski restoran">🍛 Indijski</option>
-                    <option value="francuski restoran">🥐 Francuski</option>
-                    <option value="grčki restoran">🥙 Grčki / Mediteranski</option>
-                    <option value="pekara">🥨 Pekara</option>
-                    <option value="meksički restoran">🌮 Meksički</option>
-                    <option value="picerija">🍕 Picerija</option>
-                    <option value="vegan restoran">🌿 Vegan / Vegetarijanski</option>
-                    <option value="tajlandski restoran">🍜 Tajlandski / Vijetnamski</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>🎨 Nivo kreativnosti</label>
-                <select id="kreativnost">
-                    <option value="1">🥉 Klasičan – jednostavan i direktan</option>
-                    <option value="2" selected>🥈 Kreativan – živopisan i primamljiv</option>
-                    <option value="3">🥇 Signature – jedinstven i autorski</option>
-                </select>
-            </div>
+            <div class="form-group"><label>🏪 Vrsta restorana</label><select id="restoran"><option value="tradicionalni restoran">🥘 Tradicionalni / Nacionalni</option><option value="italijanski restoran">🍝 Italijanski</option><option value="japanski restoran">🍣 Japanski / Sushi</option><option value="fast food">🍔 Street & Fast Food</option><option value="moderni fjužn">🥗 Moderni fjužn</option><option value="kafić">☕ Kafić</option><option value="poslastičarnica">🍰 Poslastičarnica</option><option value="bar">🍹 Bar / Koktel bar</option><option value="hotelski restoran">🏨 Hotelski restoran</option><option value="steakhouse">🥩 Steakhouse</option><option value="kineski restoran">🥡 Kineski</option><option value="indijski restoran">🍛 Indijski</option><option value="francuski restoran">🥐 Francuski</option><option value="grčki restoran">🥙 Grčki / Mediteranski</option><option value="pekara">🥨 Pekara</option><option value="meksički restoran">🌮 Meksički</option><option value="picerija">🍕 Picerija</option><option value="vegan restoran">🌿 Vegan / Vegetarijanski</option><option value="tajlandski restoran">🍜 Tajlandski / Vijetnamski</option></select></div>
+            <div class="form-group"><label>🎨 Nivo kreativnosti</label><select id="kreativnost"><option value="1">🥉 Klasičan – jednostavan i direktan</option><option value="2" selected>🥈 Kreativan – živopisan i primamljiv</option><option value="3">🥇 Signature – jedinstven i autorski</option></select></div>
         </div>
-
         <button class="btn btn-primary" id="generateBtn" onclick="generateOpis()">⚡ Generiši opis jela</button>
-
-        <div class="loading-spinner" id="loadingSpinner">
-            <div class="spinner"></div>
-            <p style="margin-top: 0.5rem; color: #707E94;">AI smišlja savršen opis...</p>
-        </div>
-
+        <div class="loading-spinner" id="loadingSpinner"><div class="spinner"></div><p style="margin-top: 0.5rem; color: #707E94;">AI smišlja savršen opis...</p></div>
         <div class="error-box" id="errorBox"></div>
-
-        <div class="result-box" id="resultBox">
-            <div class="result-header">
-                <span class="result-badge">✅ Generisano</span>
-                <span class="result-title">Opis jela</span>
-            </div>
-            <div class="result-detected" id="detectedJelo"></div>
-            <div class="result-text" id="resultText"></div>
-        </div>
+        <div class="result-box" id="resultBox"><div class="result-header"><span class="result-badge">✅ Generisano</span><span class="result-title">Opis jela</span></div><div class="result-detected" id="detectedJelo"></div><div class="result-text" id="resultText"></div></div>
     </div>
 </div>
 
-<footer>
-    <p>© 2026 Meni Inženjer | Deo Ugostiteljskog AI Agent ekosistema</p>
-</footer>
+<footer><p>© 2026 Meni Inženjer | Deo Ugostiteljskog AI Agent ekosistema</p></footer>
 
 <script>
     async function generateOpis() {
-        const nazivJela = document.getElementById('nazivJela').value.trim();
-        const sastojci = document.getElementById('sastojci').value.trim();
-        const restoran = document.getElementById('restoran').value;
-        const kreativnost = document.getElementById('kreativnost').value;
-
-        const errorBox = document.getElementById('errorBox');
-        const resultBox = document.getElementById('resultBox');
-        const resultText = document.getElementById('resultText');
-        const detectedJelo = document.getElementById('detectedJelo');
-        const loadingSpinner = document.getElementById('loadingSpinner');
-        const generateBtn = document.getElementById('generateBtn');
-
-        errorBox.classList.remove('show');
-        resultBox.classList.remove('show');
-        detectedJelo.textContent = '';
-
-        if (!nazivJela && !sastojci) {
-            errorBox.textContent = '⚠️ Unesite naziv jela ili bar nekoliko sastojaka.';
-            errorBox.classList.add('show');
-            return;
-        }
-
-        loadingSpinner.classList.add('show');
-        generateBtn.disabled = true;
-        generateBtn.textContent = '⏳ Generišem...';
-
-        try {
-            const response = await fetch('https://mojkucnisvet-github-io.vercel.app/api/generisi', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    jelo: nazivJela,
-                    restoran: restoran,
-                    sastojci: sastojci,
-                    kreativnost: parseInt(kreativnost)
-                })
-            });
-
-            if (!response.ok) {
-                const errData = await response.json().catch(() => ({}));
-                throw new Error(errData.error || 'Server je vratio grešku: ' + response.status);
-            }
-
-            const data = await response.json();
-
-            if (data.detected_jelo) {
-                detectedJelo.textContent = '🧠 AI je prepoznao: ' + data.detected_jelo;
-            }
-
-            resultText.textContent = data.opis || '(Nema opisa)';
-            resultBox.classList.add('show');
-            resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-        } catch (error) {
-            errorBox.textContent = '❌ Greška: ' + error.message;
-            errorBox.classList.add('show');
-        } finally {
-            loadingSpinner.classList.remove('show');
-            generateBtn.disabled = false;
-            generateBtn.textContent = '⚡ Generiši opis jela';
-        }
+        const nazivJela=document.getElementById('nazivJela').value.trim(),sastojci=document.getElementById('sastojci').value.trim(),restoran=document.getElementById('restoran').value,kreativnost=document.getElementById('kreativnost').value;
+        const errorBox=document.getElementById('errorBox'),resultBox=document.getElementById('resultBox'),resultText=document.getElementById('resultText'),detectedJelo=document.getElementById('detectedJelo'),loadingSpinner=document.getElementById('loadingSpinner'),generateBtn=document.getElementById('generateBtn');
+        errorBox.classList.remove('show');resultBox.classList.remove('show');detectedJelo.textContent='';
+        if(!nazivJela&&!sastojci){errorBox.textContent='⚠️ Unesite naziv jela ili bar nekoliko sastojaka.';errorBox.classList.add('show');return}
+        loadingSpinner.classList.add('show');generateBtn.disabled=true;generateBtn.textContent='⏳ Generišem...';
+        try{
+            const r=await fetch('https://mojkucnisvet-github-io.vercel.app/api/index',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({modul:'meni',jelo:nazivJela,restoran,sastojci,kreativnost:parseInt(kreativnost)})});
+            if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error||'Server je vratio grešku: '+r.status)}
+            const d=await r.json();
+            if(d.detected_jelo)detectedJelo.textContent='🧠 AI je prepoznao: '+d.detected_jelo;
+            resultText.textContent=d.opis||'(Nema opisa)';resultBox.classList.add('show');resultBox.scrollIntoView({behavior:'smooth',block:'nearest'});
+        }catch(e){errorBox.textContent='❌ Greška: '+e.message;errorBox.classList.add('show')}
+        finally{loadingSpinner.classList.remove('show');generateBtn.disabled=false;generateBtn.textContent='⚡ Generiši opis jela'}
     }
-
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' && e.ctrlKey) {
-            generateOpis();
-        }
-    });
+    document.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.ctrlKey)generateOpis()});
 </script>
-
 </body>
 </html>
