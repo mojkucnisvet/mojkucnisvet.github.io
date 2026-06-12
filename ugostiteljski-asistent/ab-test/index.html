@@ -103,9 +103,9 @@
         btn.textContent = 'Analiziram...';
 
         try {
-            const response = await fetch('https://mojkucnisvet-github-io.vercel.app/api/ab-test', {
+            const response = await fetch('https://mojkucnisvet-github-io.vercel.app/api/index', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ jelo, opisA, opisB })
+                body: JSON.stringify({ modul: 'ab-test', jelo, opisA, opisB })
             });
 
             if (!response.ok) { const err = await response.json().catch(() => ({})); throw new Error(err.error || 'Greška.'); }
