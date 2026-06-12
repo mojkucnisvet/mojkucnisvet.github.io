@@ -74,63 +74,20 @@
 
 <script>
     async function generate() {
-        const jelo = document.getElementById('jelo').value.trim();
-        const opis = document.getElementById('opis').value.trim();
-        const tip = document.getElementById('tip').value;
-        const kontekst = document.getElementById('kontekst').value;
-
-        const errorBox = document.getElementById('errorBox');
-        const results = document.getElementById('results');
-        const spinner = document.getElementById('spinner');
-        const btn = document.getElementById('genBtn');
-
-        errorBox.classList.remove('show');
-        results.style.display = 'none';
-        results.innerHTML = '';
-
-        if (!jelo) { errorBox.textContent = 'Unesite naziv jela ili pića.'; errorBox.classList.add('show'); return; }
-
-        spinner.classList.add('show');
-        btn.disabled = true;
-        btn.textContent = 'Smišljam...';
-
-        try {
-            const response = await fetch('https://mojkucnisvet-github-io.vercel.app/api/opisi-za-konobare', {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ jelo, opis, tip, kontekst })
-            });
-
-            if (!response.ok) { const err = await response.json().catch(() => ({})); throw new Error(err.error || 'Greška.'); }
-
-            const data = await response.json();
-
-            if (data.recenice && data.recenice.length > 0) {
-                data.recenice.forEach(r => {
-                    const card = document.createElement('div');
-                    card.className = 'recenica-card';
-                    card.innerHTML = `<div class="situacija">${r.situacija}</div><div class="tekst">"${r.recenica}"</div>`;
-                    results.appendChild(card);
-                });
-            }
-
-            if (data.savet) {
-                const box = document.createElement('div');
-                box.className = 'savet-box';
-                box.innerHTML = `<div class="savet-title">Savet</div><div class="savet-text">${data.savet}</div>`;
-                results.appendChild(box);
-            }
-
-            results.style.display = 'block';
-            results.scrollIntoView({ behavior: 'smooth' });
-
-        } catch (error) {
-            errorBox.textContent = 'Greška: ' + error.message;
-            errorBox.classList.add('show');
-        } finally {
-            spinner.classList.remove('show');
-            btn.disabled = false;
-            btn.textContent = 'Generiši rečenice';
-        }
+        const jelo=document.getElementById('jelo').value.trim(),opis=document.getElementById('opis').value.trim(),tip=document.getElementById('tip').value,kontekst=document.getElementById('kontekst').value;
+        const errorBox=document.getElementById('errorBox'),results=document.getElementById('results'),spinner=document.getElementById('spinner'),btn=document.getElementById('genBtn');
+        errorBox.classList.remove('show');results.style.display='none';results.innerHTML='';
+        if(!jelo){errorBox.textContent='Unesite naziv jela ili pića.';errorBox.classList.add('show');return}
+        spinner.classList.add('show');btn.disabled=true;btn.textContent='Smišljam...';
+        try{
+            const r=await fetch('https://mojkucnisvet-github-io.vercel.app/api/index',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({modul:'opisi-za-konobare',jelo,opis,tip,kontekst})});
+            if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error||'Greška.')}
+            const d=await r.json();
+            if(d.recenice&&d.recenice.length>0){d.recenice.forEach(r=>{const c=document.createElement('div');c.className='recenica-card';c.innerHTML=`<div class="situacija">${r.situacija}</div><div class="tekst">"${r.recenica}"</div>`;results.appendChild(c)})}
+            if(d.savet){const b=document.createElement('div');b.className='savet-box';b.innerHTML=`<div class="savet-title">Savet</div><div class="savet-text">${d.savet}</div>`;results.appendChild(b)}
+            results.style.display='block';results.scrollIntoView({behavior:'smooth'});
+        }catch(e){errorBox.textContent='Greška: '+e.message;errorBox.classList.add('show')}
+        finally{spinner.classList.remove('show');btn.disabled=false;btn.textContent='Generiši rečenice'}
     }
 </script>
 
