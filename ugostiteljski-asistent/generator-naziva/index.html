@@ -96,9 +96,9 @@
         btn.textContent = 'Smišljam...';
 
         try {
-            const response = await fetch('https://mojkucnisvet-github-io.vercel.app/api/generator-naziva', {
+            const response = await fetch('https://mojkucnisvet-github-io.vercel.app/api/index', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ sastojci, restoran, stil, dodatno })
+                body: JSON.stringify({ modul: 'generator-naziva', sastojci, restoran, stil, dodatno })
             });
 
             if (!response.ok) { const err = await response.json().catch(() => ({})); throw new Error(err.error || 'Greška.'); }
