@@ -47,13 +47,13 @@
 
 <div class="container">
     <h1>AI Agent — <span>Cela uprava</span></h1>
-    <p class="subtitle">Vaš digitalni asistent za vođenje restorana. Pitajte bilo šta — od menija do knjigovodstva.</p>
+    <p class="subtitle">Zdravo, ja sam tvoj AI agent expert za ugostiteljstvo i hotelijerstvo, pitaj šta te zanima?</p>
 
     <div class="chat-container" id="chatContainer">
         <div class="chat-messages" id="chatMessages">
             <div class="msg msg-agent">
-                Zdravo! Ja sam tvoj AI Agent za ugostiteljstvo. <br><br>
-                Mogu da ti pomognem sa menijima, cenama, nabavkom, osobljem, alergenima, marketingom — svime što ti treba za vođenje restorana. <br><br>
+                Zdravo! Ja sam tvoj AI Agent za ugostiteljstvo i hotelijerstvo. <br><br>
+                Mogu da ti pomognem sa menijima, cenama, nabavkom, osobljem, alergenima, marketingom — svime što ti treba za vođenje restorana ili hotela. <br><br>
                 Samo pitaj! 👨‍🍳
             </div>
         </div>
@@ -86,13 +86,11 @@
         input.value = '';
         input.focus();
 
-        // Dodaj poruku korisnika
         const userMsg = document.createElement('div');
         userMsg.className = 'msg msg-user';
         userMsg.textContent = poruka;
         messages.appendChild(userMsg);
 
-        // Loading
         const loading = document.createElement('div');
         loading.className = 'msg msg-agent loading-dots';
         loading.innerHTML = '<span></span><span></span><span></span>';
@@ -104,24 +102,21 @@
         sendBtn.textContent = '...';
 
         try {
-            const response = await fetch('https://mojkucnisvet-github-io.vercel.app/api/agent', {
+            const response = await fetch('https://mojkucnisvet-github-io.vercel.app/api/index', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ poruka, istorija })
+                body: JSON.stringify({ modul: 'agent', poruka, istorija })
             });
 
             if (!response.ok) { const err = await response.json().catch(() => ({})); throw new Error(err.error || 'Greška.'); }
             const data = await response.json();
 
-            // Ukloni loading
             document.getElementById('loadingMsg')?.remove();
 
-            // Dodaj odgovor agenta
             const agentMsg = document.createElement('div');
             agentMsg.className = 'msg msg-agent';
             agentMsg.textContent = data.odgovor || 'Nisam uspeo da dobijem odgovor.';
             messages.appendChild(agentMsg);
 
-            // Sačuvaj u istoriju
             istorija += `Korisnik: ${poruka}\nAgent: ${data.odgovor}\n`;
 
         } catch (error) {
