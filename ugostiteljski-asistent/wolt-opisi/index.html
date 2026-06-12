@@ -71,57 +71,7 @@
 <footer>© 2026 Ugostiteljski AI Agent</footer>
 
 <script>
-    async function generate() {
-        const jelo = document.getElementById('jelo').value.trim();
-        const sastojci = document.getElementById('sastojci').value.trim();
-        const velicina = document.getElementById('velicina').value.trim();
-
-        const errorBox = document.getElementById('errorBox');
-        const results = document.getElementById('results');
-        const spinner = document.getElementById('spinner');
-        const btn = document.getElementById('generateBtn');
-
-        errorBox.classList.remove('show');
-        results.style.display = 'none';
-        results.innerHTML = '';
-
-        if (!jelo) { errorBox.textContent = 'Unesite naziv jela.'; errorBox.classList.add('show'); return; }
-
-        spinner.classList.add('show');
-        btn.disabled = true;
-        btn.textContent = 'Generišem...';
-
-        try {
-            const response = await fetch('https://mojkucnisvet-github-io.vercel.app/api/wolt-opisi', {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ jelo, sastojci, velicina })
-            });
-
-            if (!response.ok) { const err = await response.json().catch(() => ({})); throw new Error(err.error || 'Greška.'); }
-
-            const data = await response.json();
-            const card = document.createElement('div');
-            card.className = 'result-card';
-            card.innerHTML = `
-                <div class="opis">${data.opis || data.zasto || 'Opis nije generisan.'}</div>
-                <div class="meta">
-                    ${data.velicinaPorcije ? `<div class="meta-item">${data.velicinaPorcije}</div>` : ''}
-                    ${data.alergeni ? `<div class="meta-item warning">${data.alergeni}</div>` : ''}
-                </div>
-            `;
-            results.appendChild(card);
-            results.style.display = 'block';
-            results.scrollIntoView({ behavior: 'smooth' });
-
-        } catch (error) {
-            errorBox.textContent = 'Greška: ' + error.message;
-            errorBox.classList.add('show');
-        } finally {
-            spinner.classList.remove('show');
-            btn.disabled = false;
-            btn.textContent = 'Generiši opis';
-        }
-    }
+    async function generate(){const j=document.getElementById('jelo').value.trim(),s=document.getElementById('sastojci').value.trim(),v=document.getElementById('velicina').value.trim();const eb=document.getElementById('errorBox'),r=document.getElementById('results'),sp=document.getElementById('spinner'),b=document.getElementById('generateBtn');eb.classList.remove('show');r.style.display='none';r.innerHTML='';if(!j){eb.textContent='Unesite naziv jela.';eb.classList.add('show');return}sp.classList.add('show');b.disabled=true;b.textContent='Generišem...';try{const re=await fetch('https://mojkucnisvet-github-io.vercel.app/api/index',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({modul:'wolt-opisi',jelo:j,sastojci:s,velicina:v})});if(!re.ok){const e=await re.json().catch(()=>({}));throw new Error(e.error||'Greška.')}const d=await re.json();const c=document.createElement('div');c.className='result-card';c.innerHTML=`<div class="opis">${d.opis||d.zasto||'Opis nije generisan.'}</div><div class="meta">${d.velicinaPorcije?`<div class="meta-item">${d.velicinaPorcije}</div>`:''}${d.alergeni?`<div class="meta-item warning">${d.alergeni}</div>`:''}</div>`;r.appendChild(c);r.style.display='block';r.scrollIntoView({behavior:'smooth'})}catch(e){eb.textContent='Greška: '+e.message;eb.classList.add('show')}finally{sp.classList.remove('show');b.disabled=false;b.textContent='Generiši opis'}}
 </script>
 
 </body>
