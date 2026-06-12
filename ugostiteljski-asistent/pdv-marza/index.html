@@ -60,23 +60,11 @@
     <p class="subtitle">Unesite nabavnu cenu jela, maržu i PDV stopu. Kalkulator izračunava konačnu cenu i profit.</p>
 
     <div class="card">
-        <div class="form-group">
-            <label>Nabavna cena jela</label>
-            <input type="number" id="nabavnaCena" placeholder="Npr. 350" step="0.01">
-        </div>
-        <div class="checkbox-group">
-            <input type="checkbox" id="cenaSadrziPDV">
-            <label for="cenaSadrziPDV">Nabavna cena sadrži PDV</label>
-        </div>
+        <div class="form-group"><label>Nabavna cena jela</label><input type="number" id="nabavnaCena" placeholder="Npr. 350" step="0.01"></div>
+        <div class="checkbox-group"><input type="checkbox" id="cenaSadrziPDV"><label for="cenaSadrziPDV">Nabavna cena sadrži PDV</label></div>
         <div class="row">
-            <div class="form-group">
-                <label>Marža (%)</label>
-                <input type="number" id="marza" placeholder="Npr. 200" value="200" step="1">
-            </div>
-            <div class="form-group">
-                <label>PDV stopa (%)</label>
-                <input type="number" id="pdvStopa" placeholder="Npr. 20" value="20" step="0.1">
-            </div>
+            <div class="form-group"><label>Marža (%)</label><input type="number" id="marza" placeholder="Npr. 200" value="200" step="1"></div>
+            <div class="form-group"><label>PDV stopa (%)</label><input type="number" id="pdvStopa" placeholder="Npr. 20" value="20" step="0.1"></div>
         </div>
         <button class="btn" id="calcBtn" onclick="calculate()">Izračunaj</button>
     </div>
@@ -90,68 +78,21 @@
 
 <script>
     async function calculate() {
-        const nabavnaCena = document.getElementById('nabavnaCena').value.trim();
-        const cenaSadrziPDV = document.getElementById('cenaSadrziPDV').checked;
-        const marza = document.getElementById('marza').value.trim();
-        const pdvStopa = document.getElementById('pdvStopa').value.trim();
-
-        const errorBox = document.getElementById('errorBox');
-        const results = document.getElementById('results');
-        const spinner = document.getElementById('spinner');
-        const btn = document.getElementById('calcBtn');
-
-        errorBox.classList.remove('show');
-        results.style.display = 'none';
-        results.innerHTML = '';
-
-        if (!nabavnaCena) { errorBox.textContent = 'Unesite nabavnu cenu.'; errorBox.classList.add('show'); return; }
-        if (!marza) { errorBox.textContent = 'Unesite maržu.'; errorBox.classList.add('show'); return; }
-
-        spinner.classList.add('show');
-        btn.disabled = true;
-        btn.textContent = 'Računam...';
-
-        try {
-            const response = await fetch('https://mojkucnisvet-github-io.vercel.app/api/pdv-marza', {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ nabavnaCena, cenaSadrziPDV, marza, pdvStopa })
-            });
-
-            if (!response.ok) { const err = await response.json().catch(() => ({})); throw new Error(err.error || 'Greška.'); }
-
-            const data = await response.json();
-
-            // Glavni rezultat
-            const mainCard = document.createElement('div');
-            mainCard.className = 'result-card';
-            mainCard.innerHTML = `
-                <div class="big-number orange">${data.konacnaCena}</div>
-                <div class="label">Konačna prodajna cena (sa PDV-om)</div>
-            `;
-            results.appendChild(mainCard);
-
-            // Detalji
-            const detailGrid = document.createElement('div');
-            detailGrid.className = 'detail-grid';
-            detailGrid.innerHTML = `
-                <div class="detail-card"><div class="value">${data.osnovica}</div><div class="label">Osnovica (bez PDV-a)</div></div>
-                <div class="detail-card"><div class="value">${data.prodajnaBezPDV}</div><div class="label">Prodajna cena (bez PDV-a)</div></div>
-                <div class="detail-card"><div class="value">${data.pdvIznos}</div><div class="label">Iznos PDV-a (${data.pdvProcenat}%)</div></div>
-                <div class="detail-card"><div class="value" style="color:#2ecc71;">${data.profit}</div><div class="label">Neto profit (marža ${data.marzaProcenat}%)</div></div>
-            `;
-            results.appendChild(detailGrid);
-
-            results.style.display = 'block';
-            results.scrollIntoView({ behavior: 'smooth' });
-
-        } catch (error) {
-            errorBox.textContent = 'Greška: ' + error.message;
-            errorBox.classList.add('show');
-        } finally {
-            spinner.classList.remove('show');
-            btn.disabled = false;
-            btn.textContent = 'Izračunaj';
-        }
+        const nabavnaCena=document.getElementById('nabavnaCena').value.trim(),cenaSadrziPDV=document.getElementById('cenaSadrziPDV').checked,marza=document.getElementById('marza').value.trim(),pdvStopa=document.getElementById('pdvStopa').value.trim();
+        const errorBox=document.getElementById('errorBox'),results=document.getElementById('results'),spinner=document.getElementById('spinner'),btn=document.getElementById('calcBtn');
+        errorBox.classList.remove('show');results.style.display='none';results.innerHTML='';
+        if(!nabavnaCena){errorBox.textContent='Unesite nabavnu cenu.';errorBox.classList.add('show');return}
+        if(!marza){errorBox.textContent='Unesite maržu.';errorBox.classList.add('show');return}
+        spinner.classList.add('show');btn.disabled=true;btn.textContent='Računam...';
+        try{
+            const r=await fetch('https://mojkucnisvet-github-io.vercel.app/api/index',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({modul:'pdv-marza',nabavnaCena,cenaSadrziPDV,marza,pdvStopa})});
+            if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error||'Greška.')}
+            const d=await r.json();
+            const mc=document.createElement('div');mc.className='result-card';mc.innerHTML=`<div class="big-number orange">${d.konacnaCena}</div><div class="label">Konačna prodajna cena (sa PDV-om)</div>`;results.appendChild(mc);
+            const dg=document.createElement('div');dg.className='detail-grid';dg.innerHTML=`<div class="detail-card"><div class="value">${d.osnovica}</div><div class="label">Osnovica (bez PDV-a)</div></div><div class="detail-card"><div class="value">${d.prodajnaBezPDV}</div><div class="label">Prodajna cena (bez PDV-a)</div></div><div class="detail-card"><div class="value">${d.pdvIznos}</div><div class="label">Iznos PDV-a (${d.pdvProcenat}%)</div></div><div class="detail-card"><div class="value" style="color:#2ecc71;">${d.profit}</div><div class="label">Neto profit (marža ${d.marzaProcenat}%)</div></div>`;results.appendChild(dg);
+            results.style.display='block';results.scrollIntoView({behavior:'smooth'});
+        }catch(e){errorBox.textContent='Greška: '+e.message;errorBox.classList.add('show')}
+        finally{spinner.classList.remove('show');btn.disabled=false;btn.textContent='Izračunaj'}
     }
 </script>
 
