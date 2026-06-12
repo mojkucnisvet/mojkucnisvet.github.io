@@ -130,10 +130,10 @@
         btn.textContent = 'Kreiram meni...';
 
         try {
-            const response = await fetch('https://mojkucnisvet-github-io.vercel.app/api/dnevni-meni', {
+            const response = await fetch('https://mojkucnisvet-github-io.vercel.app/api/index', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ restoran, brojJela, budzet, zahtevi })
+                body: JSON.stringify({ modul: 'dnevni-meni', restoran, brojJela, budzet, zahtevi })
             });
 
             if (!response.ok) {
