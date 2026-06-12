@@ -62,34 +62,15 @@
 
 <div class="container">
     <h1>Sparivač <span>hrane i pića</span></h1>
-    <p class="subtitle">Unesite jelo, dodajte svoju listu pića i dobijte 3 profesionalne preporuke sa opisom za konobara i predlogom cene.</p>
+    <p class="subtitle">Unesite jelo, dodajte svoju listu pića i dobijte profesionalne preporuke sa opisom za konobara i predlogom cene.</p>
 
-    <!-- JELO -->
-    <div class="card">
-        <h2>Jelo</h2>
-        <div class="form-group">
-            <label>Naziv jela</label>
-            <input type="text" id="jelo" placeholder="Npr. Teleća čorba, Biftek, Pasta...">
-        </div>
-        <div class="form-group">
-            <label>Sastojci (opciono)</label>
-            <textarea id="sastojci" placeholder="Npr. goveđi but, ruzmarin, beli luk..."></textarea>
-        </div>
-        <div class="form-group">
-            <label>Tip pića</label>
-            <select id="tipPica">
-                <option value="Sve" selected>Sve (vino, pivo, koktel)</option>
-                <option value="Vino">Vino</option>
-                <option value="Pivo">Pivo</option>
-                <option value="Koktel">Koktel</option>
-                <option value="Bezalkoholno">Bezalkoholno</option>
-            </select>
-        </div>
+    <div class="card"><h2>Jelo</h2>
+        <div class="form-group"><label>Naziv jela</label><input type="text" id="jelo" placeholder="Npr. Teleća čorba, Biftek, Pasta..."></div>
+        <div class="form-group"><label>Sastojci (opciono)</label><textarea id="sastojci" placeholder="Npr. goveđi but, ruzmarin, beli luk..."></textarea></div>
+        <div class="form-group"><label>Tip pića</label><select id="tipPica"><option value="Sve" selected>Sve (vino, pivo, koktel)</option><option value="Vino">Vino</option><option value="Pivo">Pivo</option><option value="Koktel">Koktel</option><option value="Bezalkoholno">Bezalkoholno</option></select></div>
     </div>
 
-    <!-- LISTA PIĆA -->
-    <div class="card">
-        <h2>Moja karta pića</h2>
+    <div class="card"><h2>Moja karta pića</h2>
         <p style="color:#707E94;font-size:0.85rem;margin-bottom:1rem;">Dodajte pića koja imate u ponudi. AI će preporučivati samo iz ove liste. Lista se automatski čuva u vašem browseru.</p>
         <div id="pica-container"></div>
         <button class="btn-small" onclick="addPice()">+ Dodaj piće</button>
@@ -107,129 +88,26 @@
 <footer>© 2026 Ugostiteljski AI Agent</footer>
 
 <script>
-    const STORAGE_KEY = 'sparivac-pica-lista';
+    const STORAGE_KEY='sparivac-pica-lista';
+    function loadList(){const s=localStorage.getItem(STORAGE_KEY);if(s){try{JSON.parse(s).forEach(p=>addPice(p))}catch(e){s.split(',').forEach(p=>addPice(p.trim()))}}if(!document.getElementById('pica-container').children.length){addPice();addPice();addPice()}}
+    function addPice(n=''){const d=document.createElement('div');d.className='pice-row';d.innerHTML=`<input type="text" placeholder="Naziv pića" value="${n}"><button class="remove-btn" onclick="this.parentElement.remove()">✕</button>`;document.getElementById('pica-container').appendChild(d)}
+    function saveList(){const p=[];document.querySelectorAll('#pica-container .pice-row input').forEach(i=>{const v=i.value.trim();if(v)p.push(v)});localStorage.setItem(STORAGE_KEY,JSON.stringify(p));const m=document.getElementById('savedMsg');m.classList.add('show');setTimeout(()=>m.classList.remove('show'),2000)}
+    function getListaPica(){const p=[];document.querySelectorAll('#pica-container .pice-row input').forEach(i=>{const v=i.value.trim();if(v)p.push(v)});return p}
 
-    function loadList() {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) {
-            try {
-                const lista = JSON.parse(saved);
-                lista.forEach(pice => addPice(pice));
-            } catch (e) {
-                saved.split(',').forEach(p => addPice(p.trim()));
-            }
-        }
-        if (document.getElementById('pica-container').children.length === 0) {
-            addPice();
-            addPice();
-            addPice();
-        }
+    async function spari(){
+        const jelo=document.getElementById('jelo').value.trim(),sastojci=document.getElementById('sastojci').value.trim(),tipPica=document.getElementById('tipPica').value,listaPica=getListaPica();
+        const errorBox=document.getElementById('errorBox'),results=document.getElementById('results'),spinner=document.getElementById('spinner'),btn=document.getElementById('sparivacBtn');
+        errorBox.classList.remove('show');results.style.display='none';results.innerHTML='';
+        if(!jelo){errorBox.textContent='Unesite naziv jela.';errorBox.classList.add('show');return}
+        spinner.classList.add('show');btn.disabled=true;btn.textContent='Tražim preporuke...';
+        try{
+            const r=await fetch('https://mojkucnisvet-github-io.vercel.app/api/index',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({modul:'sparivac',jelo,sastojci,tipPica,listaPica})});
+            if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error||'Greška.')}
+            const d=await r.json();
+            if(d.preporuke&&d.preporuke.length>0){d.preporuke.forEach(p=>{const c=document.createElement('div');c.className='result-card';if(p.pice&&(p.zasto||p.temperatura||p.opisZaKonobara||p.cena)){c.innerHTML=`<div class="pice-name">${p.pice}</div>${p.zasto?`<div class="detail"><span class="detail-label">Zašto se slaže:</span><span class="detail-value">${p.zasto}</span></div>`:''}${p.temperatura?`<div class="detail"><span class="detail-label">Temperatura:</span><span class="detail-value">${p.temperatura}</span></div>`:''}${p.opisZaKonobara?`<div class="detail"><span class="detail-label">Za konobara:</span><span class="detail-value">${p.opisZaKonobara}</span></div>`:''}${p.cena?`<div class="cena">Predlog cene: ${p.cena}</div>`:''}`}else{c.innerHTML=`<div style="font-size:1rem;color:#CBD5E1;line-height:1.6;">${p.pice||''}</div>`}results.appendChild(c)});results.style.display='block';results.scrollIntoView({behavior:'smooth'})}else throw new Error('Nema preporuka.')
+        }catch(e){errorBox.textContent='Greška: '+e.message;errorBox.classList.add('show')}
+        finally{spinner.classList.remove('show');btn.disabled=false;btn.textContent='Preporuči piće'}
     }
-
-    function addPice(naziv = '') {
-        const div = document.createElement('div');
-        div.className = 'pice-row';
-        div.innerHTML = `<input type="text" placeholder="Naziv pića" value="${naziv}">
-            <button class="remove-btn" onclick="this.parentElement.remove()">✕</button>`;
-        document.getElementById('pica-container').appendChild(div);
-    }
-
-    function saveList() {
-        const pica = [];
-        document.querySelectorAll('#pica-container .pice-row input').forEach(input => {
-            const v = input.value.trim();
-            if (v) pica.push(v);
-        });
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(pica));
-        const msg = document.getElementById('savedMsg');
-        msg.classList.add('show');
-        setTimeout(() => msg.classList.remove('show'), 2000);
-    }
-
-    function getListaPica() {
-        const pica = [];
-        document.querySelectorAll('#pica-container .pice-row input').forEach(input => {
-            const v = input.value.trim();
-            if (v) pica.push(v);
-        });
-        return pica;
-    }
-
-    async function spari() {
-        const jelo = document.getElementById('jelo').value.trim();
-        const sastojci = document.getElementById('sastojci').value.trim();
-        const tipPica = document.getElementById('tipPica').value;
-        const listaPica = getListaPica();
-
-        const errorBox = document.getElementById('errorBox');
-        const results = document.getElementById('results');
-        const spinner = document.getElementById('spinner');
-        const btn = document.getElementById('sparivacBtn');
-
-        errorBox.classList.remove('show');
-        results.style.display = 'none';
-        results.innerHTML = '';
-
-        if (!jelo) {
-            errorBox.textContent = 'Unesite naziv jela.';
-            errorBox.classList.add('show');
-            return;
-        }
-
-        spinner.classList.add('show');
-        btn.disabled = true;
-        btn.textContent = 'Tražim preporuke...';
-
-        try {
-            const response = await fetch('https://mojkucnisvet-github-io.vercel.app/api/sparivac', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ jelo, sastojci, tipPica, listaPica })
-            });
-
-            if (!response.ok) {
-                const err = await response.json().catch(() => ({}));
-                throw new Error(err.error || 'Greška na serveru.');
-            }
-
-            const data = await response.json();
-
-            if (data.preporuke && data.preporuke.length > 0) {
-                data.preporuke.forEach(p => {
-                    const card = document.createElement('div');
-                    card.className = 'result-card';
-                    
-                    if (p.pice && (p.zasto || p.temperatura || p.opisZaKonobara || p.cena)) {
-                        card.innerHTML = `
-                            <div class="pice-name">${p.pice}</div>
-                            ${p.zasto ? `<div class="detail"><span class="detail-label">Zašto se slaže:</span> <span class="detail-value">${p.zasto}</span></div>` : ''}
-                            ${p.temperatura ? `<div class="detail"><span class="detail-label">Temperatura:</span> <span class="detail-value">${p.temperatura}</span></div>` : ''}
-                            ${p.opisZaKonobara ? `<div class="detail"><span class="detail-label">Za konobara:</span> <span class="detail-value">${p.opisZaKonobara}</span></div>` : ''}
-                            ${p.cena ? `<div class="cena">Predlog cene: ${p.cena}</div>` : ''}
-                        `;
-                    } else {
-                        const ceoOpis = p.pice || '';
-                        card.innerHTML = `<div style="font-size:1rem;color:#CBD5E1;line-height:1.6;">${ceoOpis}</div>`;
-                    }
-                    
-                    results.appendChild(card);
-                });
-                results.style.display = 'block';
-                results.scrollIntoView({ behavior: 'smooth' });
-            } else {
-                throw new Error('Nema preporuka.');
-            }
-
-        } catch (error) {
-            errorBox.textContent = 'Greška: ' + error.message;
-            errorBox.classList.add('show');
-        } finally {
-            spinner.classList.remove('show');
-            btn.disabled = false;
-            btn.textContent = 'Preporuči piće';
-        }
-    }
-
     loadList();
 </script>
 
