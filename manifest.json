@@ -1,0 +1,22 @@
+{
+  "name": "Ugostiteljski AI Agent",
+  "short_name": "AI Agent",
+  "description": "Kompletan set AI alata za vođenje ugostiteljskog objekta",
+  "start_url": "/ugostiteljski-asistent/index.html",
+  "display": "standalone",
+  "background_color": "#0F1319",
+  "theme_color": "#E65F19",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "IMG_1616.jpeg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "IMG_1626.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
