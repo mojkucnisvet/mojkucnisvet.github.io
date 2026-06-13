@@ -2,6 +2,7 @@
 <html lang="sr">
 <head>
     <meta charset="UTF-8">
+    <link rel="manifest" href="/manifest.json">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalkulator Cena | Ugostiteljski AI Agent</title>
     <style>
@@ -56,89 +57,55 @@
     <h1>Kalkulator <span>Cena</span></h1>
     <p class="subtitle">Unesite namirnice, radnike i troškove — dobijte tačnu prodajnu cenu.</p>
 
-    <div class="card">
-        <h2>🥕 Namirnice (po porciji)</h2>
-        <div class="table-header"><span>Namirnica</span><span>Količina (g)</span><span>Cena po kg</span><span></span></div>
-        <div id="namirnice-container"></div>
-        <button class="add-btn" onclick="addNamirnica()">+ Dodaj namirnicu</button>
-    </div>
+    <div class="card"><h2>Namirnice (po porciji)</h2><div class="table-header"><span>Namirnica</span><span>Kolicina (g)</span><span>Cena po kg</span><span></span></div><div id="namirnice-container"></div><button class="add-btn" onclick="addNamirnica()">+ Dodaj namirnicu</button></div>
+    <div class="card"><h2>Radnici (mesecno)</h2><div class="table-header"><span>Radnik</span><span>Plata</span><span></span></div><div id="radnici-container"></div><button class="add-btn" onclick="addRadnik()">+ Dodaj radnika</button></div>
+    <div class="card"><h2>Mesecni troskovi</h2><div class="table-header"><span>Naziv troska</span><span>Iznos</span><span></span></div><div id="troskovi-container"></div><button class="add-btn" onclick="addTrosak()">+ Dodaj trosak</button></div>
+    <div class="card"><h2>Nepredvidjeni troskovi</h2><div class="table-header"><span>Naziv</span><span>Iznos</span><span></span></div><div id="nepredvidjeni-container"></div><button class="add-btn" onclick="addNepredvidjeni()">+ Dodaj nepredvidjeni trosak</button></div>
 
-    <div class="card">
-        <h2>👨‍🍳 Radnici (mesečno)</h2>
-        <div class="table-header"><span>Radnik</span><span>Plata</span><span></span></div>
-        <div id="radnici-container"></div>
-        <button class="add-btn" onclick="addRadnik()">+ Dodaj radnika</button>
-    </div>
-
-    <div class="card">
-        <h2>📊 Mesečni troškovi</h2>
-        <div class="table-header"><span>Naziv troška</span><span>Iznos</span><span></span></div>
-        <div id="troskovi-container"></div>
-        <button class="add-btn" onclick="addTrosak()">+ Dodaj trošak</button>
-    </div>
-
-    <div class="card">
-        <h2>⚠️ Nepredviđeni troškovi</h2>
-        <div class="table-header"><span>Naziv</span><span>Iznos</span><span></span></div>
-        <div id="nepredvidjeni-container"></div>
-        <button class="add-btn" onclick="addNepredvidjeni()">+ Dodaj nepredviđeni trošak</button>
-    </div>
-
-    <div class="card">
-        <h2>⚙️ Ostala podešavanja</h2>
+    <div class="card"><h2>Ostala podesavanja</h2>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-            <div><label style="color:#707E94;font-size:0.8rem;">💱 Valuta</label><select id="valuta"><option value="RSD" selected>RSD (dinar)</option><option value="EUR">EUR (€)</option></select></div>
-            <div><label style="color:#707E94;font-size:0.8rem;">🧾 PDV (%)</label><select id="pdv"><option value="0">0%</option><option value="10">10%</option><option value="20" selected>20%</option></select></div>
-            <div><label style="color:#707E94;font-size:0.8rem;">📦 Ambalaža po porciji</label><input type="number" id="ambalaza" value="30" step="1"></div>
-            <div><label style="color:#707E94;font-size:0.8rem;">📊 Broj porcija mesečno</label><input type="number" id="porcije" value="500" step="1"></div>
+            <div><label style="color:#707E94;font-size:0.8rem;">Valuta</label><select id="valuta"><option value="RSD" selected>RSD (dinar)</option><option value="EUR">EUR</option></select></div>
+            <div><label style="color:#707E94;font-size:0.8rem;">PDV (%)</label><select id="pdv"><option value="0">0%</option><option value="10">10%</option><option value="20" selected>20%</option></select></div>
+            <div><label style="color:#707E94;font-size:0.8rem;">Ambalaza po porciji</label><input type="number" id="ambalaza" value="30" step="1"></div>
+            <div><label style="color:#707E94;font-size:0.8rem;">Broj porcija mesecno</label><input type="number" id="porcije" value="500" step="1"></div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;">
-            <div><label style="color:#707E94;font-size:0.8rem;">🛵 Dostava (% od cene)</label><input type="number" id="dostavaProcenat" value="15" step="1" placeholder="15"></div>
-            <div><label style="color:#707E94;font-size:0.8rem;">🛵 Dostava (fiksni iznos)</label><input type="number" id="dostavaFiksno" value="100" step="1" placeholder="100"></div>
+            <div><label style="color:#707E94;font-size:0.8rem;">Dostava (% od cene)</label><input type="number" id="dostavaProcenat" value="15" step="1"></div>
+            <div><label style="color:#707E94;font-size:0.8rem;">Dostava (fiksni iznos)</label><input type="number" id="dostavaFiksno" value="100" step="1"></div>
         </div>
     </div>
 
-    <button class="btn" id="calcBtn" onclick="calculate()">🧮 Izračunaj cenu</button>
-
-    <div class="loading-spinner" id="spinner"><div class="spinner"></div><p style="color:#707E94;margin-top:0.5rem;">Računam...</p></div>
+    <button class="btn" id="calcBtn" onclick="calculate()">Izracunaj cenu</button>
+    <div class="loading-spinner" id="spinner"><div class="spinner"></div><p style="color:#707E94;margin-top:0.5rem;">Racunam...</p></div>
     <div class="error-box" id="errorBox"></div>
-
     <div class="results" id="results" style="display:none;">
-        <div class="result-card"><div class="label">Cena koštanja</div><div class="value orange" id="rKostanje">-</div></div>
-        <div class="result-card"><div class="label">Cena (150% marža)</div><div class="value" id="r150">-</div></div>
-        <div class="result-card"><div class="label">Cena (200% marža)</div><div class="value" id="r200">-</div></div>
-        <div class="result-card"><div class="label">Cena (250% marža)</div><div class="value" id="r250">-</div></div>
+        <div class="result-card"><div class="label">Cena kostanja</div><div class="value orange" id="rKostanje">-</div></div>
+        <div class="result-card"><div class="label">Cena (150% marza)</div><div class="value" id="r150">-</div></div>
+        <div class="result-card"><div class="label">Cena (200% marza)</div><div class="value" id="r200">-</div></div>
+        <div class="result-card"><div class="label">Cena (250% marza)</div><div class="value" id="r250">-</div></div>
         <div class="result-card"><div class="label">Zarada po porciji (200%)</div><div class="value" id="rZarada">-</div></div>
-        <div class="result-card"><div class="label">Tačka pokrića (porcija)</div><div class="value orange" id="rPokrice">-</div></div>
+        <div class="result-card"><div class="label">Tacka pokrica (porcija)</div><div class="value orange" id="rPokrice">-</div></div>
     </div>
 </div>
 
-<footer>© 2026 Ugostiteljski AI Agent</footer>
+<footer>2026 Ugostiteljski AI Agent</footer>
 
 <script>
-    function init() { addNamirnica(); addNamirnica(); addNamirnica(); addRadnik(); addRadnik(); addTrosak(); addTrosak(); addTrosak(); addNepredvidjeni(); }
-    function addNamirnica() { const d=document.createElement('div');d.className='row';d.innerHTML=`<input type="text" placeholder="Npr. Pileći file"><input type="number" placeholder="200 g" value="200"><input type="number" placeholder="8.50 /kg" value="8.50" step="0.01"><button class="remove-btn" onclick="this.parentElement.remove()">✕</button>`;document.getElementById('namirnice-container').appendChild(d); }
-    function addRadnik() { const d=document.createElement('div');d.className='row2';d.innerHTML=`<input type="text" placeholder="Radnik 1" value="Radnik 1"><input type="number" placeholder="1200" value="1000" step="1"><button class="remove-btn" onclick="this.parentElement.remove()">✕</button>`;document.getElementById('radnici-container').appendChild(d); }
-    function addTrosak() { const d=document.createElement('div');d.className='row2';d.innerHTML=`<input type="text" placeholder="Npr. Kirija"><input type="number" placeholder="800" step="0.01"><button class="remove-btn" onclick="this.parentElement.remove()">✕</button>`;document.getElementById('troskovi-container').appendChild(d); }
-    function addNepredvidjeni() { const d=document.createElement('div');d.className='row2';d.innerHTML=`<input type="text" placeholder="Npr. Popravka"><input type="number" placeholder="200" step="0.01"><button class="remove-btn" onclick="this.parentElement.remove()">✕</button>`;document.getElementById('nepredvidjeni-container').appendChild(d); }
-
-    async function calculate() {
-        const errorBox=document.getElementById('errorBox'),results=document.getElementById('results'),spinner=document.getElementById('spinner'),btn=document.getElementById('calcBtn');
-        errorBox.classList.remove('show'); results.style.display='none'; spinner.classList.add('show'); btn.disabled=true; btn.textContent='⏳ Računam...';
-        const namirnice=[],radnici=[],troskovi=[],nepredvidjeni=[];
-        document.querySelectorAll('#namirnice-container .row').forEach(r=>{const i=r.querySelectorAll('input');if(i[0].value&&i[1].value&&i[2].value)namirnice.push({naziv:i[0].value,kolicina:i[1].value,cenaPoKg:i[2].value})});
-        document.querySelectorAll('#radnici-container .row2').forEach(r=>{const i=r.querySelectorAll('input');if(i[0].value&&i[1].value)radnici.push({ime:i[0].value,plata:i[1].value})});
-        document.querySelectorAll('#troskovi-container .row2').forEach(r=>{const i=r.querySelectorAll('input');if(i[0].value&&i[1].value)troskovi.push({naziv:i[0].value,iznos:i[1].value})});
-        document.querySelectorAll('#nepredvidjeni-container .row2').forEach(r=>{const i=r.querySelectorAll('input');if(i[0].value&&i[1].value)nepredvidjeni.push({naziv:i[0].value,iznos:i[1].value})});
-        const pdv=document.getElementById('pdv').value,ambalaza=document.getElementById('ambalaza').value,dostavaProcenat=document.getElementById('dostavaProcenat').value,dostavaFiksno=document.getElementById('dostavaFiksno').value,porcije=document.getElementById('porcije').value,valuta=document.getElementById('valuta').value;
-        try {
-            const r=await fetch('https://mojkucnisvet-github-io.vercel.app/api/index',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({modul:'kalkulator',namirnice,radnici,troskovi,nepredvidjeni,pdv,ambalaza,dostavaProcenat,dostavaFiksno,porcije,valuta})});
-            if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error||'Greška.')}
-            const d=await r.json(),s=d.simbol;
-            document.getElementById('rKostanje').textContent=d.cenaKostanja+s;document.getElementById('r150').textContent=d.cena150+s;document.getElementById('r200').textContent=d.cena200+s;document.getElementById('r250').textContent=d.cena250+s;document.getElementById('rZarada').textContent=d.zarada200+s;document.getElementById('rPokrice').textContent=d.tackaPokrica;
-            results.style.display='grid';results.scrollIntoView({behavior:'smooth'});
-        }catch(e){errorBox.textContent='❌ '+e.message;errorBox.classList.add('show')}
-        finally{spinner.classList.remove('show');btn.disabled=false;btn.textContent='🧮 Izračunaj cenu'}
+    function init(){addNamirnica();addNamirnica();addNamirnica();addRadnik();addRadnik();addTrosak();addTrosak();addTrosak();addNepredvidjeni()}
+    function addNamirnica(){const d=document.createElement('div');d.className='row';d.innerHTML=`<input type="text" placeholder="Npr. Pileci file"><input type="number" placeholder="200 g" value="200"><input type="number" placeholder="8.50 /kg" value="8.50" step="0.01"><button class="remove-btn" onclick="this.parentElement.remove()">X</button>`;document.getElementById('namirnice-container').appendChild(d)}
+    function addRadnik(){const d=document.createElement('div');d.className='row2';d.innerHTML=`<input type="text" placeholder="Radnik 1" value="Radnik 1"><input type="number" placeholder="1200" value="1000" step="1"><button class="remove-btn" onclick="this.parentElement.remove()">X</button>`;document.getElementById('radnici-container').appendChild(d)}
+    function addTrosak(){const d=document.createElement('div');d.className='row2';d.innerHTML=`<input type="text" placeholder="Npr. Kirija"><input type="number" placeholder="800" step="0.01"><button class="remove-btn" onclick="this.parentElement.remove()">X</button>`;document.getElementById('troskovi-container').appendChild(d)}
+    function addNepredvidjeni(){const d=document.createElement('div');d.className='row2';d.innerHTML=`<input type="text" placeholder="Npr. Popravka"><input type="number" placeholder="200" step="0.01"><button class="remove-btn" onclick="this.parentElement.remove()">X</button>`;document.getElementById('nepredvidjeni-container').appendChild(d)}
+    async function calculate(){
+        const eb=document.getElementById('errorBox'),r=document.getElementById('results'),sp=document.getElementById('spinner'),b=document.getElementById('calcBtn');
+        eb.classList.remove('show');r.style.display='none';sp.classList.add('show');b.disabled=true;b.textContent='Racunam...';
+        const nm=[],rd=[],tr=[],np=[];
+        document.querySelectorAll('#namirnice-container .row').forEach(r=>{const i=r.querySelectorAll('input');if(i[0].value&&i[1].value&&i[2].value)nm.push({naziv:i[0].value,kolicina:i[1].value,cenaPoKg:i[2].value})});
+        document.querySelectorAll('#radnici-container .row2').forEach(r=>{const i=r.querySelectorAll('input');if(i[0].value&&i[1].value)rd.push({ime:i[0].value,plata:i[1].value})});
+        document.querySelectorAll('#troskovi-container .row2').forEach(r=>{const i=r.querySelectorAll('input');if(i[0].value&&i[1].value)tr.push({naziv:i[0].value,iznos:i[1].value})});
+        document.querySelectorAll('#nepredvidjeni-container .row2').forEach(r=>{const i=r.querySelectorAll('input');if(i[0].value&&i[1].value)np.push({naziv:i[0].value,iznos:i[1].value})});
+        const pdv=document.getElementById('pdv').value,amb=document.getElementById('ambalaza').value,dp=document.getElementById('dostavaProcenat').value,df=document.getElementById('dostavaFiksno').value,por=document.getElementById('porcije').value,val=document.getElementById('valuta').value;
+        try{const re=await fetch('https://mojkucnisvet-github-io.vercel.app/api/index',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({modul:'kalkulator',namirnice:nm,radnici:rd,troskovi:tr,nepredvidjeni:np,pdv,ambalaza:amb,dostavaProcenat:dp,dostavaFiksno:df,porcije:por,valuta:val})});if(!re.ok){const e=await re.json().catch(()=>({}));throw new Error(e.error||'Greska.')}const d=await re.json(),s=d.simbol;document.getElementById('rKostanje').textContent=d.cenaKostanja+s;document.getElementById('r150').textContent=d.cena150+s;document.getElementById('r200').textContent=d.cena200+s;document.getElementById('r250').textContent=d.cena250+s;document.getElementById('rZarada').textContent=d.zarada200+s;document.getElementById('rPokrice').textContent=d.tackaPokrica;r.style.display='grid';r.scrollIntoView({behavior:'smooth'})}catch(e){eb.textContent='Greska: '+e.message;eb.classList.add('show')}finally{sp.classList.remove('show');b.disabled=false;b.textContent='Izracunaj cenu'}
     }
     init();
 </script>
