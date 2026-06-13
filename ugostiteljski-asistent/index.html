@@ -69,12 +69,16 @@
         .module-btn { margin-top: auto; width: 100%; padding: 0.6rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; text-align: center; transition: var(--transition-smooth); border: 1px solid transparent; }
         .btn-active { background-color: var(--accent-orange); color: #fff; }
         .btn-disabled { background-color: var(--bg-main); color: #4A5568; border-color: var(--border-color); }
-        .info-banner { background: var(--bg-card); border: 1px solid var(--border-color); padding: 0.8rem 1.2rem; border-radius: 10px; margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.8rem; text-align: center; }
-        .info-banner strong { color: var(--accent-orange); }
-        .info-banner .steps { display: inline-flex; gap: 0.5rem; flex-wrap: wrap; margin-left: 0.5rem; }
-        .info-banner .step { background: var(--bg-main); padding: 0.2rem 0.5rem; border-radius: 5px; font-size: 0.75rem; color: #94A3B8; }
+        .instructions-section { max-width: 900px; margin: 4rem auto; padding: 0 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+        .instruction-box { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; }
+        .instruction-box h4 { font-size: 1.25rem; font-weight: 600; margin: 0 0 0.5rem 0; color: var(--text-primary); }
+        .instruction-box .sub-desc { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.4; }
+        .instruction-steps { list-style: none; padding: 0; margin: 0; }
+        .instruction-steps li { font-size: 0.95rem; line-height: 1.6; padding: 0.75rem 0; border-bottom: 1px solid rgba(34, 44, 56, 0.5); color: var(--text-primary); }
+        .instruction-steps li:last-child { border-bottom: none; padding-bottom: 0; }
+        .instruction-steps strong { color: var(--accent-orange); font-weight: 600; }
         footer { text-align: center; padding: 2rem; color: #4A5568; font-size: 0.8rem; border-top: 1px solid var(--border-color); margin-top: 2rem; }
-        @media (max-width: 768px) { header { padding: 1rem; } .hero-section h1 { font-size: 2.25rem; } .modules-grid { grid-template-columns: 1fr; } .container { padding: 0 1rem; } .hero-section { padding: 3rem 1rem 2rem; } }
+        @media (max-width: 768px) { header { padding: 1rem; } .hero-section h1 { font-size: 2.25rem; } .modules-grid { grid-template-columns: 1fr; } .container { padding: 0 1rem; } .hero-section { padding: 3rem 1rem 2rem; } .instructions-section { grid-template-columns: 1fr; gap: 1.5rem; padding: 0 1rem; } }
     </style>
 </head>
 <body>
@@ -137,14 +141,25 @@
         <div class="module-card coming-soon"><span class="module-badge badge-prem">Premium</span><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8"/></svg><h3>Marketing menadžer</h3><p>Objave za mreže i odgovori na recenzije.</p><div class="module-btn btn-disabled">Premium</div></div>
     </div>
 
-    <div class="info-banner" style="margin-top: 2rem;">
-        <strong>Kako instalirati aplikaciju:</strong>
-        <span class="steps"><span class="step">iPhone: Share → Add to Home Screen</span><span class="step">Android: Chrome meni → Instaliraj</span></span>
-    </div>
-    <div class="info-banner">
-        <strong>Kako kupiti paket:</strong>
-        <span class="steps"><span class="step">1. Kliknite na dugme paketa</span><span class="step">2. Pretplatite se na RapidAPI-ju</span></span>
-    </div>
+    <section class="instructions-section">
+        <div class="instruction-box">
+            <h4>Instalacija na mobilni uređaj</h4>
+            <p class="sub-desc">Pokrenite platformu direktno sa početnog ekrana vašeg telefona, bez odlaska na prodavnice aplikacija.</p>
+            <ul class="instruction-steps">
+                <li><strong>iOS (iPhone):</strong> Tapnite na ikonicu Share u Safari pretraživaču, a zatim izaberite Add to Home Screen.</li>
+                <li><strong>Android:</strong> Otvorite Chrome meni (tri tačkice u uglu) i izaberite opciju Install app.</li>
+            </ul>
+        </div>
+        <div class="instruction-box">
+            <h4>Aktivacija pretplate</h4>
+            <p class="sub-desc">Pristupite svim naprednim AI modulima u roku od nekoliko minuta kroz siguran RapidAPI sistem naplate.</p>
+            <ol class="instruction-steps">
+                <li>Kliknite na dugme željenog paketa u tabeli sa cenama.</li>
+                <li>Izvršite sigurnu autorizaciju i pretplatite se na našem <strong>RapidAPI</strong> profilu.</li>
+                <li>Nakon potvrde, vaši API ključevi i moduli biće trenutno aktivirani.</li>
+            </ol>
+        </div>
+    </section>
 
 </div>
 
