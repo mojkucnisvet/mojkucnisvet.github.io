@@ -50,6 +50,9 @@ export default async function handler(req, res) {
       case 'agent':
         result = await handleAgent(req.body);
         break;
+        case 'knjiga-normativa':
+        result = await handleKnjigaNormativa(req.body);
+        break;
       default:
         return res.status(400).json({ error: 'Nepoznat modul: ' + modul });
     }
@@ -208,7 +211,31 @@ async function handleVizual(body) {
   const prompt = `Unapredi meni: ${meniTekst}. Vrati JSON: {"meni":[{"jelo":"...","opis":"Novi opis","cena":"Cena u RSD"}],"napomena":"..."}`;
   return await callDeepSeek(prompt, 0.7, 500);
 }
+async function handleKnjigaNormativa(body) {
+  const { jelo, sastojci, ukupneKolicine, rezim } = body || {};
 
+  if (!jelo) throw new Error('Unesite naziv jela.');
+
+  if (rezim === 'lonac' && ukupneKolicine) {
+    const prompt = `Ti si ekspert za normative u ugostiteljstvu. Kuvar je skuvao "${jelo}" i stavio sledece ukupne kolicine u lonac: ${ukupneKolicine}. Izracunaj koliko porcija moze da se dobije, i koliko ide svake namirnice PO JEDNOJ PORCIJI. Vrati SAMO cist JSON: {"brojPorcija": "13-15", "normativ":[{"namirnica":"...","kolicinaPoPorciji":"...","jedinica":"g/ml/kom"}]}`;
+    const r = await fetch('https://api.deepseek.com/v1/chat/completions', {method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer sk-7f035e02050b4bd38cd319a5a4703917'},body:JSON.stringify({model:'deepseek-chat',messages:[{role:'user',content:prompt}],temperature:0.5,max_tokens:600})});
+    const d = await r.json();
+    if (!d.choices?.length) throw new Error('AI nije vratio odgovor.');
+    let raw = d.choices[0].message.content.trim();
+    raw = raw.replace(/```json/g, '').replace(/```/g, '').trim();
+    try { return JSON.parse(raw); } catch (e) { return { brojPorcija: 'Nije izracunato', normativ: [] }; }
+  }
+
+  if (!sastojci) throw new Error('Unesite sastojke.');
+
+  const prompt = `Ti si ekspert za normative u ugostiteljstvu. Za jelo "${jelo}" sa ovim sastojcima: ${sastojci}, napisi normativ za JEDNU PORCIJU. Vrati SAMO cist JSON: {"normativ":[{"namirnica":"...","kolicinaPoPorciji":"...","jedinica":"g/ml/kom"}]}. Kolicine neka budu realne za ugostiteljstvo u Srbiji.`;
+  const r = await fetch('https://api.deepseek.com/v1/chat/completions', {method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer sk-7f035e02050b4bd38cd319a5a4703917'},body:JSON.stringify({model:'deepseek-chat',messages:[{role:'user',content:prompt}],temperature:0.5,max_tokens:600})});
+  const d = await r.json();
+  if (!d.choices?.length) throw new Error('AI nije vratio odgovor.');
+  let raw = d.choices[0].message.content.trim();
+  raw = raw.replace(/```json/g, '').replace(/```/g, '').trim();
+  try { return JSON.parse(raw); } catch (e) { return { normativ: [] }; }
+}
 async function handleAgent(body) {
   const { poruka } = body || {};
   if (!poruka) throw new Error('Unesite poruku.');
