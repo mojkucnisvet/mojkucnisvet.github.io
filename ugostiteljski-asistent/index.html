@@ -1,213 +1,184 @@
-/* ==========================================================================
-   Premium Tema: Ugostiteljski AI Agent (Stripe/Vercel Insp.)
-   ========================================================================== */
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ugostiteljski AI Agent | 30 alata za restorane</title>
+    <style>
+        :root {
+            --bg-main: #0F1319;
+            --bg-card: #161C24;
+            --border-color: #222C38;
+            --accent-orange: #E65F19;
+            --accent-orange-hover: #ff7629;
+            --text-primary: #F4F6F8;
+            --text-secondary: #919EAB;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-main); color: var(--text-primary); font-family: var(--font-sans); min-height: 100vh; display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 2rem; border-bottom: 1px solid var(--border-color); background: rgba(15, 19, 25, 0.85); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; }
+        .header-left { display: flex; align-items: center; gap: 1.5rem; }
+        .nav-back { color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: var(--transition-smooth); }
+        .nav-back:hover { color: var(--accent-orange); }
+        .brand-text { font-size: 1.1rem; font-weight: 700; color: #FFFFFF; letter-spacing: -0.3px; }
+        .brand-text span { color: var(--accent-orange); }
+        .header-actions { display: flex; align-items: center; gap: 0.75rem; }
+        .icon-btn { width: 38px; height: 38px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: var(--transition-smooth); }
+        .icon-btn:hover { border-color: var(--accent-orange); color: var(--accent-orange); }
+        .header-cta { background-color: var(--accent-orange); color: #fff; padding: 0.5rem 1.2rem; border-radius: 6px; font-weight: 600; font-size: 0.85rem; text-decoration: none; transition: var(--transition-smooth); }
+        .header-cta:hover { background-color: var(--accent-orange-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(230, 95, 25, 0.3); }
+        .container { max-width: 1400px; width: 100%; margin: 0 auto; padding: 0 2rem; flex: 1; }
+        .hero-section { text-align: center; padding: 5rem 2rem 3rem 2rem; max-width: 800px; margin: 0 auto; }
+        .hero-section h1 { font-size: 3rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 1.5rem; background: linear-gradient(180deg, #FFFFFF 0%, #919EAB 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero-section p { font-size: 1.2rem; color: var(--text-secondary); line-height: 1.6; }
+        .problems-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.2rem; margin-bottom: 3rem; }
+        .problem-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem 1.5rem; text-align: center; transition: var(--transition-smooth); }
+        .problem-card:hover { border-color: rgba(230,95,25,0.3); transform: translateY(-2px); }
+        .problem-card .p-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-orange); margin-bottom: 1rem; }
+        .problem-card h3 { font-size: 1rem; font-weight: 600; color: #FFFFFF; margin-bottom: 0.5rem; }
+        .problem-card p { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.5; }
+        .section-title { font-size: 1.4rem; font-weight: 700; color: #FFFFFF; margin-bottom: 1.5rem; text-align: center; }
+        .pricing-section { margin-bottom: 3rem; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.2rem; }
+        .price-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; text-align: center; transition: var(--transition-smooth); display: flex; flex-direction: column; }
+        .price-card.featured { border-color: var(--accent-orange); box-shadow: 0 0 20px rgba(230, 95, 25, 0.1); }
+        .price-card.mega-card { border-color: #9b59b6; }
+        .price-badge { display: inline-block; background: var(--accent-orange); color: #fff; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.7rem; font-weight: 700; margin-bottom: 0.75rem; }
+        .price-badge.mega-badge { background: #9b59b6; }
+        .price-name { font-size: 1.2rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.25rem; }
+        .price-amount { font-size: 2.5rem; font-weight: 800; color: var(--accent-orange); margin: 1rem 0; }
+        .price-amount.mega-amount { color: #9b59b6; }
+        .price-amount span { font-size: 0.9rem; color: var(--text-secondary); font-weight: 400; }
+        .price-desc { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.4; margin-bottom: 1.5rem; flex: 1; text-align: left; }
+        .price-desc strong { color: #CBD5E1; }
+        .price-btn { width: 100%; padding: 0.75rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; border: none; transition: var(--transition-smooth); text-align: center; text-decoration: none; display: block; }
+        .btn-basic { background: var(--bg-main); color: var(--text-secondary); border: 1px solid var(--border-color); }
+        .btn-basic:hover { border-color: #707E94; color: #fff; }
+        .btn-pro { background: var(--accent-orange); color: #fff; }
+        .btn-pro:hover { background: var(--accent-orange-hover); box-shadow: 0 4px 12px rgba(230,95,25,0.3); }
+        .btn-ultra { background: var(--accent-orange); color: #fff; }
+        .btn-ultra:hover { background: var(--accent-orange-hover); box-shadow: 0 4px 12px rgba(230,95,25,0.3); }
+        .btn-mega { background: #9b59b6; color: #fff; }
+        .btn-mega:hover { background: #8e44ad; box-shadow: 0 4px 12px rgba(155,89,182,0.3); }
+        .modules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; margin-bottom: 3rem; }
+        .module-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.75rem; display: flex; flex-direction: column; position: relative; overflow: hidden; transition: var(--transition-smooth); text-decoration: none; color: inherit; }
+        .module-card.active { cursor: pointer; }
+        .module-card.active:hover { border-color: rgba(230,95,25,0.4); transform: translateY(-4px); box-shadow: 0 12px 24px -10px rgba(0,0,0,0.6); }
+        .module-card.coming-soon { opacity: 0.55; cursor: not-allowed; background: linear-gradient(135deg, #161C24 0%, #11151b 100%); }
+        .module-card.coming-soon:hover { transform: none; box-shadow: none; border-color: var(--border-color); }
+        .module-badge { position: absolute; top: 1rem; right: 1rem; font-size: 0.65rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.3px; }
+        .badge-active { background-color: rgba(46,204,113,0.12); color: #2ecc71; border: 1px solid rgba(46,204,113,0.15); }
+        .badge-soon { background-color: rgba(230,95,25,0.08); color: var(--accent-orange); border: 1px solid rgba(230,95,25,0.1); }
+        .badge-prem { background-color: rgba(155,89,182,0.1); color: #9b59b6; border: 1px solid rgba(155,89,182,0.12); }
+        .module-card svg { width: 28px; height: 28px; stroke: var(--accent-orange); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; margin-bottom: 1.25rem; }
+        .module-card.coming-soon svg { stroke: var(--text-secondary); }
+        .module-card h3 { font-size: 1.05rem; margin: 0 0 0.4rem 0; font-weight: 600; }
+        .module-card p { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.4; margin: 0 0 1.5rem 0; }
+        .module-btn { margin-top: auto; width: 100%; padding: 0.6rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; text-align: center; transition: var(--transition-smooth); border: 1px solid transparent; }
+        .btn-active { background-color: var(--accent-orange); color: #fff; }
+        .btn-disabled { background-color: var(--bg-main); color: #4A5568; border-color: var(--border-color); }
+        .info-banner { background: var(--bg-card); border: 1px solid var(--border-color); padding: 0.8rem 1.2rem; border-radius: 10px; margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.8rem; text-align: center; }
+        .info-banner strong { color: var(--accent-orange); }
+        .info-banner .steps { display: inline-flex; gap: 0.5rem; flex-wrap: wrap; margin-left: 0.5rem; }
+        .info-banner .step { background: var(--bg-main); padding: 0.2rem 0.5rem; border-radius: 5px; font-size: 0.75rem; color: #94A3B8; }
+        footer { text-align: center; padding: 2rem; color: #4A5568; font-size: 0.8rem; border-top: 1px solid var(--border-color); margin-top: 2rem; }
+        @media (max-width: 768px) { header { padding: 1rem; } .hero-section h1 { font-size: 2.25rem; } .modules-grid { grid-template-columns: 1fr; padding: 1rem; } .container { padding: 0 1rem; } .hero-section { padding: 3rem 1rem 2rem; } }
+    </style>
+</head>
+<body>
 
-:root {
-  --bg-main: #0F1319;
-  --bg-card: #161C24;
-  --border-color: #222C38;
-  --accent-orange: #E65F19;
-  --accent-orange-hover: #ff7629;
-  --text-primary: #F4F6F8;
-  --text-secondary: #919EAB;
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
+<header>
+    <div class="header-left">
+        <a href="../index.html" class="nav-back">← Blog</a>
+        <div class="brand-text">Ugostiteljski<span>AI</span></div>
+    </div>
+    <div class="header-actions">
+        <button class="icon-btn" onclick="sharePage()" title="Podeli">↗</button>
+        <button class="icon-btn" id="installBtn" onclick="installPWA()" title="Instaliraj" style="display:none;">↓</button>
+    </div>
+</header>
 
-/* Globalni reseti i Vazduh (Spacing) */
-body {
-  background-color: var(--bg-main);
-  color: var(--text-primary);
-  font-family: var(--font-sans);
-  margin: 0;
-  padding: 0;
-  -webkit-font-smoothing: antialiased;
-}
+<div class="container">
 
-/* 1. HEADER & CTA (Minimalistički i čist) */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem 2rem;
-  border-bottom: 1px solid var(--border-color);
-  background: rgba(15, 19, 25, 0.8);
-  backdrop-filter: blur(12px);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
+    <div class="hero-section">
+        <h1>Ugostiteljski AI Agent</h1>
+        <p>Automatizujte pisanje menija, kalkulaciju cena, sparivanje pića, prepoznavanje alergena i još 25+ poslova u restoranu. Sve na jednom mestu.</p>
+    </div>
 
-.header-cta {
-  background-color: var(--accent-orange);
-  color: #fff;
-  padding: 0.6rem 1.2rem;
-  border-radius: 6px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: var(--transition-smooth);
-}
+    <div class="problems-grid">
+        <div class="problem-card"><div class="p-icon">Meni</div><h3>Profesionalni meni za 3 sekunde</h3><p>AI generiše opise jela za 19 kategorija restorana. Bez praznih reči, samo prodaja.</p></div>
+        <div class="problem-card"><div class="p-icon">Cene</div><h3>Tačna kalkulacija cena i marže</h3><p>Unesite namirnice i troškove, dobijte cenu sa PDV-om, maržom i zaradom po porciji.</p></div>
+        <div class="problem-card"><div class="p-icon">Piće</div><h3>Savršeno sparivanje hrane i pića</h3><p>AI preporučuje vino, pivo ili koktel uz svako jelo. Sa cenom i opisom za konobara.</p></div>
+    </div>
 
-.header-cta:hover {
-  background-color: var(--accent-orange-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(230, 95, 25, 0.3);
-}
+    <div class="pricing-section">
+        <h2 class="section-title">Paketi</h2>
+        <div class="pricing-grid">
+            <div class="price-card"><div class="price-name">BASIC</div><div class="price-amount">0<span>/mes</span></div><div class="price-desc">Meni Inženjer sa <strong>50 opisa mesečno</strong>.</div><a href="https://rapidapi.com/mojkucnisvet/api/menu-inzenjer" class="price-btn btn-basic" target="_blank">Započni</a></div>
+            <div class="price-card featured"><span class="price-badge">Popularno</span><div class="price-name">PRO</div><div class="price-amount">29<span>/mes</span></div><div class="price-desc"><strong>9 modula:</strong> Meni Inženjer, Kalkulator, Knjiga normativa, Sparivač, Dnevni meni, Alergeni, A/B test, PDV, Cenovna strategija.</div><a href="https://rapidapi.com/mojkucnisvet/api/menu-inzenjer" class="price-btn btn-pro" target="_blank">Kupi PRO</a></div>
+            <div class="price-card"><div class="price-name">ULTRA</div><div class="price-amount">79<span>/mes</span></div><div class="price-desc"><strong>14 modula:</strong> Svi PRO + Optimizacija, Wolt/Glovo, Generator naziva, Opisi za osoblje, Meni Vizual.</div><a href="https://rapidapi.com/mojkucnisvet/api/menu-inzenjer" class="price-btn btn-ultra" target="_blank">Kupi ULTRA</a></div>
+            <div class="price-card mega-card"><span class="price-badge mega-badge">Sve</span><div class="price-name">MEGA</div><div class="price-amount mega-amount">149<span>/mes</span></div><div class="price-desc"><strong>Svih 30 modula.</strong> Cela uprava: knjigovodstvo, HACCP, marketing, analitika, workflow.</div><a href="https://rapidapi.com/mojkucnisvet/api/menu-inzenjer" class="price-btn btn-mega" target="_blank">Kupi MEGA</a></div>
+        </div>
+    </div>
 
-/* 2. HERO SEKCIJA (Snažna tipografija i jasan fokus) */
-.hero-section {
-  text-align: center;
-  padding: 6rem 2rem 4rem 2rem;
-  max-width: 800px;
-  margin: 0 auto;
-}
+    <a href="agent/index.html" class="module-card active" style="border-color: rgba(230,95,25,0.3); margin-bottom: 2rem;">
+        <span class="module-badge badge-active">Novo</span>
+        <svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 12h8M12 8v8"/></svg>
+        <h3>AI Agent — Cela uprava</h3>
+        <p>Chat asistent sa 100 godina svetske ugostiteljske tradicije. Pitajte bilo šta — od recepta do knjigovodstva. Odgovara u sekundi.</p>
+        <div class="module-btn btn-active">Pokreni Agenta</div>
+    </a>
 
-.hero-section h1 {
-  font-size: 3rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-  margin-bottom: 1.5rem;
-  background: linear-gradient(180deg, #FFFFFF 0%, #919EAB 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+    <h2 class="section-title">Aktivni moduli (14)</h2>
+    <div class="modules-grid">
+        <a href="meni-inzenjer/index.html" class="module-card active"><span class="module-badge badge-active">Aktivan</span><svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><h3>Meni Inženjer</h3><p>Profesionalni opisi jela za 19 kategorija restorana.</p><div class="module-btn btn-active">Pokreni</div></a>
+        <a href="kalkulator-cena/index.html" class="module-card active"><span class="module-badge badge-active">Aktivan</span><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><h3>Kalkulator cena</h3><p>Proračun normativa, troškova i marže.</p><div class="module-btn btn-active">Pokreni</div></a>
+        <a href="knjiga-normativa/index.html" class="module-card active"><span class="module-badge badge-active">Aktivan</span><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><h3>Knjiga normativa</h3><p>AI piše normative. Gotov normativ ili preračun iz lonca.</p><div class="module-btn btn-active">Pokreni</div></a>
+        <a href="sparivac-pica/index.html" class="module-card active"><span class="module-badge badge-active">Aktivan</span><svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/></svg><h3>Sparivač pića</h3><p>Preporuke vina, piva i koktela uz jelo.</p><div class="module-btn btn-active">Pokreni</div></a>
+        <a href="dnevni-meni/index.html" class="module-card active"><span class="module-badge badge-active">Aktivan</span><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><h3>Dnevni meni generator</h3><p>Kompletan dnevni meni za 3 sekunde.</p><div class="module-btn btn-active">Pokreni</div></a>
+        <a href="alergeni/index.html" class="module-card active"><span class="module-badge badge-active">Aktivan</span><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg><h3>Alergeni i nutritivne vrednosti</h3><p>Prepoznavanje alergena i proračun kalorija.</p><div class="module-btn btn-active">Pokreni</div></a>
+        <a href="ab-test/index.html" class="module-card active"><span class="module-badge badge-active">Aktivan</span><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/></svg><h3>A/B test menija</h3><p>Uporedite dve verzije opisa jela.</p><div class="module-btn btn-active">Pokreni</div></a>
+        <a href="pdv-marza/index.html" class="module-card active"><span class="module-badge badge-active">Aktivan</span><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg><h3>PDV i marža</h3><p>Konačna cena sa PDV-om i neto profit.</p><div class="module-btn btn-active">Pokreni</div></a>
+        <a href="cenovna-strategija/index.html" class="module-card active"><span class="module-badge badge-active">Aktivan</span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg><h3>Cenovna strategija</h3><p>Psihološke cene za meni.</p><div class="module-btn btn-active">Pokreni</div></a>
+        <a href="wolt-opisi/index.html" class="module-card active"><span class="module-badge badge-active">Aktivan</span><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/></svg><h3>Opisi za Wolt/Glovo</h3><p>Komercijalni opisi za dostavu.</p><div class="module-btn btn-active">Pokreni</div></a>
+        <a href="generator-naziva/index.html" class="module-card active"><span class="module-badge badge-active">Aktivan</span><svg viewBox="0 0 24 24"><path d="M12 2v2M12 20v2"/></svg><h3>Generator naziva jela</h3><p>Kreativna imena za autorska jela.</p><div class="module-btn btn-active">Pokreni</div></a>
+        <a href="opisi-za-konobare/index.html" class="module-card active"><span class="module-badge badge-active">Aktivan</span><svg viewBox="0 0 24 24"><path d="M12 1c-4.97 0-9 4.03-9 9"/></svg><h3>Opisi za osoblje</h3><p>Prodajne rečenice za konobare i somelijere.</p><div class="module-btn btn-active">Pokreni</div></a>
+        <a href="vizual/index.html" class="module-card active"><span class="module-badge badge-active">Aktivan</span><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><h3>Meni Inženjer Vizual</h3><p>Fotografišite meni i digitalizujte ga.</p><div class="module-btn btn-active">Pokreni</div></a>
+    </div>
 
-.hero-section p {
-  font-size: 1.25rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
+    <h2 class="section-title">U pripremi</h2>
+    <div class="modules-grid">
+        <div class="module-card coming-soon"><span class="module-badge badge-soon">Uskoro</span><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg><h3>Optimizacija zaliha</h3><p>Pametna nabavka na osnovu prometa.</p><div class="module-btn btn-disabled">U pripremi</div></div>
+        <div class="module-card coming-soon"><span class="module-badge badge-prem">Premium</span><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><h3>Planer osoblja</h3><p>Raspored smena i obračun zarada.</p><div class="module-btn btn-disabled">Premium</div></div>
+        <div class="module-card coming-soon"><span class="module-badge badge-prem">Premium</span><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/></svg><h3>HACCP asistent</h3><p>Digitalni obrasci i sanitarni nadzor.</p><div class="module-btn btn-disabled">Premium</div></div>
+        <div class="module-card coming-soon"><span class="module-badge badge-prem">Premium</span><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8"/></svg><h3>Marketing menadžer</h3><p>Objave za mreže i odgovori na recenzije.</p><div class="module-btn btn-disabled">Premium</div></div>
+    </div>
 
-/* 3. GRID LAYOUT (Potpuno responzivan na 280px principu) */
-.modules-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  padding: 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
-}
+    <div class="info-banner" style="margin-top: 2rem;">
+        <strong>Kako instalirati aplikaciju:</strong>
+        <span class="steps"><span class="step">iPhone: Share → Add to Home Screen</span><span class="step">Android: Chrome meni → Instaliraj</span></span>
+    </div>
+    <div class="info-banner">
+        <strong>Kako kupiti paket:</strong>
+        <span class="steps"><span class="step">1. Kliknite na dugme paketa</span><span class="step">2. Pretplatite se na RapidAPI-ju</span></span>
+    </div>
 
-/* 4. KARTICE MODULA (Dubina, mikro-interakcije i hijerarhija) */
-.module-card {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 1.75rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  overflow: hidden;
-  transition: var(--transition-smooth);
-}
+</div>
 
-/* Hover efekat u stilu Linear aplikacije */
-.module-card:hover {
-  border-color: rgba(230, 95, 25, 0.4);
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.6);
-}
+<footer>
+    <p>2026 Ugostiteljski AI Agent. v1.0</p>
+</footer>
 
-/* Aktivni vs Coming Soon moduli */
-.module-card.active {
-  cursor: pointer;
-}
+<script>
+    let deferredPrompt;
+    function sharePage(){if(navigator.share){navigator.share({title:'Ugostiteljski AI Agent',text:'30 alata za vođenje restorana',url:window.location.href})}else{navigator.clipboard.writeText(window.location.href).then(()=>alert('Link kopiran!'))}}
+    window.addEventListener('beforeinstallprompt',(e)=>{e.preventDefault();deferredPrompt=e;document.getElementById('installBtn').style.display='flex'});
+    function installPWA(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>{document.getElementById('installBtn').style.display='none';deferredPrompt=null})}}
+    window.addEventListener('appinstalled',()=>{document.getElementById('installBtn').style.display='none';deferredPrompt=null});
+</script>
 
-.module-card.coming-soon {
-  opacity: 0.6;
-  background: linear-gradient(135deg, #161C24 0%, #11151b 100%);
-}
-
-.badge-soon {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text-secondary);
-  border: 1px solid var(--border-color);
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-  width: fit-content;
-  margin-bottom: 1rem;
-}
-
-/* SVG Ikone unutar kartica */
-.module-card svg {
-  width: 32px;
-  height: 32px;
-  stroke: var(--accent-orange);
-  fill: none;
-  margin-bottom: 1.25rem;
-}
-
-.module-card.coming-soon svg {
-  stroke: var(--text-secondary);
-}
-
-.module-card h3 {
-  font-size: 1.15rem;
-  margin: 0 0 0.5rem 0;
-  font-weight: 600;
-}
-
-.module-card p {
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-  line-height: 1.5;
-  margin: 0 0 1.5rem 0;
-}
-
-/* 5. PRICING TIERS (4 Kolone sa naglašenim Pro/Ultra modelom) */
-.pricing-section {
-  padding: 4rem 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.pricing-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-}
-
-.price-card {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 2rem;
-  text-align: center;
-  transition: var(--transition-smooth);
-}
-
-/* Isticanje najpopularnijeg paketa */
-.price-card.featured {
-  border-color: var(--accent-orange);
-  box-shadow: 0 0 20px rgba(230, 95, 25, 0.15);
-}
-
-.price-amount {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin: 1.5rem 0;
-}
-
-.price-amount span {
-  font-size: 1rem;
-  color: var(--text-secondary);
-  font-weight: 400;
-}
-
-/* Responzivnost za mobilne telefone */
-@media (max-width: 768px) {
-  header {
-    padding: 1rem;
-  }
-  .hero-section h1 {
-    font-size: 2.25rem;
-  }
-  .modules-grid {
-    grid-template-columns: 1fr;
-    padding: 1rem;
-  }
-}
+</body>
+</html>
