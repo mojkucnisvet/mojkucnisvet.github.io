@@ -20,26 +20,15 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: var(--bg-main); color: var(--text-primary); font-family: var(--font-sans); min-height: 100vh; display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; }
         header { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 2rem; border-bottom: 1px solid var(--border-color); background: rgba(15, 19, 25, 0.85); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; }
-        .header-left { display: flex; align-items: center; gap: 1.5rem; }
-        .nav-back { color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: var(--transition-smooth); }
-        .nav-back:hover { color: var(--accent-orange); }
         .brand-text { font-size: 1.1rem; font-weight: 700; color: #FFFFFF; letter-spacing: -0.3px; }
         .brand-text span { color: var(--accent-orange); }
         .header-actions { display: flex; align-items: center; gap: 0.75rem; }
         .icon-btn { width: 38px; height: 38px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: var(--transition-smooth); }
         .icon-btn:hover { border-color: var(--accent-orange); color: var(--accent-orange); }
-        .header-cta { background-color: var(--accent-orange); color: #fff; padding: 0.5rem 1.2rem; border-radius: 6px; font-weight: 600; font-size: 0.85rem; text-decoration: none; transition: var(--transition-smooth); }
-        .header-cta:hover { background-color: var(--accent-orange-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(230, 95, 25, 0.3); }
         .container { max-width: 1400px; width: 100%; margin: 0 auto; padding: 0 2rem; flex: 1; }
         .hero-section { text-align: center; padding: 5rem 2rem 3rem 2rem; max-width: 800px; margin: 0 auto; }
         .hero-section h1 { font-size: 3rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 1.5rem; background: linear-gradient(180deg, #FFFFFF 0%, #919EAB 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .hero-section p { font-size: 1.2rem; color: var(--text-secondary); line-height: 1.6; }
-        .problems-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.2rem; margin-bottom: 3rem; }
-        .problem-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem 1.5rem; text-align: center; transition: var(--transition-smooth); }
-        .problem-card:hover { border-color: rgba(230,95,25,0.3); transform: translateY(-2px); }
-        .problem-card .p-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-orange); margin-bottom: 1rem; }
-        .problem-card h3 { font-size: 1rem; font-weight: 600; color: #FFFFFF; margin-bottom: 0.5rem; }
-        .problem-card p { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.5; }
         .section-title { font-size: 1.4rem; font-weight: 700; color: #FFFFFF; margin-bottom: 1.5rem; text-align: center; }
         .pricing-section { margin-bottom: 3rem; }
         .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.2rem; }
@@ -85,16 +74,13 @@
         .info-banner .steps { display: inline-flex; gap: 0.5rem; flex-wrap: wrap; margin-left: 0.5rem; }
         .info-banner .step { background: var(--bg-main); padding: 0.2rem 0.5rem; border-radius: 5px; font-size: 0.75rem; color: #94A3B8; }
         footer { text-align: center; padding: 2rem; color: #4A5568; font-size: 0.8rem; border-top: 1px solid var(--border-color); margin-top: 2rem; }
-        @media (max-width: 768px) { header { padding: 1rem; } .hero-section h1 { font-size: 2.25rem; } .modules-grid { grid-template-columns: 1fr; padding: 1rem; } .container { padding: 0 1rem; } .hero-section { padding: 3rem 1rem 2rem; } }
+        @media (max-width: 768px) { header { padding: 1rem; } .hero-section h1 { font-size: 2.25rem; } .modules-grid { grid-template-columns: 1fr; } .container { padding: 0 1rem; } .hero-section { padding: 3rem 1rem 2rem; } }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="header-left">
-        <a href="../index.html" class="nav-back">← Blog</a>
-        <div class="brand-text">Ugostiteljski<span>AI</span></div>
-    </div>
+    <div class="brand-text">Ugostiteljski<span>AI</span></div>
     <div class="header-actions">
         <button class="icon-btn" onclick="sharePage()" title="Podeli">↗</button>
         <button class="icon-btn" id="installBtn" onclick="installPWA()" title="Instaliraj" style="display:none;">↓</button>
@@ -104,14 +90,8 @@
 <div class="container">
 
     <div class="hero-section">
-        <h1>Ugostiteljski AI Agent</h1>
-        <p>Automatizujte pisanje menija, kalkulaciju cena, sparivanje pića, prepoznavanje alergena i još 25+ poslova u restoranu. Sve na jednom mestu.</p>
-    </div>
-
-    <div class="problems-grid">
-        <div class="problem-card"><div class="p-icon">Meni</div><h3>Profesionalni meni za 3 sekunde</h3><p>AI generiše opise jela za 19 kategorija restorana. Bez praznih reči, samo prodaja.</p></div>
-        <div class="problem-card"><div class="p-icon">Cene</div><h3>Tačna kalkulacija cena i marže</h3><p>Unesite namirnice i troškove, dobijte cenu sa PDV-om, maržom i zaradom po porciji.</p></div>
-        <div class="problem-card"><div class="p-icon">Piće</div><h3>Savršeno sparivanje hrane i pića</h3><p>AI preporučuje vino, pivo ili koktel uz svako jelo. Sa cenom i opisom za konobara.</p></div>
+        <h1>Radite pametnije. Vodite restoran brže.</h1>
+        <p>Od digitalizacije jelovnika i detekcije alergena do generisanja prodajnih skriptova za osoblje i psihološkog formiranja cena. Ugostiteljski AI Agent preuzima preko 30 repetitivnih operacija, omogućavajući vam da se fokusirate na goste i skaliranje biznisa.</p>
     </div>
 
     <div class="pricing-section">
