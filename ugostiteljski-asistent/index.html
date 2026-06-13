@@ -69,7 +69,7 @@
         .module-card.coming-soon { opacity: 0.55; cursor: not-allowed; background: linear-gradient(135deg, #161C24 0%, #11151b 100%); }
         .module-card.coming-soon:hover { transform: none; box-shadow: none; border-color: var(--border-color); }
         .module-card.locked { opacity: 0.3 !important; pointer-events: none; filter: grayscale(1); position: relative; }
-        .module-card.locked::after { content: "🔒"; position: absolute; top: 1rem; right: 1rem; font-size: 1rem; }
+        .module-card.locked::after { content: "Zakljucano"; position: absolute; top: 1rem; right: 1rem; font-size: 0.7rem; background: #222C38; color: #919EAB; padding: 0.2rem 0.5rem; border-radius: 4px; }
         .module-badge { position: absolute; top: 1rem; right: 1rem; font-size: 0.65rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.3px; z-index: 1; }
         .badge-active { background-color: rgba(46,204,113,0.12); color: #2ecc71; border: 1px solid rgba(46,204,113,0.15); }
         .badge-soon { background-color: rgba(230,95,25,0.08); color: var(--accent-orange); border: 1px solid rgba(230,95,25,0.1); }
@@ -96,14 +96,9 @@
 <body>
 
 <header>
-    <div class="header-logo">
-        <span>Ugostiteljski <span>AI Agent</span></span>
-    </div>
+    <div class="header-logo"><span>Ugostiteljski <span>AI Agent</span></span></div>
     <div class="header-controls">
-        <div class="api-key-container">
-            <div id="apiStatusDot" class="status-dot"></div>
-            <input type="password" id="apiKeyInput" class="api-key-input" placeholder="API kljuc (RapidAPI)">
-        </div>
+        <div class="api-key-container"><div id="apiStatusDot" class="status-dot"></div><input type="password" id="apiKeyInput" class="api-key-input" placeholder="API kljuc (RapidAPI)"></div>
         <button id="apiActivateBtn" class="api-btn" onclick="handleApiActivation()">Aktiviraj</button>
         <button class="icon-btn" onclick="sharePage()" title="Podeli">↗</button>
         <button class="icon-btn" id="installBtn" onclick="installPWA()" title="Instaliraj" style="display:none;">↓</button>
@@ -122,18 +117,10 @@
         <div class="pricing-grid">
             <div class="price-card"><div class="price-name">BASIC</div><div class="price-amount">0<span>/mes</span></div><div class="price-desc">Meni Inženjer sa <strong>50 opisa mesečno</strong>.</div><a href="https://rapidapi.com/mojkucnisvet/api/menu-inzenjer" class="price-btn btn-basic" target="_blank">Započni</a></div>
             <div class="price-card featured"><span class="price-badge">Popularno</span><div class="price-name">PRO</div><div class="price-amount">29<span>/mes</span></div><div class="price-desc"><strong>9 modula:</strong> Meni Inženjer, Kalkulator, Knjiga normativa, Sparivač, Dnevni meni, Alergeni, A/B test, PDV, Cenovna strategija.</div><a href="https://rapidapi.com/mojkucnisvet/api/menu-inzenjer" class="price-btn btn-pro" target="_blank">Kupi PRO</a></div>
-            <div class="price-card"><div class="price-name">ULTRA</div><div class="price-amount">79<span>/mes</span></div><div class="price-desc"><strong>14 modula:</strong> Svi PRO + Optimizacija, Wolt/Glovo, Generator naziva, Opisi za osoblje, Meni Vizual.</div><a href="https://rapidapi.com/mojkucnisvet/api/menu-inzenjer" class="price-btn btn-ultra" target="_blank">Kupi ULTRA</a></div>
+            <div class="price-card"><div class="price-name">ULTRA</div><div class="price-amount">79<span>/mes</span></div><div class="price-desc"><strong>14 modula:</strong> Svi PRO + AI Agent, Optimizacija, Wolt/Glovo, Generator naziva, Opisi za osoblje, Meni Vizual.</div><a href="https://rapidapi.com/mojkucnisvet/api/menu-inzenjer" class="price-btn btn-ultra" target="_blank">Kupi ULTRA</a></div>
             <div class="price-card mega-card"><span class="price-badge mega-badge">Sve</span><div class="price-name">MEGA</div><div class="price-amount mega-amount">149<span>/mes</span></div><div class="price-desc"><strong>Svih 30 modula.</strong> Cela uprava: knjigovodstvo, HACCP, marketing, analitika, workflow.</div><a href="https://rapidapi.com/mojkucnisvet/api/menu-inzenjer" class="price-btn btn-mega" target="_blank">Kupi MEGA</a></div>
         </div>
     </div>
-
-    <a href="agent/index.html" class="module-card active" style="border-color: rgba(230,95,25,0.3); margin-bottom: 2rem;">
-        <span class="module-badge badge-active">Novo</span>
-        <svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 12h8M12 8v8"/></svg>
-        <h3>AI Agent — Cela uprava</h3>
-        <p>Chat asistent sa 100 godina svetske ugostiteljske tradicije. Pitajte bilo šta — od recepta do knjigovodstva. Odgovara u sekundi.</p>
-        <div class="module-btn btn-active">Pokreni Agenta</div>
-    </a>
 
     <h2 class="section-title">Aktivni moduli (14)</h2>
     <div class="modules-grid">
@@ -150,6 +137,7 @@
         <a href="generator-naziva/index.html" class="module-card active"><span class="module-badge badge-active">Aktivan</span><svg viewBox="0 0 24 24"><path d="M12 2v2M12 20v2"/></svg><h3>Generator naziva jela</h3><p>Kreativna imena za autorska jela.</p><div class="module-btn btn-active">Pokreni</div></a>
         <a href="opisi-za-konobare/index.html" class="module-card active"><span class="module-badge badge-active">Aktivan</span><svg viewBox="0 0 24 24"><path d="M12 1c-4.97 0-9 4.03-9 9"/></svg><h3>Opisi za osoblje</h3><p>Prodajne rečenice za konobare i somelijere.</p><div class="module-btn btn-active">Pokreni</div></a>
         <a href="vizual/index.html" class="module-card active"><span class="module-badge badge-active">Aktivan</span><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><h3>Meni Inženjer Vizual</h3><p>Fotografišite meni i digitalizujte ga.</p><div class="module-btn btn-active">Pokreni</div></a>
+        <a href="agent/index.html" class="module-card active"><span class="module-badge badge-active">Aktivan</span><svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 12h8M12 8v8"/></svg><h3>AI Agent — Cela uprava</h3><p>Chat asistent sa 100 godina svetske ugostiteljske tradicije.</p><div class="module-btn btn-active">Pokreni</div></a>
     </div>
 
     <h2 class="section-title">U pripremi (16)</h2>
@@ -207,6 +195,8 @@
     window.addEventListener('appinstalled',()=>{document.getElementById('installBtn').style.display='none';deferredPrompt=null});
 
     const PLAN_LIMITS = { 'BASIC': 1, 'PRO': 9, 'ULTRA': 14, 'MEGA': 30 };
+    const MASTER_KEYS = [''];
+
     document.addEventListener("DOMContentLoaded", () => {
         const savedKey = localStorage.getItem("rapidapi_key");
         if (savedKey) {
@@ -258,7 +248,9 @@
     }
 
     function applyModuleRestrictions(plan) {
-        const allowedModulesCount = PLAN_LIMITS[plan] || 1;
+        const currentKey = document.getElementById("apiKeyInput").value.trim();
+        const isMaster = MASTER_KEYS.includes(currentKey);
+        const allowedModulesCount = isMaster ? 30 : (PLAN_LIMITS[plan] || 1);
         const allCards = document.querySelectorAll(".module-card");
         allCards.forEach((card, index) => {
             if (index < allowedModulesCount) {
